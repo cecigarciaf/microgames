@@ -1,0 +1,8 @@
+Source address:
+</^[^.]+$|\.(?!(css|gif|ico|json|jpg|js|png|txt|svg|woff|ttf)$)([^.]+$)/>
+
+Target address:
+/index.html
+
+Type:
+200 (Rewrite)
