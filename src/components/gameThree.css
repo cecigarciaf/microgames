@@ -1,0 +1,59 @@
+.picCol{
+    padding: 2px;
+    width: auto;
+    
+}
+
+.picRow{
+    width: auto;
+}
+
+.piece{
+    width: 80px; /* width of container */
+    height: 80px; /* height of container */
+    overflow: hidden;
+    background-color: red;
+    /* border: 2px solid rgb(156, 155, 155); */
+
+}
+
+.picCell{
+
+width: 80px; /* width of container */
+height: 80px; /* height of container */
+border:"1px solid grey",
+
+}
+
+.row1{
+    margin-top: 0px;
+}
+.row2{
+    margin-top: -80px;
+}
+.row3{
+    margin-top: -160px;
+}
+.row4{
+    margin-top: -240px;
+}
+
+.col1{
+    margin-left: 0px;
+}
+
+.col2{
+    margin-left: -80px;
+}
+
+.col3{
+    margin-left: -160px;
+}
+
+.col4{
+    margin-left: -240px;
+}
+
+.col5{
+    margin-left: -320px;
+}

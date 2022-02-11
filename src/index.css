@@ -11,3 +11,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+
+  font-family: "ZenKakuGothicAntiqueLight";
+
+  src: local("ZenKakuGothicAntiqueLight"), url("./fonts/ZenKakuGothicAntique/ZenKakuGothicAntiqueLight.ttf") format("truetype");
+  font-weight: "lighter"
+  }
+
+  @font-face {
+
+    font-family: "ZenKakuGothicAntiqueMedium";
+  
+    src: local("ZenKakuGothicAntiqueMedium"), url("./fonts/ZenKakuGothicAntique/ZenKakuGothicAntiqueMedium.ttf") format("truetype");
+    font-weight: "500"
+    }
