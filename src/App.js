@@ -2,7 +2,6 @@ import React, {Component} from "react"
 import Sidebar from "./components/Sidebar"
 import NavbarTop from "./components/Navbar"
 
-import './App.css';
 import Container from 'react-bootstrap/Container';
 
 class App extends Component {
@@ -22,4 +21,4 @@ class App extends Component {
   }
 }
 
-export default App; 
+export default App 
