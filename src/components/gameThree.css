@@ -1,20 +1,30 @@
 .picCol{
     padding: 2px;
     width: auto;
-    
+
 }
 
 .picRow{
-    width: auto;
+    max-width: 450px;
+    padding: 0px;
+
 }
 
 .piece{
     width: 80px; /* width of container */
     height: 80px; /* height of container */
     overflow: hidden;
-    background-color: red;
+    background-color: rgb(255, 255, 255);
     /* border: 2px solid rgb(156, 155, 155); */
 
+}
+
+.borderBox {
+    border-style: ridge;
+    border: 1px solid grey;
+    padding: 0px;
+    max-width: 450px;
+  
 }
 
 .picCell{
