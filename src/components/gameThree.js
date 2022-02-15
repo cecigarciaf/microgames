@@ -2,7 +2,8 @@ import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Nav  from 'react-bootstrap/Nav';
-import pic1 from "./pics/pic1.jpg";
+import NavDropdown  from 'react-bootstrap/NavDropdown';
+import PICS from "./pics/index.js";
 import './gameThree.css';
 import Button from 'react-bootstrap/Button';
 
@@ -16,7 +17,7 @@ class GameThree extends React.Component {
     this.allowDrop = this.allowDrop.bind(this)
     this.onDrag = this.onDrag.bind(this)
     this.handleDropBack = this.handleDropBack.bind(this)
-
+    this.handlePicChange = this.handlePicChange.bind(this)
 
     var cells2 = []
     for(let i = 0; i < 20; i++ ){
@@ -24,12 +25,39 @@ class GameThree extends React.Component {
     } 
 
 
-    this.state = {leftCellsState: cells2, result: "", currentResult:["a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a"], playingState: "false", selectedCell: "no", assignedId: [0, 1, 2, 3, 4, 5,6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]}
+    this.state = {picSelected: "", leftCellsState: cells2, result: "result text here", currentResult:["a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a"], playingState: "false", selectedCell: "no", assignedId: [0, 1, 2, 3, 4, 5,6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]}
   }
 
   correctOrder = ["col1 row1", "col2 row1", "col3 row1", "col4 row1", "col5 row1", "col1 row2", "col2 row2", "col3 row2", "col4 row2", "col5 row2", "col1 row3", "col2 row3", "col3 row3", "col4 row3", "col5 row3", "col1 row4", "col2 row4", "col3 row4", "col4 row4", "col5 row4"]
  
-  
+  //cuenta cuántas imagenes hay en index js
+  PicAmount(){
+      let count = 0;
+    for (var key in PICS){
+    if (PICS.hasOwnProperty(key)) {
+        count++;
+    }
+    }
+    
+  return count;
+  }
+
+  // elige random numero entre cantidad de fotos en index js:
+  handlePicChange() {
+    if (this.state.playingState === "false") {
+    var picsArray = []
+    var picSelectedCopy
+    var random
+
+    random = Math.floor(Math.random() * ((this.PicAmount()) - 1)) + 0;
+    
+    picsArray = (Object.values(PICS))
+    picSelectedCopy = picsArray[random]
+    this.setState({picSelected: picSelectedCopy})
+    console.log(picSelectedCopy)
+    }
+  }
+
   shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -162,8 +190,16 @@ class GameThree extends React.Component {
           <Navbar bg="white" variant="light">
             <Container >
               <Nav className="me-auto mx-auto">
-                <Nav.Link href="#opcion 1">tbd</Nav.Link>
-                <Nav.Link href="#opcion 2">tbd</Nav.Link>
+              <NavDropdown title="Level" id="basic-nav-dropdown">
+                <NavDropdown.Item href="#action/3.1">Easy</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">Medium</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">Hard</NavDropdown.Item>      
+              </NavDropdown>
+              <NavDropdown title="Themes" id="basic-nav-dropdown">
+                <NavDropdown.Item href="#action/3.1">Argentina</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">Birds</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">TBD</NavDropdown.Item>      
+              </NavDropdown>
               </Nav>
             </Container>
           </Navbar>
@@ -178,35 +214,35 @@ class GameThree extends React.Component {
           <div className = "row picRow borderBox justify-content-center"> 
 
             <div className = "row mt-2 picRow "> 
-              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} id="0" classNameImg={this.assignClass(this.state.assignedId[0])}/></div></div>
-              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} id="1" classNameImg={this.assignClass(this.state.assignedId[1])}/></div></div>
-              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} id="2" classNameImg={this.assignClass(this.state.assignedId[2])}/></div></div>
-              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} id="3" classNameImg={this.assignClass(this.state.assignedId[3])}/></div></div>
-              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} id="4" classNameImg={this.assignClass(this.state.assignedId[4])}/></div></div>
+              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} picSelected = {this.state.picSelected} id="0" classNameImg={this.assignClass(this.state.assignedId[0])}/></div></div>
+              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} picSelected = {this.state.picSelected} id="1" classNameImg={this.assignClass(this.state.assignedId[1])}/></div></div>
+              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} picSelected = {this.state.picSelected} id="2" classNameImg={this.assignClass(this.state.assignedId[2])}/></div></div>
+              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} picSelected = {this.state.picSelected} id="3" classNameImg={this.assignClass(this.state.assignedId[3])}/></div></div>
+              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} picSelected = {this.state.picSelected} id="4" classNameImg={this.assignClass(this.state.assignedId[4])}/></div></div>
             </div>
 
             <div className = "row mt-1 picRow"> 
-              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} id="5" classNameImg={this.assignClass(this.state.assignedId[5])}/></div></div>
-              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} id="6" classNameImg={this.assignClass(this.state.assignedId[6])}/></div></div>
-              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} id="7" classNameImg={this.assignClass(this.state.assignedId[7])}/></div></div>
-              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} id="8" classNameImg={this.assignClass(this.state.assignedId[8])}/></div></div>
-              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} id="9" classNameImg={this.assignClass(this.state.assignedId[9])}/></div></div>
+              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} picSelected = {this.state.picSelected} id="5" classNameImg={this.assignClass(this.state.assignedId[5])}/></div></div>
+              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} picSelected = {this.state.picSelected} id="6" classNameImg={this.assignClass(this.state.assignedId[6])}/></div></div>
+              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} picSelected = {this.state.picSelected} id="7" classNameImg={this.assignClass(this.state.assignedId[7])}/></div></div>
+              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} picSelected = {this.state.picSelected} id="8" classNameImg={this.assignClass(this.state.assignedId[8])}/></div></div>
+              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} picSelected = {this.state.picSelected} id="9" classNameImg={this.assignClass(this.state.assignedId[9])}/></div></div>
             </div>
 
             <div className = "row mt-1 picRow"> 
-              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} id="10" classNameImg={this.assignClass(this.state.assignedId[10])}/></div></div>
-              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} id="11" classNameImg={this.assignClass(this.state.assignedId[11])}/></div></div>
-              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} id="12" classNameImg={this.assignClass(this.state.assignedId[12])}/></div></div>
-              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} id="13" classNameImg={this.assignClass(this.state.assignedId[13])}/></div></div>
-              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} id="14" classNameImg={this.assignClass(this.state.assignedId[14])}/></div></div>
+              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} picSelected = {this.state.picSelected} id="10" classNameImg={this.assignClass(this.state.assignedId[10])}/></div></div>
+              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} picSelected = {this.state.picSelected} id="11" classNameImg={this.assignClass(this.state.assignedId[11])}/></div></div>
+              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} picSelected = {this.state.picSelected} id="12" classNameImg={this.assignClass(this.state.assignedId[12])}/></div></div>
+              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} picSelected = {this.state.picSelected} id="13" classNameImg={this.assignClass(this.state.assignedId[13])}/></div></div>
+              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} picSelected = {this.state.picSelected} id="14" classNameImg={this.assignClass(this.state.assignedId[14])}/></div></div>
             </div>
 
             <div className = "row mt-1 picRow"> 
-              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} id="15" classNameImg={this.assignClass(this.state.assignedId[15])}/></div></div>
-              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} id="16" classNameImg={this.assignClass(this.state.assignedId[16])}/></div></div>
-              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} id="17" classNameImg={this.assignClass(this.state.assignedId[17])}/></div></div>
-              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} id="18" classNameImg={this.assignClass(this.state.assignedId[18])}/></div></div>
-              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} id="19" classNameImg={this.assignClass(this.state.assignedId[19])}/></div></div>
+              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} picSelected = {this.state.picSelected} id="15" classNameImg={this.assignClass(this.state.assignedId[15])}/></div></div>
+              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} picSelected = {this.state.picSelected} id="16" classNameImg={this.assignClass(this.state.assignedId[16])}/></div></div>
+              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} picSelected = {this.state.picSelected} id="17" classNameImg={this.assignClass(this.state.assignedId[17])}/></div></div>
+              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} picSelected = {this.state.picSelected} id="18" classNameImg={this.assignClass(this.state.assignedId[18])}/></div></div>
+              <div className= "col picCol d-flex justify-content-center"> <div onDragOver={this.allowDrop} onDrop = {this.handleDropBack} className = "picCell"> <ImagePiece handleDrag={this.onDrag} picSelected = {this.state.picSelected} id="19" classNameImg={this.assignClass(this.state.assignedId[19])}/></div></div>
             </div>
    
           </div>
@@ -218,8 +254,11 @@ class GameThree extends React.Component {
       <div className = "row mt-4 align-items-center" >
             <div className = "col-1" > </div>
             <div className = "col-2 text-center" > <PlayStopButton  text = {this.state.playingState === "false"?  "PLAY" : "QUIT"}  onButtonClick= {this.handlePlay}/> </div>
-            <div className = "col-3" > <h1 className = "font-face-zkga" id = "result">{this.state.result}</h1> </div>
+            <div className = "col-3" > <Button  id="selectbutton" size="lg" variant="outline-dark"  onClick={this.handlePicChange}>Change the Pic</Button></div>
             <div className = "col-1" > </div>
+      </div>
+      <div className = "row mt-4 align-items-center text-center" >
+        <h1 className = "font-face-zkga" id = "result">{this.state.result}</h1> 
       </div>
     </div>
     )
@@ -256,8 +295,9 @@ class ImagePiece extends React.Component {
     }
 
     render () { 
+
         return (
-        <div onDragStart={this.drag} draggable="true" id= {this.props.id}  className = "piece"  > <img draggable="false" id = {this.props.id} className = {this.props.classNameImg} src= {pic1}/> </div> 
+        <div onDragStart={this.drag} draggable="true" id= {this.props.id}  className = "piece"  > <img draggable="false" id = {this.props.id} className = {this.props.classNameImg} alt=""  src= {this.props.picSelected}/> </div> 
         )
     }
 }
