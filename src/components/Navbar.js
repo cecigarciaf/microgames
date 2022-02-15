@@ -16,7 +16,7 @@ function NavbarTop () {
                 width="60"
                 height="50"
                 className="d-inline-block align-top"
-                alt="React Bootstrap logo"/>
+                alt="CG logo"/>
             </Navbar.Brand>
 
             <Navbar.Collapse className="justify-content-end">
