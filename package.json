@@ -17,11 +17,8 @@
     "howler": "^2.x"
     
   },
-  
- 
-
     "scripts": {
-    "start": "node server/server.js",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
