@@ -169,7 +169,7 @@ class GameThree extends React.Component {
           </Navbar>
         </div>
         
-        <div className = "align-items-center row" > 
+        <div className = "align-items-center  row" > 
           <div className ="col-6">
           <Board dropHandle= {this.dropEvent} style = {style} allowDrop2 = {this.allowDrop} handleClick = {this.handleClick}/>
           </div>
