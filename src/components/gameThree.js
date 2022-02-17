@@ -18,17 +18,25 @@ class GameThree extends React.Component {
     this.onDrag = this.onDrag.bind(this)
     this.handleDropBack = this.handleDropBack.bind(this)
     this.handlePicChange = this.handlePicChange.bind(this)
-
+    this.handleSubject = this.handleSubject.bind(this)
       var cells2 = []
       for(let i = 0; i < 20; i++ ){
       cells2.push("empty")
       } 
     
-    this.state = {level: 20, picSelected: "", leftCellsState: cells2, result: "result text here", currentResult:["a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a"], playingState: "false", selectedCell: "no", assignedId: [0, 1, 2, 3, 4, 5,6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]}
+    this.state = {subject: "", picSelected: "", leftCellsState: cells2, result: "", currentResult:["a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a"], playingState: "false", selectedCell: "no", assignedId: [0, 1, 2, 3, 4, 5,6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]}
   }
 
   correctOrder = ["col1 row1", "col2 row1", "col3 row1", "col4 row1", "col5 row1", "col1 row2", "col2 row2", "col3 row2", "col4 row2", "col5 row2", "col1 row3", "col2 row3", "col3 row3", "col4 row3", "col5 row3", "col1 row4", "col2 row4", "col3 row4", "col4 row4", "col5 row4"]
  
+
+
+  handleSubject(event) {
+    var subject = event.target.id
+    console.log("subject" + subject)
+    this.setState({subject: subject})
+  }
+
 
   //cuenta cuántas imagenes hay en index js
   PicAmount(){
@@ -38,7 +46,6 @@ class GameThree extends React.Component {
         count++;
     }
     }
-    
   return count;
   }
 
@@ -48,13 +55,28 @@ class GameThree extends React.Component {
     var picsArray = []
     var picSelectedCopy
     var random
-
+    var randomSubject
+    var picsArrayArgentina = []
+    var picsArrayBirds = []
     random = Math.floor(Math.random() * ((this.PicAmount()) - 1)) + 0;
+    // 4 es la cantidad de fotos de un subject:
+    randomSubject = Math.floor(Math.random() * (4)) + 0;
     
     picsArray = (Object.values(PICS))
-    picSelectedCopy = picsArray[random]
+
+    //porque son 4 fotos por subject
+    picsArrayArgentina = picsArray.slice(0, 4)
+    picsArrayBirds = picsArray.slice(4, 8)
+
+    if (this.state.subject === "birds") {
+      picSelectedCopy = picsArrayBirds[randomSubject]
+    } else if (this.state.subject === "argentina") {
+      picSelectedCopy = picsArrayArgentina[randomSubject]
+    } else {
+      picSelectedCopy = picsArray[random]
+    }
     this.setState({picSelected: picSelectedCopy})
-    console.log(picSelectedCopy)
+ 
     }
   }
 
@@ -190,15 +212,11 @@ class GameThree extends React.Component {
           <Navbar bg="white" variant="light">
             <Container >
               <Nav className="me-auto mx-auto">
-              <NavDropdown title="Level" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Easy</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Medium</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Hard</NavDropdown.Item>      
-              </NavDropdown>
+              
               <NavDropdown title="Themes" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Argentina</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Birds</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">TBD</NavDropdown.Item>      
+                <NavDropdown.Item onClick={this.handleSubject} id="argentina">Argentina</NavDropdown.Item>
+                <NavDropdown.Item onClick={this.handleSubject} id="birds" >Birds</NavDropdown.Item>
+                 
               </NavDropdown>
               </Nav>
             </Container>
@@ -253,8 +271,8 @@ class GameThree extends React.Component {
       
       <div className = "row mt-4 align-items-center" >
             <div className = "col-1" > </div>
-            <div className = "col-2 text-center" > <PlayStopButton  text = {this.state.playingState === "false"?  "PLAY" : "QUIT"}  onButtonClick= {this.handlePlay}/> </div>
-            <div className = "col-3" > <Button  id="selectbutton" size="lg" variant="outline-dark"  onClick={this.handlePicChange}>Change the Pic</Button></div>
+            <div className = "col-3" > <Button  className = "font-face-zkga" id="selectbutton" size="lg" variant="outline-dark"  onClick={this.handlePicChange}>Select a Pic</Button></div>
+            <div className = "col-2 text-center" > <PlayStopButton   text = {this.state.playingState === "false"?  "PLAY" : "QUIT"}  onButtonClick= {this.handlePlay}/> </div>
             <div className = "col-1" > </div>
       </div>
       <div className = "row mt-4 align-items-center text-center" >
@@ -278,7 +296,7 @@ class PlayStopButton extends React.Component {
   render () { 
   return (
     
-     <Button  id="playbutton" size="lg" variant="outline-dark"  onClick={this.handleClick}>{this.props.text}</Button>
+     <Button className = "font-face-zkgam" id="playbutton" size="lg" variant="outline-dark"  onClick={this.handleClick}>{this.props.text}</Button>
    
   )
   }

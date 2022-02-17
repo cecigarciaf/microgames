@@ -10,6 +10,7 @@ import {
 import GameOne from './gameOne';
 import GameTwo from './gameTwo';
 import GameThree from './gameThree';
+import GameFour from './gameFour';
 
 function Sidebar () {
     return (
@@ -19,9 +20,9 @@ function Sidebar () {
                 <Nav defaultActiveKey="/home" className="flex-column">
                     <Nav.Link className= " sideButton text-dark" >Home</Nav.Link>
                     <Nav.Link className= "text-secondary sideButton" as={Link} to="./gameOne" >TONE Test</Nav.Link>
-                    <Nav.Link className= "text-secondary sideButton"as={Link} to="/gameTwo" eventKey="link-2">SENKU</Nav.Link>
+                    <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameTwo" eventKey="link-2">SENKU</Nav.Link>
                     <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameThree">PICZLE</Nav.Link>
-                     
+                    <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameFour">BUSCA</Nav.Link>
              
                 </Nav>
                 </div>
@@ -30,6 +31,7 @@ function Sidebar () {
                         <Route path= "/gameOne" element= {<GameOne/>}/>
                         <Route path= "/gameTwo" element= {<GameTwo/>}/>
                         <Route path= "/gameThree" element= {<GameThree/>}/>
+                        <Route path= "/gameFour" element= {<GameFour/>}/>
                     </Routes>
 
          </BrowserRouter>

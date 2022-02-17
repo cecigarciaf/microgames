@@ -2,8 +2,8 @@ import React from 'react';
 import Nav  from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
-import { NavDropdown } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
+import './gameTwo.css';
 
 class PlayStopButton extends React.Component {
     constructor(props) {
@@ -17,7 +17,7 @@ class PlayStopButton extends React.Component {
     render () { 
     return (
       
-       <Button  id="playbutton" size="lg" variant="outline-dark"  onClick={this.handleClick}>{this.props.text}</Button>
+       <Button className = "font-face-zkgam"  id="playbutton" size="lg" variant="outline-dark"  onClick={this.handleClick}>{this.props.text}</Button>
      
   
     )
@@ -29,7 +29,7 @@ function Cell(props){
     if(props.cell === "empty"){
         color = "white"
     } else if (props.cell === "clicked") {
-        color = "green"
+        color = "violet"
     } 
     
 
@@ -68,7 +68,7 @@ function LongRow(props) {
     }
 
     var row = []
-        for (let i=0; i<7; i++) {
+        for (let i=2; i<9; i++) {
             row.push(<Cell  key = {i} cell = {props.cells[i]} row = {props.row} col = {i} handleClick = {props.handleClick}/>)
         }
 
@@ -85,14 +85,14 @@ function ShortRow(props) {
     }
 
     var row = []
-        for (let i=0; i<2; i++) {
-            row.push(<NoCell  key = {i} cell = {props.cells[i]} row = {props.row} col = {i} handleClick = {props.handleClick}/>)
+        for (let i=2; i<4; i++) {
+            row.push(<NoCell  key = {i} cell = {props.cells[i]} row = {props.row} col = {i} />)
         }
-        for (let i=2; i<5; i++) {
+        for (let i=4; i<7; i++) {
             row.push(<Cell  key = {i} cell = {props.cells[i]} row = {props.row} col = {i} handleClick = {props.handleClick}/>)
         }
-        for (let i=5; i<7; i++) {
-            row.push(<NoCell  key = {i} cell = {props.cells[i]} row = {props.row} col = {i} handleClick = {props.handleClick}/>)
+        for (let i=7; i<9; i++) {
+            row.push(<NoCell  key = {i} cell = {props.cells[i]} row = {props.row} col = {i} />)
         }
 
     return (
@@ -105,13 +105,13 @@ function ShortRow(props) {
 
 function Board(props) {
     var board = []
-        for (let i=0; i<2; i++) {
+        for (let i=2; i<4; i++) {
             board.push(<ShortRow key = {i} row = {i} cells = {props.cells[i]} handleClick = {props.handleClick}/>)
         }
-        for (let i=2; i<5; i++) {
+        for (let i=4; i<7; i++) {
             board.push(<LongRow key = {i} row = {i} cells = {props.cells[i]} handleClick = {props.handleClick}/>)
         }
-        for (let i=5; i<7; i++) {
+        for (let i=7; i<9; i++) {
             board.push(<ShortRow key = {i} row = {i} cells = {props.cells[i]} handleClick = {props.handleClick}/>)
         }
 
@@ -128,12 +128,13 @@ class GameTwo extends React.Component{
     constructor(props){
         super(props)
 
-
+        // en realidad son 7 rows de 7 pero puse mas para arreglar un error en el handleClick: IGUAL NO ANDA AUN
+    
     var cells2 = []
-    for(let i = 0; i < 7; i++ ){
-    cells2.push(new Array(7).fill("full"))
+    for(let i = 0; i < 12; i++ ){
+    cells2.push(new Array(12).fill("full"))
     }    
-    cells2[3][3] = "empty"
+    cells2[5][5] = "empty"
     this.state = {cells:cells2, selectedCell: "no", resultText: ""}
     this.handleClick = this.handleClick.bind(this)
     this.handleReset = this.handleReset.bind(this)
@@ -143,115 +144,123 @@ class GameTwo extends React.Component{
     handleClick(row,col) {
         var tempcells = this.state.cells.slice()
         var tempSelectedCell = this.state.selectedCell
+        var resultTextCopy = this.state.resultText
 
-       
-        // 1er clic en casilla ocupada la pone verde
-        if (( tempSelectedCell === 'no') && (tempcells[row][col] === "full")) {
-           
-        tempcells[row][col] = "clicked"
-        tempSelectedCell = "si"
-        console.log(this.state.cells[row][col] + this.state.selectedCell)
+
+        // Casos 1er click:
+        if ( tempSelectedCell === 'no'){
+            // 1er clic en casilla ocupada la pone violet
+            if (tempcells[row][col] === "full") {
+                tempcells[row][col] = "clicked"
+                tempSelectedCell = "si"
+                resultTextCopy = ""
+                
+            } 
+            //1er clic en casilla vacia da error
+            else if (tempcells[row][col] === "empty" ) {
+                resultTextCopy = "That's not a valid cell"
+              }
+
+               // Casos 2do click:  
+        } 
         
-        console.log("1" + this.state.cells[row][col] + "2" + this.state.selectedCell)
-        }
-
+        else if ( tempSelectedCell === 'si') {
+         
         // 2 clic en casilla ocupada error:
-        else if ((tempcells[row][col] === "full") && (tempSelectedCell === "si")) {
-                    this.setState({resultText:"That's not a valid cell"})
-        }
+        if (tempcells[row][col] === "full") {
+            resultTextCopy = "That's not a valid cell"
+        } 
 
-        //2do clic en casilla seleccionada la desselecciona
-        else if ((tempcells[row][col] === "clicked") && (tempSelectedCell === "si" )) {
+        //2do clic en casilla seleccionada la desselecciona:
+        else if (tempcells[row][col] === "clicked") {
             tempcells[row][col] = "full"
             tempSelectedCell = "no"
 
             }
+        else if ((tempcells[row][col + 2] === "clicked") && (tempcells[row][col] === "empty" )) {
+            tempcells[row][col] = "full";
+            tempcells[row][col + 2] = "empty";
+            tempcells[row][col + 1] = "empty";
+            tempSelectedCell = "no"
+        }     
 
-        //1er clic en casilla vacia da error
-        else if (tempcells[row][col] === "empty" && tempSelectedCell === "no") {
-                this.setState({resultText:"That's not a valid cell"})
-                }
-    
-        else if (tempcells[row][col + 2] === "clicked" && tempcells[row][col] === "empty" ) {
-                tempcells[row][col] = "full";
-                tempcells[row][col + 2] = "empty";
-                tempcells[row][col + 1] = "empty";
-                tempSelectedCell = "no"
 
-            }
-            
-        else if (tempcells[row][col - 2] === "clicked" && tempcells[row][col] === "empty" ) {
+
+        else if ((tempcells[row][col - 2] === "clicked") && (tempcells[row][col] === "empty" )) {
                 tempcells[row][col] = "full";
                 tempcells[row][col - 2] = "empty";
                 tempcells[row][col - 1] = "empty";
                 tempSelectedCell = "no"
-            }
+        }
+        else if ((tempcells[row + 2][col] === "clicked") && (tempcells[row][col] === "empty" )) {
+           
+            tempcells[row][col] = "full";
+            tempcells[row + 2][col] = "empty";
+            tempcells[row + 1][col] = "empty";
+            tempSelectedCell = "no"
+    } 
 
-        else if (tempcells[row + 2][col] === "clicked" && tempcells[row][col] === "empty" ) {
-                tempcells[row][col] = "full";
-                tempcells[row + 2][col] = "empty";
-                tempcells[row + 1][col] = "empty";
-                tempSelectedCell = "no"
+    else if ((tempcells[row - 2][col] === "clicked") && (tempcells[row][col] === "empty" )) {
+        
+            tempcells[row][col] = "full";
+            tempcells[row - 2][col] = "empty";
+            tempcells[row - 1][col] = "empty";
+            tempSelectedCell = "no"         
+        }
+    
 
-            }
+        }
 
-        else if (tempcells[row - 2][col] === "clicked" && tempcells[row][col] === "empty" ) {
-                tempcells[row][col] = "full";
-                tempcells[row - 2][col] = "empty";
-                tempcells[row - 1][col] = "empty";
-                tempSelectedCell = "no"
-                
-            }
-            this.setState({cells:tempcells, selectedCell: tempSelectedCell})
+        this.setState({cells:tempcells, selectedCell: tempSelectedCell, resultText: resultTextCopy})
     }
-    
 
-     
-    
+
+
+
+
 
     handleReset() {
         var tempcells = []
         var tempSelectedCell = "no"
 
  
-        for(let i = 0; i < 7; i++ ){
-        tempcells.push(new Array(7).fill("full"))
+        for(let i = 0; i < 12; i++ ){
+        tempcells.push(new Array(12).fill("full"))
         }
-        tempcells[3][3] = "empty"
+        tempcells[5][5] = "empty"
         this.setState({cells:tempcells, selectedCell:tempSelectedCell})
         console.log("cells al reset" + this.state.cells)
         console.log("tcells al reset" + tempcells)
     }
 
     render(){
+        // nav bar vacia , no se que poner
         return (
        
             <div className ="col-9">
-            <div className = "row" > 
+                <div className = "row" > 
+                    <Navbar bg="white" variant="light">
+                        <Container >
+                        <Nav className="me-auto mx-auto">
+                            <Nav.Link href="#opcion 1"></Nav.Link>
+                            <Nav.Link href="#opcion 2"></Nav.Link>
+                        </Nav>
+                        </Container>
+                    </Navbar>
+                </div>
 
-            <Navbar bg="white" variant="light">
-                <Container >
-                <Nav className="me-auto mx-auto">
-                    <Nav.Link href="#opcion 1">tbd</Nav.Link>
-                    <Nav.Link href="#opcion 2">tbd</Nav.Link>
-                </Nav>
-                </Container>
-            </Navbar>
+                <div className = "row" > 
+                    <div className ="col-6">
+                        <Board cells = {this.state.cells} handleClick = {this.handleClick}/>
+                    </div>
+                </div>
+                
+                <div className = "row mt-4 align-items-center" >
+                    <div className = "col-3 text-center" > <PlayStopButton  text = "Reset" onButtonClick= {this.handleReset}/> </div>
+                    <div className = "col-3" > <h1 className = "font-face-zkga" id = "result">{this.state.resultText}</h1> </div>
+                </div>
+             </div>
 
-            </div>
-        <div className = "row" > 
-        <Board cells = {this.state.cells} handleClick = {this.handleClick}/>
-        </div>
-        <div className = "row mt-4 align-items-center" >
-            <div className = "col-1" > </div>
-            <div className = "col-2 text-center" > <PlayStopButton  text = "Reset" onButtonClick= {this.handleReset}/> </div>
-            <div className = "col-3" > <h1 className = "font-face-zkga" id = "result">{this.state.resultText}</h1> </div>
-          
-            <div className = "col-1" > </div>
-      </div>
-
-        </div>
-        
         )
     }
 }
