@@ -37,6 +37,8 @@ function Cell(props){
         height:50,
         width:50,
         border:"2px solid black",
+
+       
         backgroundColor: color
     }
 
@@ -73,7 +75,7 @@ function LongRow(props) {
         }
 
     return (
-        <div className = "justify-content-center" style = {style}>
+        <div className = "justify-content-start" style = {style}>
         {row}
         </div>
     )
@@ -96,7 +98,7 @@ function ShortRow(props) {
         }
 
     return (
-        <div className= "justify-content-center" style = {style}>
+        <div className= "justify-content-start" style = {style}>
         {row}
         </div>
     )
@@ -250,7 +252,7 @@ class GameTwo extends React.Component{
                 </div>
 
                 <div className = "row" > 
-                    <div className ="col-6">
+                    <div className ="col-9">
                         <Board cells = {this.state.cells} handleClick = {this.handleClick}/>
                     </div>
                 </div>

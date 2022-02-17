@@ -43,6 +43,7 @@ var style = {
     height:50,
     width:50,
     border:"1px solid black",
+
     backgroundColor: color
 
 }
