@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 function UserBomb(props){
     var style = {
         color: "red",
@@ -11,7 +10,7 @@ function UserBomb(props){
 
     return (
         <span style = {style}>{props.text}</span>
-)
+    )
 }
 
 
@@ -32,10 +31,10 @@ return (
 
 function Cell(props){
 var color = "grey"
-if(props.cell == "b"){
+if(props.cell === "b"){
     color = "red"
 }
-else if(props.cell == "c"){
+else if(props.cell === "c"){
     color = "white"
 }
 
@@ -50,6 +49,7 @@ var style = {
 
 return (
     <div style = {style} cell = {props.cell} onClick = {() => props.handleClick(props.row,props.col)}>
+        <tx> {props.result} </tx>
     </div>
 )
 }
@@ -61,7 +61,7 @@ var style = {
 
 var row = []
     for (let i=0; i<8; i++) {
-        row.push(<Cell  key = {i} cell = {props.cells[i]} row = {props.row} col = {i} handleClick = {props.handleClick}/>)
+        row.push(<Cell  result = {props.result[props.row][i]} key = {i} cell = {props.cells[i]} row = {props.row} col = {i} handleClick = {props.handleClick}/>)
     }
 
 return (
@@ -74,7 +74,7 @@ return (
 function Board(props) {
 var board = []
     for (let i=0; i<8; i++) {
-        board.push(<Row key = {i} row = {i} cells = {props.cells[i]} handleClick = {props.handleClick}/>)
+        board.push(<Row  result = {props.result} key = {i} row = {i} cells = {props.cells[i]} handleClick = {props.handleClick}/>)
     }
 
 return (
@@ -84,99 +84,137 @@ return (
 )
 }
 
+
 class GameFour extends React.Component{
 constructor(props){
     super(props)
+
+    var result = []
+    for(let i = 0; i < 8; i++ ){
+    result.push(new Array(8).fill(""))
+    }
+
 
     var cells = []
     for(let i = 0; i < 8; i++ ){
     cells.push(new Array(8).fill(0))
 }
 
-    var bombsaround = []
-    for(let i = 0; i < 8; i++ ){
-    bombsaround.push(new Array(8).fill(0))
-    }
-
-    this.state = {bombsleft:"-", cells:cells}
+    this.state = {bombsleft:"-", cells:cells, correctCells: [], result:result}
     this.playClick = this.playClick.bind(this)
     this.handleClick = this.handleClick.bind(this)
 }
 
-playClick(row,col) {
-    this.setState({bombsleft:10})
-    var tempcells = this.state.cells.slice()
 
-    
-    for (var i = 0; i<10; i++) {
+
+
+playClick() {
+    console.log("cells al play click" + this.state.cells) 
+
+    var tempcells = JSON.parse(JSON.stringify(this.state.cells))
+ 
+    console.log("new tempcells " +  tempcells)
+
+    let i = 0  
+    while (i<10) {
+
         var index1 = Math.round(Math.random() * 7)
         var index2 = Math.round(Math.random() * 7)
-        
-            if (tempcells[index1][index2] == 0) {
+
+            if (tempcells[index1][index2] === 0) {
 
                 tempcells[index1][index2] = "a";
-                if(index1 < 7  && !(tempcells[(index1 + 1)][index2] ==   "a")){
+                i++
+          
+                if(index1 < 7  && !(tempcells[(index1 + 1)][index2] ===   "a")){
                     tempcells[index1 + 1][index2] = tempcells[(index1 + 1)][index2] + 1
                 };
 
-                if(index1 > 0 && !(tempcells[index1 - 1][index2] ==   "a")){
+                if(index1 > 0 && !(tempcells[index1 - 1][index2] ===   "a")){
                 tempcells[index1 - 1][index2] = tempcells[index1 - 1][index2] + 1
                 }
 
-                if(index2 < 7 && !(tempcells[index1][index2 + 1] ==   "a")){
+                if(index2 < 7 && !(tempcells[index1][index2 + 1] ===   "a")){
                 tempcells[index1][index2 + 1] = tempcells[index1][index2 + 1] + 1
                 }
 
-                if(index2 > 0 && !(tempcells[index1][index2 - 1] ==   "a")){
+                if(index2 > 0 && !(tempcells[index1][index2 - 1] ===   "a")){
                 tempcells[index1][index2 - 1] = tempcells[index1][index2 - 1] + 1
                 }
 
-                if(index2 > 0 && index1 > 0 && !(tempcells[index1 - 1][index2 - 1] == "a")){
+                if(index2 > 0 && index1 > 0 && !(tempcells[index1 - 1][index2 - 1] === "a")){
                 tempcells[index1 - 1][index2  - 1] = tempcells[index1 - 1][index2  - 1] + 1
                 }
 
-                if(index2 < 7 && index1 < 7 && !(tempcells[index1 + 1][index2 + 1] == "a")){
+                if(index2 < 7 && index1 < 7 && !(tempcells[index1 + 1][index2 + 1] === "a")){
                 tempcells[index1 + 1][index2  + 1] = tempcells[index1 + 1][index2  + 1] + 1
                 }
 
-                if(index1 < 7 && index2 > 0 && !(tempcells[index1 + 1][index2 - 1] == "a")){
+                if(index1 < 7 && index2 > 0 && !(tempcells[index1 + 1][index2 - 1] === "a")){
                 tempcells[index1 + 1][index2 - 1] = tempcells[index1 + 1][index2 - 1] + 1
                 }
 
-                if(index1 > 0 && index2 < 7 && !(tempcells[index1 - 1][index2 + 1] == "a")){
+                if(index1 > 0 && index2 < 7 && !(tempcells[index1 - 1][index2 + 1] === "a")){
                 tempcells[index1 - 1][index2 + 1] = tempcells[index1 - 1][index2 + 1] + 1
                 }
             
-                i++
+                 } 
                 }  
-    }
+      
+                
     
-    this.setState({cells:tempcells})
-    console.log(this.state.cells)   
-} 
+  
+
+    
+
+
+    console.log("cells 2" + this.state.cells) 
+    var tempCorrectCells = JSON.parse(JSON.stringify(tempcells))
+    this.setState({cells:tempcells, correctCells:tempCorrectCells, bombsleft:10  })
+    console.log("cells final" + this.state.cells) 
+    console.log("new tempcells final " +  tempcells)
+    console.log("correct c final " +  this.state.correctCells)
+}
 
 
 handleClick(row,col) {
+    console.log("cells! " + this.state.cells) 
+    console.log("correct cells! " +  this.state.correctCells)  
+
+
     var tempcells = this.state.cells.slice()
+    var tempresult = this.state.result.slice()
+ 
     // si hay bomba se pone roja
-    if (tempcells[row][col] == "a") {
+    if (tempcells[row][col] === "a") {
         tempcells[row][col] = "b"
         this.setState({cells:tempcells})
     } else {
     // si hay bombas adjacentes se pone blanca
         if (tempcells[row][col] > 0) {
             tempcells[row][col] = "c"
+            tempresult[row][col] = this.state.correctCells[row][col]
+
     } else {
         // si no hay nada....
                      // se pone blanca
-        if (tempcells[row][col] == 0) {
+
+                   
+        if (tempcells[row][col] === 0) {
             tempcells[row][col] = "c"
             
+
+
+
+
+
+
+            /*
             var i = 1
             var b = 1
             var d = 1
             // pone blancas a las de la derecha si la de la derecha no es bomba y sigue loop si esa no tiene bombas adjacente 
-            while (i < (8 - col) && !(tempcells[row][(col + i)] == "a") && tempcells[row][(col + i)] == 0) {            
+            while (i < (8 - col) && !(tempcells[row][(col + i)] === "a") && tempcells[row][(col + i)] === 0) {            
                 tempcells[row][(col + i)] = "c"
                 // pone blanca a la de abajo de la derecha si no tiene bombas y sigue loop si esa no tiene bombas adjacente 
                 while (b < (8 - row) && !(tempcells[row + b][(col + i)] == "a") && tempcells[row + b][(col + i)] == 0) {                   
@@ -233,23 +271,31 @@ handleClick(row,col) {
             tempcells[row - t][(col)] = "c"
             }
 
+        
+        */
         }
-                this.setState({cells:tempcells})
+                this.setState({cells:tempcells, result:tempresult})
             
     console.log("row: " + row + " | col: " + col)
-    console.log(this.state.cells)
+
 
 }
 }
 }
+
+
+
+
 render(){
+  
+
 return (
 
     <div className ="col-9">
 
         <div className = "row" > 
             <div className ="col-6">
-                <Board cells = {this.state.cells} handleClick = {this.handleClick}/>
+                <Board result = {this.state.result} cells = {this.state.cells} handleClick = {this.handleClick}/>
             </div>
         </div>
 
