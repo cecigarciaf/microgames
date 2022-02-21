@@ -22,7 +22,7 @@ function Sidebar () {
                     <Nav.Link className= "text-secondary sideButton" as={Link} to="./gameOne" >TONE Test</Nav.Link>
                     <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameTwo" eventKey="link-2">SENKU</Nav.Link>
                     <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameThree">PICZLE</Nav.Link>
-                    <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameFour">BUSCA</Nav.Link>
+                    <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameFour">MINES</Nav.Link>
              
                 </Nav>
                 </div>

@@ -15,7 +15,6 @@ function UserBomb(props){
         backgroundColor: "white",
         border:"1px solid #212529"
     }
-
     return (
         <div className = "mx-auto rounded" id= "bombsleft" style = {style}>{props.text}</div>
     )
@@ -37,8 +36,8 @@ else if(props.cell === "c"){
 }
 
 var style = {
-    width: "2vw",
-    height: "2vw",
+    width: "2rem",
+    height: "2rem",
     border:"1px solid grey",
     backgroundColor: color
 }
@@ -382,11 +381,11 @@ render(){
             </div>
 
             <div className = "row mt-4 align-items-center justify-content-center" >
-                <div className = "col-3 text-center" >
+                <div className = "col-sm-12 col-md-6 col-lg-2 col-xl-2 d-md-block text-center" >
                 <UserBomb  text = {this.state.bombsleft}/>
                 </div>
 
-            <div className = "col-3 text-center" >
+            <div className = "col-sm-12 col-md-6 col-lg-2 col-xl-2 d-md-block text-center" >
                 <PlayStopButton text= {this.state.playingState === false?  "PLAY" : "QUIT"} onButtonClick = {this.playClick}/>
             </div>
             

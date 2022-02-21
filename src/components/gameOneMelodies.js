@@ -170,14 +170,14 @@ class GameOneMelodies extends React.Component {
                     <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "a2" text = "a" /> 
                     <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "b2" text = "b" /> 
             </div>
-            </div>
+          </div>
               
 
           <div className = "row mt-4 align-items-center" >
-            <div className = "col-2 text-center" > <PlayStopButton  text = {this.state.gameStatus === "false"?  "PLAY" : "QUIT"} onButtonClick={this.state.gameStatus === "false"? this.handlePlay : this.handleQuit}/> </div>
-            <div className = "col-3" > <h1 className = "font-face-zkga" id = "result">{this.state.resultText}</h1> </div>
-            <div className = "col-3" > <tx className = "font-face-zkgam" id = "scoreTitle"> Score:  </tx>  <tx id = "score" className = "font-face-zkga"> {this.state.score} </tx> </div>
-            <div className = "col-1" > </div>
+            <div className = "col-sm-9 col-md-9 col-lg-2 col-xl-2 d-md-block text-center" > <PlayStopButton  text = {this.state.gameStatus === "false"?  "PLAY" : "QUIT"} onButtonClick={this.state.gameStatus === "false"? this.handlePlay : this.handleQuit}/> </div>
+            <div className = "col-sm-9 col-md-9 col-lg-4 col-xl-4 d-md-block text-center" > <h1 className = "font-face-zkga" id = "result">{this.state.resultText}</h1> </div>
+            <div className = "col-sm-9 col-md-9 col-lg-3 col-xl-3 d-md-block text-center" > <tx className = "font-face-zkgam" id = "scoreTitle"> Score:  </tx>  <tx id = "score" className = "font-face-zkga"> {this.state.score} </tx> </div>
+            <div className = "col-3"></div>
           </div>
 
         </div>
