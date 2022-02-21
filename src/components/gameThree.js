@@ -5,8 +5,8 @@ import Nav  from 'react-bootstrap/Nav';
 import NavDropdown  from 'react-bootstrap/NavDropdown';
 import PICS from "./pics/index.js";
 import './gameThree.css';
+import PlayStopButton from './playButton'
 import Button from 'react-bootstrap/Button';
-
 
 
 class GameThree extends React.Component {
@@ -213,7 +213,7 @@ class GameThree extends React.Component {
             <Container >
               <Nav className="me-auto mx-auto">
               
-              <NavDropdown title="Themes" id="basic-nav-dropdown">
+              <NavDropdown   title="Themes" id="basic-nav-dropdown">
                 <NavDropdown.Item onClick={this.handleSubject} id="argentina">Argentina</NavDropdown.Item>
                 <NavDropdown.Item onClick={this.handleSubject} id="birds" >Birds</NavDropdown.Item>
                  
@@ -284,23 +284,7 @@ class GameThree extends React.Component {
 }
 
 
-class PlayStopButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this)
-  }
 
-  handleClick (event){
-    this.props.onButtonClick(event)
-  }
-  render () { 
-  return (
-    
-     <Button className = "font-face-zkgam" id="playbutton" size="lg" variant="outline-dark"  onClick={this.handleClick}>{this.props.text}</Button>
-   
-  )
-  }
-} 
 
 class ImagePiece extends React.Component {
     constructor(props) {
