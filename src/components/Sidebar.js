@@ -11,6 +11,7 @@ import GameOne from './gameOne';
 import GameTwo from './gameTwo';
 import GameThree from './gameThree';
 import GameFour from './gameFour';
+import GameFive from './gameFive';
 
 function Sidebar () {
     return (
@@ -23,6 +24,7 @@ function Sidebar () {
                     <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameTwo" eventKey="link-2">SENKU</Nav.Link>
                     <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameThree">PICZLE</Nav.Link>
                     <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameFour">MINES</Nav.Link>
+                    <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameFive">SUB</Nav.Link>
              
                 </Nav>
                 </div>
@@ -32,6 +34,7 @@ function Sidebar () {
                         <Route path= "/gameTwo" element= {<GameTwo/>}/>
                         <Route path= "/gameThree" element= {<GameThree/>}/>
                         <Route path= "/gameFour" element= {<GameFour/>}/>
+                        <Route path= "/gameFive" element= {<GameFive/>}/>
                     </Routes>
 
          </BrowserRouter>
