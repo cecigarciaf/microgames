@@ -96,10 +96,43 @@ function Board(props) {
         )
 }
 
-class UserBoard extends React.Component{
+
+//barcos para poner:
+class UserSubs extends React.Component{
+    constructor(props){
+        super(props)
+    }
+    render(){  
+        return (
+            <div className ="col-sm-12 col-md-4 d-md-block text-center mt-4">
+            <UserSub id = "0" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[0]}/>
+            <UserSub id = "1" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[1]}/>
+            <UserSub id = "2" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[2]}/>
+            <UserSub id = "3" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[3]}/>
+            <UserSub id = "4" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[4]}/>
+            <UserSub id = "5" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[5]}/>       
+            <UserSub id = "6" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[6]}/>
+            <UserSub id = "7" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[7]}/>
+            <UserSub id = "8" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[8]}/>
+            <UserSub id = "9" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[9]}/>  
+            </div>
+        )
+    }
+}
+
+class GameFive extends React.Component{
     constructor(props){
         super(props)
         
+        //tablero izquierda
+        var cells = []
+        for(let i = 0; i < 14; i++ ){
+        cells.push(new Array(14).fill(0))
+        }
+        var userShoots = []
+        for(let i = 0; i < 14; i++ ){
+        userShoots.push(new Array(14).fill("empty"));
+        }
 
         //tablero derecha
         var userCells = []
@@ -115,50 +148,72 @@ class UserBoard extends React.Component{
         for(let i = 0; i < 10; i++ ){
         shipsLocations.push(new Array(1).fill(0));
         }    
-        
-        this.state = {status: "pending" ,click1: 0, userCells:userCells, systemShoots:systemShoots, subSelected: 0, shipsLocations:shipsLocations, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"]}
+
+        this.state = {status: "pending" ,click1: 0, turn: "placeShips", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations}
+        this.playClick = this.playClick.bind(this)
+        //en tablero izquierda:
         this.handleClick = this.handleClick.bind(this)
-        this.handleBoardClick = this.handleBoardClick.bind(this)
         this.handleRClick = this.handleRClick.bind(this)
+        //en barcos para poner:
+        this.handleSubSelectClick = this.handleSubSelectClick.bind(this)
+        //en tableto derecha:
+        this.handleROnRightBoardClick = this.handleROnRightBoardClick.bind(this)
+        this.handleRBoardClick = this.handleRBoardClick.bind(this)
         this.confirmClick = this.confirmClick.bind(this)
     }
 
-    handleClick(size, id){
-        var subSelectedTemp = this.state.subSelected
+//click en barco para poner:
+handleSubSelectClick(size, id){
+    var subSelectedTemp = this.state.subSelected
         
-        subSelectedTemp = [size, id]
+    subSelectedTemp = [size, id]
      
-        console.log("subSelectedTemp" + subSelectedTemp)
-        this.setState({subSelected:subSelectedTemp})
+    console.log("subSelectedTemp" + subSelectedTemp)
+    this.setState({subSelected:subSelectedTemp})
+}    
 
+confirmClick(){
+    var shipsToPlaceTemp = this.state.shipsToPlace
+    let pending = 0;
 
+    for (let i = 0; i < shipsToPlaceTemp.length; i++) {
+        pending += shipsToPlaceTemp[i];
+    }
+    if(pending === 0) {
+        this.setState({status: "completed"})
+    }
+    console.log("status" + this.state.status)
+
+}
+
+handleRClick(row, col) {
+    if(this.state.playingState === true) {
+        var tempUserShoots = this.state.userShoots.slice()
+        if(tempUserShoots[row][col] === "empty" ){
+            tempUserShoots[row][col] = "safe"
+        } else if (tempUserShoots[row][col] === "safe" ){
+            tempUserShoots[row][col] = "empty"
 
     }
-    rightstyle(shoots){
-        var color 
-
-        if(shoots=== "0")    {
-            color = "brown"
-        } else if((shoots=== "1") || (shoots=== "2")){
-            color = "chocolate"
-        } else if((shoots=== "3") || (shoots=== "4") || (shoots=== "5") ) {
-            color = "coral"
-        } else if((shoots=== "6") || (shoots=== "7") || (shoots=== "8") || (shoots=== "9")){
-            color = "burlywood"
-        } else {
-            color = "rgb(199, 196, 196)"
-        }
-
-        var style = {
-            width: "2rem",
-            height: "2rem",
-            border:"1px solid grey",
-            backgroundColor: color
-        }
-        return style;
+    this.setState({userShoots:tempUserShoots})
     }
+}
+handleClick(row, col) {
+    if(this.state.playingState === true) {
+        var tempcells = this.state.cells.slice()
+        var tempUserShoots = this.state.userShoots.slice()
+        var tempClics = this.state.leftClics
+        if ((tempUserShoots[row][col] === "empty") || (tempUserShoots[row][col] < 1 )){
 
-    handleBoardClick(row, col){
+            tempUserShoots[row][col] = tempcells[row][col]
+        }
+        tempClics++
+        this.setState({userShoots:tempUserShoots, leftClics:tempClics})
+    }
+    console.log(this.state.userShoots)
+}
+
+handleRBoardClick(row, col){
     var userCellsTemp = this.state.userCells.slice()
     var subSelectedTemp = this.state.subSelected
     var shipsToPlaceTemp = this.state.shipsToPlace
@@ -290,7 +345,7 @@ class UserBoard extends React.Component{
     }
 }
 
-    handleRClick(row, col) {
+handleROnRightBoardClick(row, col) {
     if(this.state.status === "pending"){
         console.log("right clic")
     var userCellsTemp = this.state.userCells.slice()
@@ -320,98 +375,11 @@ class UserBoard extends React.Component{
     this.setState({userCells: userCellsTemp, shipsLocations:shipsLocationsTemp, shipsToPlace:shipsToPlaceTemp})
     }
     }
-    confirmClick(){
-        var shipsToPlaceTemp = this.state.shipsToPlace
-        let pending = 0;
 
-        for (let i = 0; i < shipsToPlaceTemp.length; i++) {
-            pending += shipsToPlaceTemp[i];
-        }
-        if(pending === 0) {
-            this.setState({status: "completed"})
-        }
-        console.log("status" + this.state.status)
-
-    }
-    render(){  
-
-        return (
-            <div className ="row" >
-                <div className ="col-sm-12 col-md-8  d-md-block text-center">
-                     <Board   style = {this.rightstyle} shoots = {this.state.userCells} text = {this.state.userCells} cells = {this.state.userCells} handleRClick = {this.handleRClick} handleClick = {this.handleBoardClick}/>
-                </div>
-                <div className ="col-sm-12 col-md-4 d-md-block text-center mt-4">
-                            <UserSub id = "0" handleClick = {this.handleClick} size={this.state.shipsToPlace[0]}/>
-                            <UserSub id = "1" handleClick = {this.handleClick} size={this.state.shipsToPlace[1]}/>
-                            <UserSub id = "2" handleClick = {this.handleClick} size={this.state.shipsToPlace[2]}/>
-                            <UserSub id = "3" handleClick = {this.handleClick} size={this.state.shipsToPlace[3]}/>
-                            <UserSub id = "4" handleClick = {this.handleClick} size={this.state.shipsToPlace[4]}/>
-                            <UserSub id = "5" handleClick = {this.handleClick} size={this.state.shipsToPlace[5]}/>       
-                            <UserSub id = "6" handleClick = {this.handleClick} size={this.state.shipsToPlace[6]}/>
-                            <UserSub id = "7" handleClick = {this.handleClick} size={this.state.shipsToPlace[7]}/>
-                            <UserSub id = "8" handleClick = {this.handleClick} size={this.state.shipsToPlace[8]}/>
-                            <UserSub id = "9" handleClick = {this.handleClick} size={this.state.shipsToPlace[9]}/>  
-                </div>
-                <div className ="row">
-                    <PlayStopButton text= {this.state.status === "pending"?  "Confirm" : "Confirmed"} onButtonClick = {this.confirmClick}/>
-                </div>
-            </div>
-        )
-    }
-} 
-
-class GameFive extends React.Component{
-    constructor(props){
-        super(props)
-        
-        //tablero izquierda
-        var cells = []
-        for(let i = 0; i < 14; i++ ){
-        cells.push(new Array(14).fill(0))
-        }
-        var userShoots = []
-        for(let i = 0; i < 14; i++ ){
-        userShoots.push(new Array(14).fill("empty"));
-        }
-
-
-        this.state = {turn: "placeShips", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0}
-        this.playClick = this.playClick.bind(this)
-        this.handleClick = this.handleClick.bind(this)
-        this.handleRClick = this.handleRClick.bind(this)
-    }
-    
-
-handleRClick(row, col) {
-    if(this.state.playingState === true) {
-        var tempUserShoots = this.state.userShoots.slice()
-        if(tempUserShoots[row][col] === "empty" ){
-            tempUserShoots[row][col] = "safe"
-        } else if (tempUserShoots[row][col] === "safe" ){
-            tempUserShoots[row][col] = "empty"
-
-    }
-    this.setState({userShoots:tempUserShoots})
-    }
-}
-handleClick(row, col) {
-    if(this.state.playingState === true) {
-        var tempcells = this.state.cells.slice()
-        var tempUserShoots = this.state.userShoots.slice()
-        var tempClics = this.state.leftClics
-        if ((tempUserShoots[row][col] === "empty") || (tempUserShoots[row][col] < 1 )){
-
-            tempUserShoots[row][col] = tempcells[row][col]
-        }
-        tempClics++
-        this.setState({userShoots:tempUserShoots, leftClics:tempClics})
-    }
-    console.log(this.state.userShoots)
-}
 
 playClick(){
 var tempPlayingState = this.state.playingState
-console.log("UBstatus" + UserBoard.props)
+
 if(tempPlayingState === false) {
   
     var tempCells = this.state.cells.slice()
@@ -568,6 +536,29 @@ leftstyle(shoots){
     return style;
 }
 
+rightstyle(shoots){
+    var color 
+
+    if(shoots=== "0")    {
+        color = "brown"
+    } else if((shoots=== "1") || (shoots=== "2")){
+        color = "chocolate"
+    } else if((shoots=== "3") || (shoots=== "4") || (shoots=== "5") ) {
+        color = "coral"
+    } else if((shoots=== "6") || (shoots=== "7") || (shoots=== "8") || (shoots=== "9")){
+        color = "burlywood"
+    } else {
+        color = "rgb(199, 196, 196)"
+    }
+
+    var style = {
+        width: "2rem",
+        height: "2rem",
+        border:"1px solid grey",
+        backgroundColor: color
+    }
+    return style;
+}
 
     render(){  
 
@@ -587,20 +578,28 @@ leftstyle(shoots){
 
                 <div className = "row" > 
                     <div className ="col-sm-12 col-md-5  d-md-block text-center">
-                    <Board style= {this.leftstyle} shoots = {this.state.userShoots} text = {this.state.cells} cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>
+                        <Board style= {this.leftstyle} shoots = {this.state.userShoots} text = {this.state.cells} cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>
                      </div>
                      
-                    <div className ="col-sm-12 col-md-7  d-md-block text-center">
-                        <UserBoard  />
+
+                    <div className ="col-sm-12 col-md-5  d-md-block text-center">
+                         <Board   style = {this.rightstyle} shoots = {this.state.userCells} text = {this.state.userCells} cells = {this.state.userCells} handleRClick = {this.handleROnRightBoardClick} handleClick = {this.handleRBoardClick }/>
+                    </div>
+
+                    <div className ="col-sm-12 col-md-2  d-md-block text-center">   
+                        <UserSubs handleClick = {this.handleSubSelectClick} shipsToPlace = {this.state.shipsToPlace} />
                     </div>
                 </div>
                 <div className = "row mt-4 align-items-center justify-content-center"> 
-                    <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" >
+                    <div className = "col-sm-12 col-md-4  d-md-block text-center" >
                       <UserClicks  text = {this.state.leftClics}/>
                     </div>
-                    <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" >
+                    <div className = "col-sm-12 col-md-4  d-md-block text-center" >
                         <PlayStopButton text= {this.state.playingState === false?  "PLAY" : "QUIT"} onButtonClick = {this.playClick}/>
                     </div> 
+                    <div className ="col-sm-12 col-md-4  d-md-block text-center">
+                         <PlayStopButton text= {this.state.status === "pending"?  "Confirm" : "Confirmed"} onButtonClick = {this.confirmClick}/>
+                </div>
                 </div> 
             </div> 
                 )
