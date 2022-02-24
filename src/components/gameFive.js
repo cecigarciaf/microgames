@@ -116,10 +116,11 @@ class UserBoard extends React.Component{
         shipsLocations.push(new Array(1).fill(0));
         }    
         
-        this.state = {click1: 0,userCells:userCells, systemShoots:systemShoots, subSelected: 0, shipsLocations:shipsLocations, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"]}
+        this.state = {status: "pending" ,click1: 0, userCells:userCells, systemShoots:systemShoots, subSelected: 0, shipsLocations:shipsLocations, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"]}
         this.handleClick = this.handleClick.bind(this)
         this.handleBoardClick = this.handleBoardClick.bind(this)
         this.handleRClick = this.handleRClick.bind(this)
+        this.confirmClick = this.confirmClick.bind(this)
     }
 
     handleClick(size, id){
@@ -165,6 +166,7 @@ class UserBoard extends React.Component{
     var sizeTemp =  parseInt(subSelectedTemp[0])
     var idTemp = subSelectedTemp[1]
     var click1Temp = this.state.click1
+    if(this.state.status === "pending") {
     
         // click 1:
     if((click1Temp === 0) && (userCellsTemp[row][col] === "x")) {
@@ -283,12 +285,13 @@ class UserBoard extends React.Component{
         click1Temp = 0
     }
         this.setState({click1: click1Temp, userCells:userCellsTemp, subSelected:subSelectedTemp, shipsToPlace:shipsToPlaceTemp, shipsLocations:shipsLocationsTemp})
-        console.log(userCellsTemp )
+        console.log(shipsToPlaceTemp)
     
-
+    }
 }
 
-    handleRClick(row, col){
+    handleRClick(row, col) {
+    if(this.state.status === "pending"){
         console.log("right clic")
     var userCellsTemp = this.state.userCells.slice()
     var shipsLocationsTemp = this.state.shipsLocations.slice()
@@ -316,11 +319,24 @@ class UserBoard extends React.Component{
         }
     this.setState({userCells: userCellsTemp, shipsLocations:shipsLocationsTemp, shipsToPlace:shipsToPlaceTemp})
     }
+    }
+    confirmClick(){
+        var shipsToPlaceTemp = this.state.shipsToPlace
+        let pending = 0;
 
+        for (let i = 0; i < shipsToPlaceTemp.length; i++) {
+            pending += shipsToPlaceTemp[i];
+        }
+        if(pending === 0) {
+            this.setState({status: "completed"})
+        }
+        console.log("status" + this.state.status)
+
+    }
     render(){  
 
         return (
-            <div className ="row">
+            <div className ="row" >
                 <div className ="col-sm-12 col-md-8  d-md-block text-center">
                      <Board   style = {this.rightstyle} shoots = {this.state.userCells} text = {this.state.userCells} cells = {this.state.userCells} handleRClick = {this.handleRClick} handleClick = {this.handleBoardClick}/>
                 </div>
@@ -335,6 +351,9 @@ class UserBoard extends React.Component{
                             <UserSub id = "7" handleClick = {this.handleClick} size={this.state.shipsToPlace[7]}/>
                             <UserSub id = "8" handleClick = {this.handleClick} size={this.state.shipsToPlace[8]}/>
                             <UserSub id = "9" handleClick = {this.handleClick} size={this.state.shipsToPlace[9]}/>  
+                </div>
+                <div className ="row">
+                    <PlayStopButton text= {this.state.status === "pending"?  "Confirm" : "Confirmed"} onButtonClick = {this.confirmClick}/>
                 </div>
             </div>
         )
@@ -356,7 +375,7 @@ class GameFive extends React.Component{
         }
 
 
-        this.state = {cells:cells, playingState:false, userShoots:userShoots, leftClics: 0}
+        this.state = {turn: "placeShips", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0}
         this.playClick = this.playClick.bind(this)
         this.handleClick = this.handleClick.bind(this)
         this.handleRClick = this.handleRClick.bind(this)
@@ -392,6 +411,7 @@ handleClick(row, col) {
 
 playClick(){
 var tempPlayingState = this.state.playingState
+console.log("UBstatus" + UserBoard.props)
 if(tempPlayingState === false) {
   
     var tempCells = this.state.cells.slice()
@@ -567,7 +587,7 @@ leftstyle(shoots){
 
                 <div className = "row" > 
                     <div className ="col-sm-12 col-md-5  d-md-block text-center">
-                    <Board  style= {this.leftstyle} shoots = {this.state.userShoots} text = {this.state.cells} cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>
+                    <Board style= {this.leftstyle} shoots = {this.state.userShoots} text = {this.state.cells} cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>
                      </div>
                      
                     <div className ="col-sm-12 col-md-7  d-md-block text-center">
