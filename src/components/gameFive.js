@@ -213,138 +213,100 @@ handleClick(row, col) {
         }
         tempClics++
         //this.setState({userShoots:tempUserShoots, leftClics:tempClics, turn: "system"})
-        this.setState(() => {
-            // Important: read `state` instead of `this.state` when updating.
-            return {userShoots:tempUserShoots, leftClics:tempClics, turn: "system" }
-          });
+        this.setState({userShoots:tempUserShoots, leftClics:tempClics, turn: "system" }) 
+
     }
     console.log("userShoots" + this.state.userShoots)
-
-    console.log(" before systemTurnFirst")
-    this.systemTurnFirst()
-    console.log("before systemTurn")
     this.systemTurn()
 }
 
 
-systemTurnFirst(){
-    console.log("systemTurnFirst")
+systemTurn(){
+   
     var systemRow = Math.floor(Math.random() * (12 - 2)) + 2;
     var systemCol = Math.floor(Math.random() * (12 - 2)) + 2;
     var systemShootsTemp = JSON.parse(JSON.stringify(this.state.systemShoots))
     var userCellsTemp = JSON.parse(JSON.stringify(this.state.userCells))
     var lastSystemShootTemp = this.state.lastSystemShoot.slice()
-    var turnTemp = this.state.turn //provisorio, despues this.state.turn
-    var thisShootNumber
-    var thisShootStatus = userCellsTemp[systemRow][systemCol] > -1? "shoot":"no shoot"
-    
+    var turnTemp = "system"
+    console.log("systemTurn Inicio" + turnTemp )
+    console.log("systemRow " + systemRow  +   "  systemCol " + systemCol)
+    if (!(systemShootsTemp[systemRow][systemCol] === "empty")){
+        console.log("not empty deberia empezar de nuevo")
+        this.systemTurn()
+    }
     //si no lo había disparado a la cell...
-    if(systemShootsTemp[systemRow][systemCol] === "empty"){
-        
+    else if (systemShootsTemp[systemRow][systemCol] === "empty"){
+        var thisShootNumber
+        var thisShootStatus = userCellsTemp[systemRow][systemCol] > -1? "shoot":"no shoot"
+
         // dispara:
         systemShootsTemp[systemRow][systemCol] = userCellsTemp[systemRow][systemCol]
         
-        // si es tocado y el anterior tambien, sube el thisshootnumber:
+        // si es tocado  sube el thisshootnumber:
         // (falta que se fije si es hundido)
-        if((thisShootStatus ===  "shoot") && (lastSystemShootTemp[2] === "shoot") && (lastSystemShootTemp[3] >! "hundido")){
+        if (thisShootStatus ===  "shoot") {
             thisShootNumber = (lastSystemShootTemp[3] + 1)
-           
-        } // si es tocado y el anterior no, 1 en thisshootnumber:
-
-        //falta recordar el ultimo tocado
-        else if((thisShootStatus ===  "shoot") && (lastSystemShootTemp[2] === "no shoot") ){
-            thisShootNumber = 1
-        }  
-
-        // si es agua
+            lastSystemShootTemp = [systemRow, systemCol, thisShootStatus, thisShootNumber]
+            this.down(systemRow, systemCol , lastSystemShootTemp, systemShootsTemp, userCellsTemp, turnTemp)
         
-        else if(thisShootStatus ===  "no shoot") {
-        thisShootNumber = "agua"
+           
+
+        }  // si es agua
+        
+        else if (thisShootStatus ===  "no shoot") {
+        thisShootNumber = 0
         turnTemp = "user"
+        lastSystemShootTemp = [systemRow, systemCol, thisShootStatus, thisShootNumber]
+
         }
-    } 
+        this.setState({turn:turnTemp, lastSystemShoot:lastSystemShootTemp, systemShoots: systemShootsTemp})
+        } 
     
+    //agregar:
     lastSystemShootTemp = [systemRow, systemCol, thisShootStatus, thisShootNumber]
-    console.log("lastSystemShootTemp x" + lastSystemShootTemp)
+ 
     //this.setState({systemShoots:systemShootsTemp, lastSystemShoot: lastSystemShootTemp, turn:turnTemp })
 
 }
 
+down(row, col, lastSystemShootTemp, systemShootsTemp, userCellsTemp, turnTemp){
+ 
+    console.log("THIS DOWN INICIO")
+    console.log("Turn inicio down" + turnTemp)
 
-systemTurn(){
-    console.log("systemTurn")
-   
-    //aca esta el problem:?
-    console.log("lastSystemShoot inicio system turn  " + this.state.lastSystemShoot)
-    
-    var lastSystemShootTemp = this.state.lastSystemShoot.slice()
-    
-    console.log("lastSystemShootTemp  inicio systemTurn!" + lastSystemShootTemp)
-
-
-    console.log("lastSystemShootTemp inicio system turn  " + lastSystemShootTemp)
-    var systemRow = lastSystemShootTemp[0]
-    var systemCol = lastSystemShootTemp[1]
-    console.log("lastSystemShootTemp  inicio system turn" + lastSystemShootTemp)
-    console.log("lastSystemShootTemp 1" + lastSystemShootTemp[2])
-    console.log("lastSystemShootTemp 2" + this.state.lastSystemShoot[2])
-    if((lastSystemShootTemp[2] === "shoot") && !(lastSystemShootTemp[3] === "hundido") ){
-        console.log("acaaa 2")
-
-        console.log("[systemRow][systemCol]" + systemRow +   systemCol)
-        while(this.state.turn === "system"){
-            console.log("acaaa 3")
-            this.followingSystemShoots(systemRow,systemCol)
-            console.log("acaaa 4")
-
-        }
-    }
-}
-
-
-
-
-followingSystemShoots(row, col){
-    console.log("followingSystemShoots")
- this.down(row, col)
-}
-
-down(row, col){
-    var lastSystemShootTemp = this.state.lastSystemShoot.slice()
-    var systemShootsTemp = this.state.systemShoots.slice()
-    var turnTemp = this.state.turn.slice()
-    var userCellsTemp = this.state.userCells.slice()
-    console.log("2")
-    var thisShootNumber
-    var i = 1
-    var localrow = row + i
-    
-
-    while(localrow < 12) {
+   let i = 1
+    while(((row + i)  < 12) && (turnTemp === "system")) {
+        console.log("down #" + i)
+        var thisShootNumber
         
-        if(systemShootsTemp[localrow][col] === "empty") {
-            var thisShootStatus = userCellsTemp[localrow][col] > 0? "shoot":"no shoot"  
-            systemShootsTemp[localrow][col] = userCellsTemp[localrow][col]
+   
+        var thisShootStatus
+        if(systemShootsTemp[(row + i)][col] === "empty") {
+            thisShootStatus = userCellsTemp[(row + i)][col] > 0? "shoot":"no shoot"  
+            systemShootsTemp[(row + i)][col] = userCellsTemp[(row + i)][col]
             // si es tocado:
             if (thisShootStatus === "shoot") {
  
             console.log("3")
             thisShootNumber = (lastSystemShootTemp[3] + 1)
-            
-            lastSystemShootTemp = [localrow , col, thisShootStatus, thisShootNumber]
-            turnTemp = "system"
+
             } 
             
             else if (thisShootStatus === "no shoot") {
                 console.log("4")
-                lastSystemShootTemp = [localrow , col, thisShootStatus, "agua"]
+                thisShootNumber = 0
+                
                 turnTemp = "user"
             }
-       
-            this.setState({systemShoots:systemShootsTemp, lastSystemShoot:lastSystemShootTemp, turn:turnTemp})
-            i++
+            lastSystemShootTemp = [(row + i) , col, thisShootStatus, thisShootNumber]
+
         }
-    }
+        i++
+        console.log("i" + i)
+        console.log("systemShootsTemp[localrow][col] " + (row + i)  + col )
+        console.log("turnTemp fin down" + turnTemp)
+    } 
 }
 
 
