@@ -60,8 +60,8 @@ var containerStyle = {
 }
 return (
     <div style= {containerStyle }>
-    <div  shoots = {props.shoots} className= {cN}  style = {props.style(props.shoots)} cell = {props.cell} onContextMenu = {() => props.handleRightClick(props.row,props.col)} onClick = {() => props.handleClick(props.row,props.col)}>
-        <tx ></tx>
+    <div  systemshoots = {props.systemshoots} shoots = {props.shoots} className= {cN}  style = {props.style(props.shoots, props.systemshoots)} cell = {props.cell} onContextMenu = {() => props.handleRightClick(props.row,props.col)} onClick = {() => props.handleClick(props.row,props.col)}>
+        <tx >{props.text} </tx>
     </div>
     </div>
     )
@@ -73,7 +73,7 @@ function Row(props) {
     }
     var row = []
         for (let i=2; i < 12; i++) {
-            row.push(<Cell style= {props.style} color = {props.color} shoots  = {props.shoots[props.row][i]} text = {props.text[props.row][i]} key = {i} cell = {props.cells[i]} row = {props.row} col = {i} handleRightClick={props.handleRClick} handleClick = {props.handleClick}/>)
+            row.push(<Cell style= {props.style} color = {props.color} systemshoots = {props.systemshoots[props.row][i]}  shoots  = {props.shoots[props.row][i]} text = {props.text[props.row][i]} key = {i} cell = {props.cells[i]} row = {props.row} col = {i} handleRightClick={props.handleRClick} handleClick = {props.handleClick}/>)
         }
 
     return (
@@ -87,7 +87,7 @@ function Row(props) {
 function Board(props) {
     var board = []
         for (let i=2; i<12; i++) {
-            board.push(<Row style= {props.style} color = {props.color} shoots = {props.shoots} text = {props.text} key = {i} row = {i} cells = {props.cells[i]} handleRClick = {props.handleRClick} handleClick = {props.handleClick}/>)
+            board.push(<Row style= {props.style} color = {props.color} systemshoots = {props.systemshoots} shoots = {props.shoots} text = {props.text} key = {i} row = {i} cells = {props.cells[i]} handleRClick = {props.handleRClick} handleClick = {props.handleClick}/>)
         }
         return (
             <div  className = "align-items-center justify-content-center row m-5" > 
@@ -149,7 +149,7 @@ class GameFive extends React.Component{
         shipsLocations.push(new Array(1).fill(0));
         }    
 
-        this.state = {status: "pending" ,click1: 0, turn: "placeShips", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations}
+        this.state = {lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations}
         this.playClick = this.playClick.bind(this)
         //en tablero izquierda:
         this.handleClick = this.handleClick.bind(this)
@@ -180,9 +180,10 @@ confirmClick(){
         pending += shipsToPlaceTemp[i];
     }
     if(pending === 0) {
-        this.setState({status: "completed"})
+        this.setState({status: "completed", turn: "user"})
     }
     console.log("status" + this.state.status)
+    console.log("this.state.userCells" + this.state.userCells)
 
 }
 
@@ -198,8 +199,11 @@ handleRClick(row, col) {
     this.setState({userShoots:tempUserShoots})
     }
 }
+
 handleClick(row, col) {
-    if(this.state.playingState === true) {
+    console.log("systemShoots al clic" + this.state.systemShoots)
+
+    if((this.state.playingState === true) && (this.state.turn === "user") ) {
         var tempcells = this.state.cells.slice()
         var tempUserShoots = this.state.userShoots.slice()
         var tempClics = this.state.leftClics
@@ -208,10 +212,141 @@ handleClick(row, col) {
             tempUserShoots[row][col] = tempcells[row][col]
         }
         tempClics++
-        this.setState({userShoots:tempUserShoots, leftClics:tempClics})
+        //this.setState({userShoots:tempUserShoots, leftClics:tempClics, turn: "system"})
+        this.setState(() => {
+            // Important: read `state` instead of `this.state` when updating.
+            return {userShoots:tempUserShoots, leftClics:tempClics, turn: "system" }
+          });
     }
-    console.log(this.state.userShoots)
+    console.log("userShoots" + this.state.userShoots)
+
+    console.log(" before systemTurnFirst")
+    this.systemTurnFirst()
+    console.log("before systemTurn")
+    this.systemTurn()
 }
+
+
+systemTurnFirst(){
+    console.log("systemTurnFirst")
+    var systemRow = Math.floor(Math.random() * (12 - 2)) + 2;
+    var systemCol = Math.floor(Math.random() * (12 - 2)) + 2;
+    var systemShootsTemp = JSON.parse(JSON.stringify(this.state.systemShoots))
+    var userCellsTemp = JSON.parse(JSON.stringify(this.state.userCells))
+    var lastSystemShootTemp = this.state.lastSystemShoot.slice()
+    var turnTemp = this.state.turn //provisorio, despues this.state.turn
+    var thisShootNumber
+    var thisShootStatus = userCellsTemp[systemRow][systemCol] > -1? "shoot":"no shoot"
+    
+    //si no lo había disparado a la cell...
+    if(systemShootsTemp[systemRow][systemCol] === "empty"){
+        
+        // dispara:
+        systemShootsTemp[systemRow][systemCol] = userCellsTemp[systemRow][systemCol]
+        
+        // si es tocado y el anterior tambien, sube el thisshootnumber:
+        // (falta que se fije si es hundido)
+        if((thisShootStatus ===  "shoot") && (lastSystemShootTemp[2] === "shoot") && (lastSystemShootTemp[3] >! "hundido")){
+            thisShootNumber = (lastSystemShootTemp[3] + 1)
+           
+        } // si es tocado y el anterior no, 1 en thisshootnumber:
+
+        //falta recordar el ultimo tocado
+        else if((thisShootStatus ===  "shoot") && (lastSystemShootTemp[2] === "no shoot") ){
+            thisShootNumber = 1
+        }  
+
+        // si es agua
+        
+        else if(thisShootStatus ===  "no shoot") {
+        thisShootNumber = "agua"
+        turnTemp = "user"
+        }
+    } 
+    
+    lastSystemShootTemp = [systemRow, systemCol, thisShootStatus, thisShootNumber]
+    console.log("lastSystemShootTemp x" + lastSystemShootTemp)
+    //this.setState({systemShoots:systemShootsTemp, lastSystemShoot: lastSystemShootTemp, turn:turnTemp })
+
+}
+
+
+systemTurn(){
+    console.log("systemTurn")
+   
+    //aca esta el problem:?
+    console.log("lastSystemShoot inicio system turn  " + this.state.lastSystemShoot)
+    
+    var lastSystemShootTemp = this.state.lastSystemShoot.slice()
+    
+    console.log("lastSystemShootTemp  inicio systemTurn!" + lastSystemShootTemp)
+
+
+    console.log("lastSystemShootTemp inicio system turn  " + lastSystemShootTemp)
+    var systemRow = lastSystemShootTemp[0]
+    var systemCol = lastSystemShootTemp[1]
+    console.log("lastSystemShootTemp  inicio system turn" + lastSystemShootTemp)
+    console.log("lastSystemShootTemp 1" + lastSystemShootTemp[2])
+    console.log("lastSystemShootTemp 2" + this.state.lastSystemShoot[2])
+    if((lastSystemShootTemp[2] === "shoot") && !(lastSystemShootTemp[3] === "hundido") ){
+        console.log("acaaa 2")
+
+        console.log("[systemRow][systemCol]" + systemRow +   systemCol)
+        while(this.state.turn === "system"){
+            console.log("acaaa 3")
+            this.followingSystemShoots(systemRow,systemCol)
+            console.log("acaaa 4")
+
+        }
+    }
+}
+
+
+
+
+followingSystemShoots(row, col){
+    console.log("followingSystemShoots")
+ this.down(row, col)
+}
+
+down(row, col){
+    var lastSystemShootTemp = this.state.lastSystemShoot.slice()
+    var systemShootsTemp = this.state.systemShoots.slice()
+    var turnTemp = this.state.turn.slice()
+    var userCellsTemp = this.state.userCells.slice()
+    console.log("2")
+    var thisShootNumber
+    var i = 1
+    var localrow = row + i
+    
+
+    while(localrow < 12) {
+        
+        if(systemShootsTemp[localrow][col] === "empty") {
+            var thisShootStatus = userCellsTemp[localrow][col] > 0? "shoot":"no shoot"  
+            systemShootsTemp[localrow][col] = userCellsTemp[localrow][col]
+            // si es tocado:
+            if (thisShootStatus === "shoot") {
+ 
+            console.log("3")
+            thisShootNumber = (lastSystemShootTemp[3] + 1)
+            
+            lastSystemShootTemp = [localrow , col, thisShootStatus, thisShootNumber]
+            turnTemp = "system"
+            } 
+            
+            else if (thisShootStatus === "no shoot") {
+                console.log("4")
+                lastSystemShootTemp = [localrow , col, thisShootStatus, "agua"]
+                turnTemp = "user"
+            }
+       
+            this.setState({systemShoots:systemShootsTemp, lastSystemShoot:lastSystemShootTemp, turn:turnTemp})
+            i++
+        }
+    }
+}
+
 
 handleRBoardClick(row, col){
     var userCellsTemp = this.state.userCells.slice()
@@ -514,8 +649,6 @@ if(tempPlayingState === false) {
 }
     
 leftstyle(shoots){
-
-
     var color = "rgb(199, 196, 196)"
 
      if(shoots > 0){
@@ -536,10 +669,14 @@ leftstyle(shoots){
     return style;
 }
 
-rightstyle(shoots){
-    var color 
-
-    if(shoots=== "0")    {
+rightstyle(shoots, systemshoots){
+    var color = "rgb(199, 196, 196)"
+    if(systemshoots === "x") {
+        color = "black"
+    }else if(parseInt(systemshoots) > -1) {
+        color = "red"
+    }
+    else if(shoots=== "0")    {
         color = "brown"
     } else if((shoots=== "1") || (shoots=== "2")){
         color = "chocolate"
@@ -547,9 +684,7 @@ rightstyle(shoots){
         color = "coral"
     } else if((shoots=== "6") || (shoots=== "7") || (shoots=== "8") || (shoots=== "9")){
         color = "burlywood"
-    } else {
-        color = "rgb(199, 196, 196)"
-    }
+    } 
 
     var style = {
         width: "2rem",
@@ -559,6 +694,11 @@ rightstyle(shoots){
     }
     return style;
 }
+
+text(systemshoots){
+    return systemshoots;
+}
+
 
     render(){  
 
@@ -578,28 +718,31 @@ rightstyle(shoots){
 
                 <div className = "row" > 
                     <div className ="col-sm-12 col-md-5  d-md-block text-center">
-                        <Board style= {this.leftstyle} shoots = {this.state.userShoots} text = {this.state.cells} cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>
+                        <Board style= {this.leftstyle} systemshoots = "{this.state.systemShoots}"  shoots = {this.state.userShoots} text = {this.state.cells} cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>
                      </div>
                      
 
                     <div className ="col-sm-12 col-md-5  d-md-block text-center">
-                         <Board   style = {this.rightstyle} shoots = {this.state.userCells} text = {this.state.userCells} cells = {this.state.userCells} handleRClick = {this.handleROnRightBoardClick} handleClick = {this.handleRBoardClick }/>
+                         <Board style = {this.rightstyle} systemshoots = {this.state.systemShoots} shoots = {this.state.userCells} text = {this.state.systemShoots} cells = {this.state.userCells} handleRClick = {this.handleROnRightBoardClick} handleClick = {this.handleRBoardClick }/>
                     </div>
 
                     <div className ="col-sm-12 col-md-2  d-md-block text-center">   
                         <UserSubs handleClick = {this.handleSubSelectClick} shipsToPlace = {this.state.shipsToPlace} />
                     </div>
                 </div>
+
                 <div className = "row mt-4 align-items-center justify-content-center"> 
                     <div className = "col-sm-12 col-md-4  d-md-block text-center" >
-                      <UserClicks  text = {this.state.leftClics}/>
+                        <UserClicks  text = {this.state.leftClics}/>
                     </div>
+
                     <div className = "col-sm-12 col-md-4  d-md-block text-center" >
                         <PlayStopButton text= {this.state.playingState === false?  "PLAY" : "QUIT"} onButtonClick = {this.playClick}/>
                     </div> 
+
                     <div className ="col-sm-12 col-md-4  d-md-block text-center">
-                         <PlayStopButton text= {this.state.status === "pending"?  "Confirm" : "Confirmed"} onButtonClick = {this.confirmClick}/>
-                </div>
+                        <PlayStopButton text= {this.state.status === "pending"?  "Confirm" : "Confirmed"} onButtonClick = {this.confirmClick}/>
+                    </div>
                 </div> 
             </div> 
                 )
