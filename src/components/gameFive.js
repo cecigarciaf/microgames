@@ -202,8 +202,9 @@ handleRClick(row, col) {
 
 handleClick(row, col) {
     console.log("systemShoots al clic" + this.state.systemShoots)
+    var turnTemp = this.state.turn
 
-    if((this.state.playingState === true) && (this.state.turn === "user") ) {
+    if((this.state.playingState === true) && (turnTemp  === "user") ) {
         var tempcells = this.state.cells.slice()
         var tempUserShoots = this.state.userShoots.slice()
         var tempClics = this.state.leftClics
@@ -212,103 +213,165 @@ handleClick(row, col) {
             tempUserShoots[row][col] = tempcells[row][col]
         }
         tempClics++
+
+
         //this.setState({userShoots:tempUserShoots, leftClics:tempClics, turn: "system"})
         this.setState({userShoots:tempUserShoots, leftClics:tempClics, turn: "system" }) 
-
+        console.log("me haria feliz que fuera system 2" + this.state.turn)
     }
     console.log("userShoots" + this.state.userShoots)
-    this.systemTurn()
+
+   
+    
+    setTimeout(() => this.systemTurn(), 1000)
 }
 
 
 systemTurn(){
-   
+    var turnTemp = "system"
+    console.log("system turn")
     var systemRow = Math.floor(Math.random() * (12 - 2)) + 2;
     var systemCol = Math.floor(Math.random() * (12 - 2)) + 2;
     var systemShootsTemp = JSON.parse(JSON.stringify(this.state.systemShoots))
     var userCellsTemp = JSON.parse(JSON.stringify(this.state.userCells))
     var lastSystemShootTemp = this.state.lastSystemShoot.slice()
-    var turnTemp = "system"
-    console.log("systemTurn Inicio" + turnTemp )
-    console.log("systemRow " + systemRow  +   "  systemCol " + systemCol)
+    
+  
+    console.log("system turn" + "systemRow " + systemRow  +   "  systemCol " + systemCol)
     if (!(systemShootsTemp[systemRow][systemCol] === "empty")){
-        console.log("not empty deberia empezar de nuevo")
         this.systemTurn()
     }
     //si no lo había disparado a la cell...
     else if (systemShootsTemp[systemRow][systemCol] === "empty"){
         var thisShootNumber
         var thisShootStatus = userCellsTemp[systemRow][systemCol] > -1? "shoot":"no shoot"
-
+           
         // dispara:
         systemShootsTemp[systemRow][systemCol] = userCellsTemp[systemRow][systemCol]
-        
-        // si es tocado  sube el thisshootnumber:
-        // (falta que se fije si es hundido)
+                // si es tocado  sube el thisshootnumber:
         if (thisShootStatus ===  "shoot") {
             thisShootNumber = (lastSystemShootTemp[3] + 1)
             lastSystemShootTemp = [systemRow, systemCol, thisShootStatus, thisShootNumber]
-            this.down(systemRow, systemCol , lastSystemShootTemp, systemShootsTemp, userCellsTemp, turnTemp)
-        
-           
-
-        }  // si es agua
-        
-        else if (thisShootStatus ===  "no shoot") {
-        thisShootNumber = 0
-        turnTemp = "user"
-        lastSystemShootTemp = [systemRow, systemCol, thisShootStatus, thisShootNumber]
-
-        }
-        this.setState({turn:turnTemp, lastSystemShoot:lastSystemShootTemp, systemShoots: systemShootsTemp})
-        } 
-    
-    //agregar:
-    lastSystemShootTemp = [systemRow, systemCol, thisShootStatus, thisShootNumber]
- 
-    //this.setState({systemShoots:systemShootsTemp, lastSystemShoot: lastSystemShootTemp, turn:turnTemp })
-
-}
-
-down(row, col, lastSystemShootTemp, systemShootsTemp, userCellsTemp, turnTemp){
- 
-    console.log("THIS DOWN INICIO")
-    console.log("Turn inicio down" + turnTemp)
-
-   let i = 1
-    while(((row + i)  < 12) && (turnTemp === "system")) {
-        console.log("down #" + i)
-        var thisShootNumber
-        
-   
-        var thisShootStatus
-        if(systemShootsTemp[(row + i)][col] === "empty") {
-            thisShootStatus = userCellsTemp[(row + i)][col] > 0? "shoot":"no shoot"  
-            systemShootsTemp[(row + i)][col] = userCellsTemp[(row + i)][col]
-            // si es tocado:
-            if (thisShootStatus === "shoot") {
- 
-            console.log("3")
-            thisShootNumber = (lastSystemShootTemp[3] + 1)
-
-            } 
             
-            else if (thisShootStatus === "no shoot") {
-                console.log("4")
-                thisShootNumber = 0
-                
-                turnTemp = "user"
-            }
-            lastSystemShootTemp = [(row + i) , col, thisShootStatus, thisShootNumber]
+                    //this down:
+            console.log("THIS DOWN INICIO")
 
-        }
-        i++
-        console.log("i" + i)
-        console.log("systemShootsTemp[localrow][col] " + (row + i)  + col )
-        console.log("turnTemp fin down" + turnTemp)
-    } 
+
+            let i = 1
+            let row = systemRow
+            let col = systemCol
+
+            while(((row + i)  < 12) && (turnTemp === "system") && (systemShootsTemp[(row + i)][col] === "empty")) {
+                thisShootStatus = userCellsTemp[(row + i)][col] > - 1? "shoot":"no shoot"  
+                systemShootsTemp[(row + i)][col] = userCellsTemp[(row + i)][col]
+                    // si es tocado:
+                    if (thisShootStatus === "shoot") {   
+                    thisShootNumber = (lastSystemShootTemp[3] + 1)
+                    lastSystemShootTemp = [(row + i) , col, thisShootStatus, thisShootNumber]
+
+                    } 
+                    else if (thisShootStatus === "no shoot") {
+                        thisShootNumber = 0
+                        turnTemp = "user" 
+                        lastSystemShootTemp = [(row + i) , col, thisShootStatus, thisShootNumber]
+
+                    }
+                i++
+                
+            }  //fin this down.
+            //this up:
+
+           i = - 1
+           
+            while(((row + i)  > 1) && (turnTemp === "system") && (systemShootsTemp[(row + i)][col] === "empty")) {
+                    thisShootStatus = userCellsTemp[(row + i)][col] > - 1? "shoot":"no shoot"  
+                    systemShootsTemp[(row + i)][col] = userCellsTemp[(row + i)][col]
+                    // si es tocado:
+                    if (thisShootStatus === "shoot") {
+                        thisShootNumber = (lastSystemShootTemp[3] + 1)
+                        lastSystemShootTemp = [(row + i) , col, thisShootStatus, thisShootNumber]
+                    } 
+                    
+                    else if (thisShootStatus === "no shoot") {
+                        thisShootNumber = 0
+                        lastSystemShootTemp = [(row + i) , col, thisShootStatus, thisShootNumber]
+                        turnTemp = "user"
+                    }
+                    lastSystemShootTemp = [(row + i) , col, thisShootStatus, thisShootNumber]
+        
+                
+                i--
+
+            }  // fin this up
+                //this.left       
+               i = - 1
+                while(((col + i)  > 1) && (turnTemp === "system") && (systemShootsTemp[row][(col + i)] === "empty")) {
+                        thisShootStatus = userCellsTemp[row][(col + i)] > 0? "shoot":"no shoot"  
+                        systemShootsTemp[row][(col + i)] = userCellsTemp[row][(col + i)]
+                        // si es tocado:
+                        if (thisShootStatus === "shoot") {
+                        thisShootNumber = (lastSystemShootTemp[3] + 1)
+                        lastSystemShootTemp = [row , (col + i), thisShootStatus, thisShootNumber]
+            
+                        } 
+                        
+                        else if (thisShootStatus === "no shoot") {
+                            thisShootNumber = 0
+                            lastSystemShootTemp = [row , (col + i), thisShootStatus, thisShootNumber]
+                            turnTemp = "user"
+                        }
+                        lastSystemShootTemp = [row , (col + i), thisShootStatus, thisShootNumber]
+            
+                    
+                    i--
+                }  // fin left
+
+                    // right:
+
+                    i =  1
+                //if ((systemShootsTemp[(row + i)][col] === "empty") && (turnTemp === "system")){
+                
+                while (((col + i)  > 1)&& (turnTemp === "system")) {
+                    if (systemShootsTemp[(row + i)][col] === "empty"){
+                        thisShootStatus = userCellsTemp[row][(col + i)] > 0? "shoot":"no shoot"  
+                        systemShootsTemp[row][(col + i)] = userCellsTemp[row][(col + i)]
+                        // si es tocado:
+                        if (thisShootStatus === "shoot") {
+                        thisShootNumber = (lastSystemShootTemp[3] + 1)
+                        lastSystemShootTemp = [row , (col + i), thisShootStatus, thisShootNumber]
+                        } 
+                        
+                        else if (thisShootStatus === "no shoot") {
+                            thisShootNumber = 0
+                            turnTemp = "user"
+                            lastSystemShootTemp = [row , (col + i), thisShootStatus, thisShootNumber]
+                        }
+                        lastSystemShootTemp = [row , (col + i), thisShootStatus, thisShootNumber]
+                        
+                    } 
+                    else if (!(systemShootsTemp[(row + i)][col] === "empty") && (turnTemp === "system")){
+                        this.systemTurn()
+                    }
+                    i++
+                }
+
+                    //right fin
+
+                 
+        } 
+                  // si es agua
+        else if (thisShootStatus ===  "no shoot") {
+                    
+            thisShootNumber = 0
+            turnTemp = "user" 
+            lastSystemShootTemp = [systemRow, systemCol, thisShootStatus, thisShootNumber]
+
+        } 
+
+        this.setState({turn:turnTemp, lastSystemShoot:lastSystemShootTemp, systemShoots: systemShootsTemp})
 }
 
+}
 
 handleRBoardClick(row, col){
     var userCellsTemp = this.state.userCells.slice()
