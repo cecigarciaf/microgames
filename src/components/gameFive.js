@@ -164,10 +164,8 @@ class GameFive extends React.Component{
 
 //click en barco para poner:
 handleSubSelectClick(size, id){
-    var subSelectedTemp = this.state.subSelected
-        
-    subSelectedTemp = [size, id]
-     
+    var subSelectedTemp = [size, id]
+    
     console.log("subSelectedTemp" + subSelectedTemp)
     this.setState({subSelected:subSelectedTemp})
 }    
@@ -379,10 +377,9 @@ handleRBoardClick(row, col){
     var shipsToPlaceTemp = this.state.shipsToPlace
     var shipsLocationsTemp = this.state.shipsLocations.slice()
     var sizeTemp =  parseInt(subSelectedTemp[0])
-    var idTemp = subSelectedTemp[1]
     var click1Temp = this.state.click1
+
     if(this.state.status === "pending") {
-    
         // click 1:
     if((click1Temp === 0) && (userCellsTemp[row][col] === "x")) {
         click1Temp = [row,col]
@@ -460,12 +457,87 @@ handleRBoardClick(row, col){
 		check6 = true;
 	}
 
+    var check7
+    var checksum7 = 0
+	for(let i = -1; (i < (sizeTemp + 1)); i++) {
+		if(userCellsTemp[row + 1][col + i] === "x"){
+                 checksum7++
+		}
+        
+	} 
+	if(checksum7 === (sizeTemp + 2)) {
+		check7 = true;
+	}
+
+    var check8
+    var checksum8 = 0
+	for(let i = - 1; (i < sizeTemp + 1); i++) {
+		if(userCellsTemp[row - 1][col + i] === "x"){
+                 checksum8++
+		}
+	} 
+	if(checksum8=== (sizeTemp + 2)) {
+		check8 = true;
+	}
+    
+    var check9
+    var checksum9 = 0
+	for(let i = -1; (i < sizeTemp + 1); i++) {
+        
+		if(userCellsTemp[row][col + i] === "x"){
+                 checksum9++
+		}
+	} 
+	if(checksum9 === (sizeTemp + 2)) {
+		check9 = true;
+	}
+
+    var check10
+    var checksum10 = 0
+	for(let i = -1; i < (sizeTemp + 1); i++) {
+        
+		if(userCellsTemp[row + i][col] === "x"){
+                 checksum10++
+		}
+	} 
+	if(checksum10 === (sizeTemp + 2)) {
+		check10 = true;
+	}
+
+    var check11
+    var checksum11 = 0
+	for(let i = -1; i < (sizeTemp + 1); i++) {
+		if(userCellsTemp[row + i][col + 1] === "x"){
+                 checksum11++
+		}
+        
+	} 
+	if(checksum11 === (sizeTemp + 2)) {
+		check11 = true;
+	}
+
+    var check12
+    var checksum12 = 0
+	for(let i = -1; i < (sizeTemp + 1); i++) {
+		if(userCellsTemp[row + i][col - 1] === "x"){
+                 checksum12++
+		}
+        
+	} 
+	if(checksum12 === (sizeTemp + 2)) {
+		check12 = true;
+	}
+
+
+
+
 
     // row click 1 click1Temp[0]
      // col click 1 click1Temp[1]
+//de izquierda a derecha:
 
-    if( ((click1Temp[0]) === row)  &&  ( ((col - click1Temp[1]) ===  (sizeTemp - 1)) || ((click1Temp[1] - col) ===  (sizeTemp - 1))  )) {
-            if(((click1Temp[1] + sizeTemp) < 13) && (check3) && (check2) && (check1)){
+    if( ((click1Temp[0]) === row)  &&  ( ((col - click1Temp[1]) ===  (sizeTemp - 1)))) {
+            if(((click1Temp[1] + sizeTemp) < 13) && (check1) && (check2) && (check3)){
                 console.log("checks ok")
                 var i = 0
                 do{
@@ -480,7 +552,26 @@ handleRBoardClick(row, col){
                 console.log("shipsLocations[0]" + shipsLocationsTemp[0])
             }
     }   
-    else if ( ((click1Temp[1]) === col)  &&  ( ((row - click1Temp[0]) ===  (sizeTemp - 1)) || ((click1Temp[0] - row) ===  (sizeTemp - 1))  )) {
+    //de derecha a izquierda:
+
+    else if( ((click1Temp[0]) === row)  &&  ( ((click1Temp[1] - col) ===  (sizeTemp - 1))  )) {
+        if(((col + sizeTemp) < 13) && (check7) && (check8) && (check9)){
+            console.log("checks ok")
+            var i = 0
+            do{
+                userCellsTemp[row][(click1Temp[1] - i)] = subSelectedTemp[1]
+                i++
+            } while (i < sizeTemp);
+            console.log("do while")
+            shipsLocationsTemp[subSelectedTemp[1]] = [row, click1Temp[1], "h", subSelectedTemp[0]]
+            shipsToPlaceTemp[subSelectedTemp[1]] = 0
+            subSelectedTemp = 0
+            console.log("shipsLocations" + shipsLocationsTemp)
+            console.log("shipsLocations[0]" + shipsLocationsTemp[0])
+        }
+    }
+    // de arriba a abajo:
+    else if ( ((click1Temp[1]) === col)  &&  ( ((row - click1Temp[0]) ===  (sizeTemp - 1)) )) {
             if(((click1Temp[0] + sizeTemp) < 13) && (check4) && (check5) && (check6)){
                 console.log("checks ok")
                 var y = 0
@@ -495,10 +586,28 @@ handleRBoardClick(row, col){
                 console.log("shipsLocations" + shipsLocationsTemp)
                 console.log("shipsLocations[0]" + shipsLocationsTemp[0])
         }
-
     }
+        // de abajo a arriba:
+    else if ( ((click1Temp[1]) === col)  &&  (((click1Temp[0] - row) ===  (sizeTemp - 1)) )) {
+            if(((row + sizeTemp) < 13) && (check10) && (check11) && (check12)){
+                console.log("checks ok")
+                var y = 0
+                do{
+                    userCellsTemp[(click1Temp[0] - y)][col] = subSelectedTemp[1]
+                    y++
+                } while (y < sizeTemp);
+                console.log("do while")
+                shipsLocationsTemp[subSelectedTemp[1]] = [click1Temp[0], col, "v", subSelectedTemp[0]]
+                shipsToPlaceTemp[subSelectedTemp[1]] = 0
+                subSelectedTemp = 0
+                console.log("shipsLocations" + shipsLocationsTemp)
+                console.log("shipsLocations[0]" + shipsLocationsTemp[0])
+        }
+    }
+    
         click1Temp = 0
-    }
+    
+}
         this.setState({click1: click1Temp, userCells:userCellsTemp, subSelected:subSelectedTemp, shipsToPlace:shipsToPlaceTemp, shipsLocations:shipsLocationsTemp})
         console.log(shipsToPlaceTemp)
     
