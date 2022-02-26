@@ -43,7 +43,7 @@ function UserSub(props){
     }
 
     return (
-        <div className= "text-center justify-content-center" >
+        <div id= "userSubsDiv" className= "text-center justify-content-center" >
         <div   id = {props.id} size = {props.size} style = {style} onClick = {() => props.handleClick(props.size, props.id)}>   
         </div>
         </div>
@@ -60,7 +60,7 @@ var containerStyle = {
 }
 return (
     <div style= {containerStyle }>
-    <div  systemshoots = {props.systemshoots} shoots = {props.shoots} className= {cN}  style = {props.style(props.shoots, props.systemshoots)} cell = {props.cell} onContextMenu = {() => props.handleRightClick(props.row,props.col)} onClick = {() => props.handleClick(props.row,props.col)}>
+    <div  systemshoots = {props.systemshoots} shoots = {props.shoots} className= {cN}  style = {props.style(props.shoots, props.systemshoots)} cell = {props.cell} onDoubleClick = {() => props.handleRightClick(props.row,props.col)} onClick = {() => props.handleClick(props.row,props.col)}>
         <tx >{props.text} </tx>
     </div>
     </div>
@@ -105,16 +105,16 @@ class UserSubs extends React.Component{
     render(){  
         return (
             <div className ="col-sm-12 col-md-4 d-md-block text-center mt-4">
-            <UserSub id = "0" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[0]}/>
-            <UserSub id = "1" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[1]}/>
-            <UserSub id = "2" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[2]}/>
-            <UserSub id = "3" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[3]}/>
-            <UserSub id = "4" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[4]}/>
-            <UserSub id = "5" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[5]}/>       
-            <UserSub id = "6" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[6]}/>
-            <UserSub id = "7" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[7]}/>
-            <UserSub id = "8" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[8]}/>
-            <UserSub id = "9" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[9]}/>  
+                <UserSub id = "0" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[0]}/>
+                <UserSub id = "1" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[1]}/>
+                <UserSub id = "2" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[2]}/>
+                <UserSub id = "3" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[3]}/>
+                <UserSub id = "4" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[4]}/>
+                <UserSub id = "5" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[5]}/>       
+                <UserSub id = "6" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[6]}/>
+                <UserSub id = "7" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[7]}/>
+                <UserSub id = "8" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[8]}/>
+                <UserSub id = "9" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[9]}/>  
             </div>
         )
     }
@@ -181,7 +181,7 @@ confirmClick(){
         this.setState({status: "completed", turn: "user"})
     }
     console.log("status" + this.state.status)
-    console.log("this.state.userCells" + this.state.userCells)
+    console.log("this.state.userCells al confirmClick" + this.state.userCells)
 
 }
 
@@ -215,13 +215,9 @@ handleClick(row, col) {
 
         //this.setState({userShoots:tempUserShoots, leftClics:tempClics, turn: "system"})
         this.setState({userShoots:tempUserShoots, leftClics:tempClics, turn: "system" }) 
-        console.log("me haria feliz que fuera system 2" + this.state.turn)
+        setTimeout(() => this.systemTurn(), 1000)
     }
-    console.log("userShoots" + this.state.userShoots)
 
-   
-    
-    setTimeout(() => this.systemTurn(), 1000)
 }
 
 
@@ -378,6 +374,7 @@ handleRBoardClick(row, col){
     var shipsLocationsTemp = this.state.shipsLocations.slice()
     var sizeTemp =  parseInt(subSelectedTemp[0])
     var click1Temp = this.state.click1
+    var idTemp = subSelectedTemp[1]
 
     if(this.state.status === "pending") {
         // click 1:
@@ -550,6 +547,7 @@ handleRBoardClick(row, col){
                 subSelectedTemp = 0
                 console.log("shipsLocations" + shipsLocationsTemp)
                 console.log("shipsLocations[0]" + shipsLocationsTemp[0])
+                document.getElementById(idTemp).style.display = "none"
             }
     }   
     //de derecha a izquierda:
@@ -563,11 +561,12 @@ handleRBoardClick(row, col){
                 i++
             } while (i < sizeTemp);
             console.log("do while")
-            shipsLocationsTemp[subSelectedTemp[1]] = [row, click1Temp[1], "h", subSelectedTemp[0]]
+            shipsLocationsTemp[subSelectedTemp[1]] = [row, col, "h", subSelectedTemp[0]]
             shipsToPlaceTemp[subSelectedTemp[1]] = 0
             subSelectedTemp = 0
             console.log("shipsLocations" + shipsLocationsTemp)
             console.log("shipsLocations[0]" + shipsLocationsTemp[0])
+            document.getElementById(idTemp).style.display = "none"
         }
     }
     // de arriba a abajo:
@@ -585,6 +584,7 @@ handleRBoardClick(row, col){
                 subSelectedTemp = 0
                 console.log("shipsLocations" + shipsLocationsTemp)
                 console.log("shipsLocations[0]" + shipsLocationsTemp[0])
+                document.getElementById(idTemp).style.display = "none"
         }
     }
         // de abajo a arriba:
@@ -597,11 +597,12 @@ handleRBoardClick(row, col){
                     y++
                 } while (y < sizeTemp);
                 console.log("do while")
-                shipsLocationsTemp[subSelectedTemp[1]] = [click1Temp[0], col, "v", subSelectedTemp[0]]
+                shipsLocationsTemp[subSelectedTemp[1]] = [row, col, "v", subSelectedTemp[0]]
                 shipsToPlaceTemp[subSelectedTemp[1]] = 0
                 subSelectedTemp = 0
                 console.log("shipsLocations" + shipsLocationsTemp)
                 console.log("shipsLocations[0]" + shipsLocationsTemp[0])
+                document.getElementById(idTemp).style.display = "none"
         }
     }
     
@@ -641,6 +642,10 @@ handleROnRightBoardClick(row, col) {
             } while (i < shipData[3])
             shipsLocationsTemp[id] = 0
         }
+        document.getElementById(id).style.display = "block"
+        
+        
+
     this.setState({userCells: userCellsTemp, shipsLocations:shipsLocationsTemp, shipsToPlace:shipsToPlaceTemp})
     }
     }
@@ -852,12 +857,12 @@ text(systemshoots){
 
                 <div className = "row" > 
                     <div className ="col-sm-12 col-md-5  d-md-block text-center">
-                        <Board style= {this.leftstyle} systemshoots = "{this.state.systemShoots}"  shoots = {this.state.userShoots} text = {this.state.cells} cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>
+                        <Board style= {this.leftstyle} systemshoots = "{this.state.systemShoots}"  shoots = {this.state.userShoots} text = "{this.state.cells}" cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>
                      </div>
                      
 
                     <div className ="col-sm-12 col-md-5  d-md-block text-center">
-                         <Board style = {this.rightstyle} systemshoots = {this.state.systemShoots} shoots = {this.state.userCells} text = {this.state.systemShoots} cells = {this.state.userCells} handleRClick = {this.handleROnRightBoardClick} handleClick = {this.handleRBoardClick }/>
+                         <Board style = {this.rightstyle} systemshoots = {this.state.systemShoots} shoots = {this.state.userCells} text = "{this.state.systemShoots}" cells = {this.state.userCells} handleRClick = {this.handleROnRightBoardClick} handleClick = {this.handleRBoardClick }/>
                     </div>
 
                     <div className ="col-sm-12 col-md-2  d-md-block text-center">   
