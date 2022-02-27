@@ -52,7 +52,7 @@ function UserSub(props){
 
 function Cell(props){
 
-var cN = "text-center justify-content-center"
+var cN = "text-center justify-content-center test"
 
 
 var containerStyle = {
@@ -60,7 +60,7 @@ var containerStyle = {
 }
 return (
     <div style= {containerStyle }>
-    <div  systemshoots = {props.systemshoots} shoots = {props.shoots} className= {cN}  style = {props.style(props.shoots, props.systemshoots)} cell = {props.cell} onDoubleClick = {() => props.handleRightClick(props.row,props.col)} onClick = {() => props.handleClick(props.row,props.col)}>
+    <div  systemshoots = {props.systemshoots} shoots = {props.shoots} className= {cN}  style = {props.style(props.shoots, props.systemshoots)} cell = {props.cell} onContextMenu = {() => props.handleRightClick(props.row,props.col)} onClick = {() => props.handleClick(props.row,props.col)}>
         <tx >{props.text} </tx>
     </div>
     </div>
@@ -186,6 +186,7 @@ confirmClick(){
 }
 
 handleRClick(row, col) {
+
     if(this.state.playingState === true) {
         var tempUserShoots = this.state.userShoots.slice()
         if(tempUserShoots[row][col] === "empty" ){
@@ -212,10 +213,13 @@ handleClick(row, col) {
         }
         tempClics++
 
-
+        if (tempcells[row][col] > 0) {
+            this.setState({userShoots:tempUserShoots, leftClics:tempClics, turn: "user" }) 
+        } else if (!(tempcells[row][col] > 0)) {
         //this.setState({userShoots:tempUserShoots, leftClics:tempClics, turn: "system"})
         this.setState({userShoots:tempUserShoots, leftClics:tempClics, turn: "system" }) 
         setTimeout(() => this.systemTurn(), 1000)
+        }
     }
 
 }
@@ -616,6 +620,7 @@ handleRBoardClick(row, col){
 }
 
 handleROnRightBoardClick(row, col) {
+
     if(this.state.status === "pending"){
         console.log("right clic")
     var userCellsTemp = this.state.userCells.slice()
@@ -648,6 +653,7 @@ handleROnRightBoardClick(row, col) {
 
     this.setState({userCells: userCellsTemp, shipsLocations:shipsLocationsTemp, shipsToPlace:shipsToPlaceTemp})
     }
+
     }
 
 
@@ -871,15 +877,13 @@ text(systemshoots){
                 </div>
 
                 <div className = "row mt-4 align-items-center justify-content-center"> 
-                    <div className = "col-sm-12 col-md-4  d-md-block text-center" >
-                        <UserClicks  text = {this.state.leftClics}/>
-                    </div>
+      
 
-                    <div className = "col-sm-12 col-md-4  d-md-block text-center" >
+                    <div className = "col-sm-12 col-md-6  d-md-block text-center" >
                         <PlayStopButton text= {this.state.playingState === false?  "PLAY" : "QUIT"} onButtonClick = {this.playClick}/>
                     </div> 
 
-                    <div className ="col-sm-12 col-md-4  d-md-block text-center">
+                    <div className ="col-sm-12 col-md-6  d-md-block text-center">
                         <PlayStopButton text= {this.state.status === "pending"?  "Confirm" : "Confirmed"} onButtonClick = {this.confirmClick}/>
                     </div>
                 </div> 
