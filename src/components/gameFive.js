@@ -155,7 +155,7 @@ class GameFive extends React.Component{
         shipsLocations.push(new Array(1).fill(0));
         } 
 
-        this.state = {show: false, text: "", leftShipLocations: leftShipLocations, lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations}
+        this.state = {hundidosSystem: 0, hundidos: 0, show: true, text: "", textSystem: "", leftShipLocations: leftShipLocations, lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations}
         this.playClick = this.playClick.bind(this)
         //en tablero izquierda:
         this.handleClick = this.handleClick.bind(this)
@@ -201,6 +201,7 @@ confirmClick(){
 
 }
 
+//right clic en tablero izzquierda
 handleRClick(row, col) {
 
     if(this.state.playingState === true) {
@@ -216,23 +217,25 @@ handleRClick(row, col) {
 }
 
 handleClick(row, col) {
-    console.log("leftShipLocations" + this.state.leftShipLocations)
+    console.log("lastSystemShoot" + this.state.lastSystemShoot)
     console.log("systemShoots al clic" + this.state.systemShoots)
     var turnTemp = this.state.turn
     var leftShipLocationsTemp = this.state.leftShipLocations
     var textTemp
+    var hundidosTemp = this.state.hundidos
+    var tempcells = this.state.cells.slice()
+    var tempUserShoots = this.state.userShoots.slice()
+    if((this.state.playingState === true) && (turnTemp  === "user") && (tempUserShoots[row][col] === "empty")) {
 
-    if((this.state.playingState === true) && (turnTemp  === "user") ) {
-        var tempcells = this.state.cells.slice()
-        var tempUserShoots = this.state.userShoots.slice()
         var tempClics = this.state.leftClics
-        if ((tempUserShoots[row][col] === "empty") || (tempUserShoots[row][col] < 1 )){
+
+    
+        if (tempUserShoots[row][col] === "empty") {
 
             tempUserShoots[row][col] = tempcells[row][col]
         }
-        tempClics++
 
-        if (tempcells[row][col] > 0) {
+        if (tempcells[row][col] > 0)  {
             var indexTemp = (tempcells[row][col]) - 1
             var sizeTemp = leftShipLocationsTemp[indexTemp][3]
             var localrow = leftShipLocationsTemp[indexTemp][0]
@@ -260,17 +263,24 @@ handleClick(row, col) {
             }
 
 
-            if(count === sizeTemp){
-                console.log("4")
+            if((count === sizeTemp) && (hundidosTemp === 9)){
+                textTemp = "GANASTE"
+           
+            }
+            else if((count === sizeTemp) && (hundidosTemp < 9)){
                 textTemp = "HUNDIDO"
-            } else {
-                console.log("5")
+                hundidosTemp++
+            }
+
+             else {
+        
                 textTemp = "TOCADO"
             }
+
             console.log("6")
-            this.setState({text: textTemp, userShoots:tempUserShoots, leftClics:tempClics, turn: "user" }) 
+            this.setState({hundidos: hundidosTemp, text: textTemp, userShoots:tempUserShoots, leftClics:tempClics, turn: "user" }) 
         } else if (!(tempcells[row][col] > 0)) {
-            textTemp = ""
+            textTemp = "AGUA"
         this.setState({text: textTemp, userShoots:tempUserShoots, leftClics:tempClics, turn: "system" }) 
         setTimeout(() => this.systemTurn(), 1000)
         }
@@ -282,13 +292,16 @@ handleClick(row, col) {
 systemTurn(){
     var turnTemp = "system"
     console.log("system turn")
+    console.log("shipsLocations inicio" + this.state.shipsLocations)
+    console.log("hundidos system inicio" + this.state.hundidosSystem)
+
     var systemRow = Math.floor(Math.random() * (12 - 2)) + 2;
     var systemCol = Math.floor(Math.random() * (12 - 2)) + 2;
     var systemShootsTemp = JSON.parse(JSON.stringify(this.state.systemShoots))
     var userCellsTemp = JSON.parse(JSON.stringify(this.state.userCells))
     var lastSystemShootTemp = this.state.lastSystemShoot.slice()
-    
-  
+    var hundidosSystemTemp = this.state.hundidosSystem
+    console.log("hundidos system inicio" + hundidosSystemTemp)
 
     if (!(systemShootsTemp[systemRow][systemCol] === "empty")){
         this.systemTurn()
@@ -409,22 +422,85 @@ systemTurn(){
 
                     //right fin
 
-                 
+                 //verificar si es hundido o tocado:
+                 console.log("verificacion inicio" )
+             
+                 var indexTemp = userCellsTemp[systemRow][systemCol]
+                 var shipsLocationsTemp = this.state.shipsLocations
+                 var sizeTemp = shipsLocationsTemp[indexTemp][3]
+                 var localrow = shipsLocationsTemp[indexTemp][0]
+                 var localcol = shipsLocationsTemp[indexTemp][1]
+                 var orient = shipsLocationsTemp[indexTemp][2]
+                 var count = 0
+                
+                 var textTemp = this.state.text
+
+                 if(orient === "h"){
+                    i = 0
+                    console.log("verific h" + hundidosSystemTemp)
+                
+                        do{ 
+                            if(systemShootsTemp[localrow][localcol + count] === userCellsTemp[row][col]){
+                             count++
+                         }
+                         i++
+                         } while (i<sizeTemp)
+                 }
+                 else if(orient === "v"){
+                    console.log("verific V" + hundidosSystemTemp)
+                     i = 0
+                
+                        do{ 
+                            if(systemShootsTemp[localrow + count][localcol] === userCellsTemp[row][col]){
+                             count++
+                         }
+                         i++
+                         } while (i<sizeTemp)
+                         console.log("1 count" + count)
+                 }
+     
+     
+                 if((count == sizeTemp) && (hundidosSystemTemp === 9)){
+                     textTemp = "PERDISTE"
+                
+                 }
+                 else if((count == sizeTemp) && (hundidosSystemTemp < 9)){
+                    console.log("hundidosSystemTemp 3" + hundidosSystemTemp)
+                     textTemp = "Te hundieron un barco"
+                     hundidosSystemTemp++
+                 }
+     
+                  else {
+             
+                     textTemp = "Te dispararon un barco"
+                     console.log("hundidosSystemTemp 2" + hundidosSystemTemp)
+                 }
+
+
+
+
+
+
+
+
+
         } 
                   // si es agua
         else if (thisShootStatus ===  "no shoot") {
                     
             thisShootNumber = 0
             turnTemp = "user" 
+            textTemp = "AGUA"
             lastSystemShootTemp = [systemRow, systemCol, thisShootStatus, thisShootNumber]
 
         } 
 
-        this.setState({turn:turnTemp, lastSystemShoot:lastSystemShootTemp, systemShoots: systemShootsTemp})
+        this.setState({hundidosSystem: hundidosSystemTemp, text: textTemp, turn:turnTemp, lastSystemShoot:lastSystemShootTemp, systemShoots: systemShootsTemp})
 }
 
 }
 
+//right clic en tablero derecha:
 handleRBoardClick(row, col){
     var userCellsTemp = this.state.userCells.slice()
     var subSelectedTemp = this.state.subSelected
@@ -873,7 +949,7 @@ if(statusTemp === "completed") {
             for(let i = 0; i < 10; i++ ){
             shipsLocations.push(new Array(1).fill(0));
             }    
-    this.setState({lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations})
+    this.setState({text: "", lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations})
     for(let i=0; i<10; i++){
     document.getElementById(i).style.display = "block"
         }
@@ -906,7 +982,7 @@ rightstyle(shoots, systemshoots){
     if(systemshoots === "x") {
         color =  "rgb(159, 159, 219)"
     }else if(parseInt(systemshoots) > -1) {
-        color = "rgb(199, 116, 113)"
+        color = "black"
     }
     else if(shoots=== "0")    {
         color = "brown"
@@ -951,11 +1027,22 @@ text(systemshoots){
                 <div className = "row" > 
                     <div className ="col-sm-12 col-md-5  d-md-block text-center">
                         <Board style= {this.leftstyle} systemshoots = "{this.state.systemShoots}"  shoots = {this.state.userShoots} text = "{this.state.cells}" cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>
+                     
+                        <div className = "row mt-4 align-items-center justify-content-center text-center"> 
+                            <tx>{this.state.text}</tx>
+                        </div> 
+                     
+                     
                      </div>
                      
 
                     <div className ="col-sm-12 col-md-5  d-md-block text-center">
                          <Board style = {this.rightstyle} systemshoots = {this.state.systemShoots} shoots = {this.state.userCells} text = "{this.state.systemShoots}" cells = {this.state.userCells} handleRClick = {this.handleROnRightBoardClick} handleClick = {this.handleRBoardClick }/>
+                    
+                         <div className = "row mt-4 align-items-center justify-content-center text-center"> 
+                            <tx>{this.state.textSystem}</tx>
+                        </div> 
+                    
                     </div>
 
                     <div className ="col-sm-12 col-md-2  d-md-block text-center">   
@@ -963,10 +1050,8 @@ text(systemshoots){
                     </div>
                 </div>
 
-                <div className = "row mt-4 align-items-center justify-content-center text-center"> 
-                <tx>{this.state.text}</tx>
-                </div> 
-                <div className = "row mt-4 align-items-center justify-content-center"> 
+
+                <div className = "row mt-4 align-items-center "> 
       
                     <div className = "col-8  d-md-block text-center" >
                         <div className= "row"> 

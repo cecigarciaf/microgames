@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Howl} from 'howler';
 import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
