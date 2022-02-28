@@ -3,7 +3,9 @@ import PlayStopButton from './playButton';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Nav  from 'react-bootstrap/Nav';
-import NavDropdown  from 'react-bootstrap/NavDropdown';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal'
+
 
 function UserClicks(props){
     var style = {
@@ -147,9 +149,13 @@ class GameFive extends React.Component{
         var shipsLocations = []
         for(let i = 0; i < 10; i++ ){
         shipsLocations.push(new Array(1).fill(0));
-        }    
+        }   
+        var leftShipLocations = []
+        for(let i = 0; i < 10; i++ ){
+        shipsLocations.push(new Array(1).fill(0));
+        } 
 
-        this.state = {lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations}
+        this.state = {show: false, text: "", leftShipLocations: leftShipLocations, lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations}
         this.playClick = this.playClick.bind(this)
         //en tablero izquierda:
         this.handleClick = this.handleClick.bind(this)
@@ -160,8 +166,18 @@ class GameFive extends React.Component{
         this.handleROnRightBoardClick = this.handleROnRightBoardClick.bind(this)
         this.handleRBoardClick = this.handleRBoardClick.bind(this)
         this.confirmClick = this.confirmClick.bind(this)
+        this.instructions = this.instructions.bind(this)
     }
 
+instructions(){
+var showTemp = this.state.show
+if(showTemp === false){
+    showTemp = true
+} else if (showTemp === true){
+    showTemp = false
+}
+this.setState({show: showTemp})
+}    
 //click en barco para poner:
 handleSubSelectClick(size, id){
     var subSelectedTemp = [size, id]
@@ -200,8 +216,11 @@ handleRClick(row, col) {
 }
 
 handleClick(row, col) {
+    console.log("leftShipLocations" + this.state.leftShipLocations)
     console.log("systemShoots al clic" + this.state.systemShoots)
     var turnTemp = this.state.turn
+    var leftShipLocationsTemp = this.state.leftShipLocations
+    var textTemp
 
     if((this.state.playingState === true) && (turnTemp  === "user") ) {
         var tempcells = this.state.cells.slice()
@@ -214,10 +233,45 @@ handleClick(row, col) {
         tempClics++
 
         if (tempcells[row][col] > 0) {
-            this.setState({userShoots:tempUserShoots, leftClics:tempClics, turn: "user" }) 
+            var indexTemp = (tempcells[row][col]) - 1
+            var sizeTemp = leftShipLocationsTemp[indexTemp][3]
+            var localrow = leftShipLocationsTemp[indexTemp][0]
+            var localcol = leftShipLocationsTemp[indexTemp][1]
+            var count = 0
+            if(leftShipLocationsTemp[indexTemp][2] === "h"){
+                var i = 0
+           
+                   do{ 
+                       if(tempUserShoots[localrow][localcol + count] === tempcells[row][col]){
+                        count++
+                    }
+                    i++
+                    } while (i<sizeTemp)
+            }
+            else if(leftShipLocationsTemp[indexTemp][2] === "v"){
+                i = 0
+           
+                   do{ 
+                       if(tempUserShoots[localrow + count][localcol] === tempcells[row][col]){
+                        count++
+                    }
+                    i++
+                    } while (i<sizeTemp)
+            }
+
+
+            if(count === sizeTemp){
+                console.log("4")
+                textTemp = "HUNDIDO"
+            } else {
+                console.log("5")
+                textTemp = "TOCADO"
+            }
+            console.log("6")
+            this.setState({text: textTemp, userShoots:tempUserShoots, leftClics:tempClics, turn: "user" }) 
         } else if (!(tempcells[row][col] > 0)) {
-        //this.setState({userShoots:tempUserShoots, leftClics:tempClics, turn: "system"})
-        this.setState({userShoots:tempUserShoots, leftClics:tempClics, turn: "system" }) 
+            textTemp = ""
+        this.setState({text: textTemp, userShoots:tempUserShoots, leftClics:tempClics, turn: "system" }) 
         setTimeout(() => this.systemTurn(), 1000)
         }
     }
@@ -235,7 +289,7 @@ systemTurn(){
     var lastSystemShootTemp = this.state.lastSystemShoot.slice()
     
   
-    console.log("system turn" + "systemRow " + systemRow  +   "  systemCol " + systemCol)
+
     if (!(systemShootsTemp[systemRow][systemCol] === "empty")){
         this.systemTurn()
     }
@@ -381,7 +435,7 @@ handleRBoardClick(row, col){
     var idTemp = subSelectedTemp[1]
 
     if(this.state.status === "pending") {
-        // click 1:
+    // click 1:
     if((click1Temp === 0) && (userCellsTemp[row][col] === "x")) {
         click1Temp = [row,col]
     } 
@@ -530,11 +584,6 @@ handleRBoardClick(row, col){
 	}
 
 
-
-
-
-    // row click 1 click1Temp[0]
-     // col click 1 click1Temp[1]
 //de izquierda a derecha:
 
     if( ((click1Temp[0]) === row)  &&  ( ((col - click1Temp[1]) ===  (sizeTemp - 1)))) {
@@ -559,7 +608,7 @@ handleRBoardClick(row, col){
     else if( ((click1Temp[0]) === row)  &&  ( ((click1Temp[1] - col) ===  (sizeTemp - 1))  )) {
         if(((col + sizeTemp) < 13) && (check7) && (check8) && (check9)){
             console.log("checks ok")
-            var i = 0
+            i = 0
             do{
                 userCellsTemp[row][(click1Temp[1] - i)] = subSelectedTemp[1]
                 i++
@@ -595,7 +644,7 @@ handleRBoardClick(row, col){
     else if ( ((click1Temp[1]) === col)  &&  (((click1Temp[0] - row) ===  (sizeTemp - 1)) )) {
             if(((row + sizeTemp) < 13) && (check10) && (check11) && (check12)){
                 console.log("checks ok")
-                var y = 0
+                y = 0
                 do{
                     userCellsTemp[(click1Temp[0] - y)][col] = subSelectedTemp[1]
                     y++
@@ -619,6 +668,7 @@ handleRBoardClick(row, col){
     }
 }
 
+// sacar barcos si no esta confirmado el juego:
 handleROnRightBoardClick(row, col) {
 
     if(this.state.status === "pending"){
@@ -658,13 +708,15 @@ handleROnRightBoardClick(row, col) {
 
 
 playClick(){
-var tempPlayingState = this.state.playingState
 
-if(tempPlayingState === false) {
+var statusTemp = this.state.status
+var leftShipLocationsTemp = this.state.leftShipLocations
+// leftShipLocations : init row, init col, v/h, size (index = id). Valor en tempcells= id + 1
+if(statusTemp === "completed") {
   
     var tempCells = this.state.cells.slice()
 
-    //0=horindontal   1=vertical
+    //orient 0=horizontal   1=vertical
  
     //1 de 4:
     var orient4 = Math.floor(Math.random() * (2 - 0)) + 0;
@@ -675,20 +727,23 @@ if(tempPlayingState === false) {
         localcol = Math.floor(Math.random() * (9 - 2)) + 2;
         localrow = Math.floor(Math.random() * (12 - 2)) + 2;
 
-        tempCells[localrow][localcol] = 4
-        tempCells[localrow][localcol + 1] = 4
-        tempCells[localrow][localcol + 2] = 4
-        tempCells[localrow][localcol + 3] = 4
+        tempCells[localrow][localcol] = 1
+        tempCells[localrow][localcol + 1] = 1
+        tempCells[localrow][localcol + 2] = 1
+        tempCells[localrow][localcol + 3] = 1
+        leftShipLocationsTemp[0] = [localrow, localcol, "h", 4] 
+    
+
     } else if(orient4 === 1){
         localrow = Math.floor(Math.random() * (9 - 2)) + 2;
         localcol = Math.floor(Math.random() * (12 - 2)) + 2;   
-        tempCells[localrow][localcol] = 4
-        tempCells[localrow + 1][localcol] = 4
-        tempCells[localrow + 2][localcol] = 4
-        tempCells[localrow + 3][localcol] = 4   
+        tempCells[localrow][localcol] = 1
+        tempCells[localrow + 1][localcol] = 1
+        tempCells[localrow + 2][localcol] = 1
+        tempCells[localrow + 3][localcol] = 1
+        leftShipLocationsTemp[0] = [localrow, localcol, "v", 4]   
     }
     
-    console.log("despues del de4" + tempCells)
    
     //2 de 3:
    
@@ -705,10 +760,12 @@ if(tempPlayingState === false) {
             if ((tempCells[localrow][localcol - 1] + tempCells[localrow][localcol] + tempCells[localrow][localcol + 1] + tempCells[localrow][localcol + 2] + tempCells[localrow][localcol + 3] + 
                 tempCells[localrow - 1][localcol - 1] + tempCells[localrow - 1][localcol] + tempCells[localrow - 1][localcol + 1] + tempCells[localrow - 1][localcol + 2] + tempCells[localrow - 1][localcol + 3] + 
                 tempCells[localrow + 1][localcol - 1] + tempCells[localrow + 1][localcol] + tempCells[localrow + 1][localcol + 1] + tempCells[localrow + 1][localcol + 2] + tempCells[localrow + 1][localcol + 3]) === 0) {
-                tempCells[localrow][localcol] = 3
-                tempCells[localrow][localcol + 1] = 3
-                tempCells[localrow][localcol + 2] = 3
+                tempCells[localrow][localcol] = (amount + 2)
+                tempCells[localrow][localcol + 1] = (amount + 2)
+                tempCells[localrow][localcol + 2] = (amount + 2)
+                
                 amount++
+                leftShipLocationsTemp[amount] = [localrow, localcol, "h", 3] 
             }
         
     
@@ -719,10 +776,11 @@ if(tempPlayingState === false) {
             if ((tempCells[localrow - 1][localcol] + tempCells[localrow][localcol] + tempCells[localrow + 1][localcol] + tempCells[localrow + 2][localcol] + tempCells[localrow + 3][localcol] +
             tempCells[localrow - 1][localcol - 1] + tempCells[localrow][localcol - 1] + tempCells[localrow + 1][localcol - 1] + tempCells[localrow + 2][localcol - 1] + tempCells[localrow + 3][localcol - 1]  +
             tempCells[localrow - 1][localcol + 1] + tempCells[localrow][localcol + 1] + tempCells[localrow + 1][localcol + 1] + tempCells[localrow + 2][localcol + 1] + tempCells[localrow + 3][localcol + 1]) === 0) {
-                tempCells[localrow][localcol] = 3
-                tempCells[localrow + 1][localcol] = 3
-                tempCells[localrow + 2][localcol] = 3
+                tempCells[localrow][localcol] = (amount + 2)
+                tempCells[localrow + 1][localcol] = (amount + 2)
+                tempCells[localrow + 2][localcol] = (amount + 2)
                 amount++
+                leftShipLocationsTemp[amount] = [localrow, localcol, "v", 3] 
             }
      }
       } while (amount < 2);
@@ -743,9 +801,10 @@ if(tempPlayingState === false) {
             if ((tempCells[localrow][localcol - 1] + tempCells[localrow][localcol] + tempCells[localrow][localcol + 1] + tempCells[localrow][localcol + 2] 
                + tempCells[localrow - 1][localcol - 1] + tempCells[localrow - 1][localcol] + tempCells[localrow - 1][localcol + 1] + tempCells[localrow - 1][localcol + 2] 
                + tempCells[localrow + 1][localcol - 1] + tempCells[localrow + 1][localcol] + tempCells[localrow + 1][localcol + 1] + tempCells[localrow + 1][localcol + 2]) === 0) {
-                     tempCells[localrow][localcol] = 2
-                     tempCells[localrow][localcol + 1] = 2
+                     tempCells[localrow][localcol] = (amount2 + 4)
+                     tempCells[localrow][localcol + 1] = (amount2 + 4)
                      amount2++
+                     leftShipLocationsTemp[amount2 + 2] = [localrow, localcol, "h", 2]
             }
     } else if (orient2 === 1) {
        localcol = Math.floor(Math.random() * (12 - 2)) + 2;
@@ -753,9 +812,10 @@ if(tempPlayingState === false) {
             if ((tempCells[localrow - 1][localcol] + tempCells[localrow][localcol] + tempCells[localrow + 1][localcol] + tempCells[localrow + 2][localcol] 
                + tempCells[localrow - 1][localcol - 1] + tempCells[localrow][localcol - 1] + tempCells[localrow + 1][localcol - 1] + tempCells[localrow + 2][localcol - 1] 
                + tempCells[localrow - 1][localcol + 1] + tempCells[localrow][localcol + 1] + tempCells[localrow + 1][localcol + 1] + tempCells[localrow + 2][localcol + 1]) === 0) {
-                 tempCells[localrow][localcol] = 2
-                 tempCells[localrow + 1][localcol] = 2
+                 tempCells[localrow][localcol] = (amount2 + 4)
+                 tempCells[localrow + 1][localcol] = (amount2 + 4)
                  amount2++
+                 leftShipLocationsTemp[amount2 + 2] = [localrow, localcol, "v", 2]
             }
     }
     } while (amount2 < 3);
@@ -770,15 +830,17 @@ if(tempPlayingState === false) {
             if ((tempCells[localrow][localcol - 1] + tempCells[localrow][localcol] + tempCells[localrow][localcol + 1]
                 + tempCells[localrow - 1][localcol - 1] + tempCells[localrow - 1][localcol] + tempCells[localrow - 1][localcol + 1]
                     + tempCells[localrow + 1][localcol - 1] + tempCells[localrow + 1][localcol] + tempCells[localrow + 1][localcol + 1]) === 0) {
-                        tempCells[localrow][localcol] = 1
+                        tempCells[localrow][localcol] = (amount1 + 7)
                         amount1++
+                        leftShipLocationsTemp[amount1 + 5] = [localrow, localcol, "v", 1]
             }
     }
      while (amount1 < 4);
-     this.setState({cells:tempCells, playingState:true})
+     statusTemp = "playing"
+     this.setState({cells:tempCells, status: statusTemp, playingState:true})
 
-} else if(this.state.playingState === true) {
-
+} else if((statusTemp = "playing")) {
+ 
         var tempcells = []
         for(let i = 0; i < 14; i++ ){
         tempcells.push(new Array(14).fill(0))
@@ -787,9 +849,34 @@ if(tempPlayingState === false) {
         for(let i = 0; i < 14; i++ ){
         tempuserShoots.push(new Array(14).fill("empty"));  
     }
-   
-    this.setState({cells:tempcells, userShoots:tempuserShoots, playingState:false, leftClics:0})
-
+            //tablero izquierda
+            var cells = []
+            for(let i = 0; i < 14; i++ ){
+            cells.push(new Array(14).fill(0))
+            }
+            var userShoots = []
+            for(let i = 0; i < 14; i++ ){
+            userShoots.push(new Array(14).fill("empty"));
+            }
+    
+            //tablero derecha
+            var userCells = []
+            for(let i = 0; i < 14; i++ ){
+            userCells.push(new Array(14).fill("x"))
+            }
+            var systemShoots = []
+            for(let i = 0; i < 14; i++ ){
+            systemShoots.push(new Array(14).fill("empty"));
+            }    
+            
+            var shipsLocations = []
+            for(let i = 0; i < 10; i++ ){
+            shipsLocations.push(new Array(1).fill(0));
+            }    
+    this.setState({lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations})
+    for(let i=0; i<10; i++){
+    document.getElementById(i).style.display = "block"
+        }
     }
 }
     
@@ -797,10 +884,10 @@ leftstyle(shoots){
     var color = "rgb(199, 196, 196)"
 
      if(shoots > 0){
-        color = "brown"
+        color = "rgb(136, 111, 100)"
     }
     else if(shoots=== 0){
-        color = "blue"
+        color = "rgb(159, 159, 219)"
     } else if(shoots === "safe") {
         color = "white";
     }
@@ -817,9 +904,9 @@ leftstyle(shoots){
 rightstyle(shoots, systemshoots){
     var color = "rgb(199, 196, 196)"
     if(systemshoots === "x") {
-        color = "black"
+        color =  "rgb(159, 159, 219)"
     }else if(parseInt(systemshoots) > -1) {
-        color = "red"
+        color = "rgb(199, 116, 113)"
     }
     else if(shoots=== "0")    {
         color = "brown"
@@ -876,15 +963,58 @@ text(systemshoots){
                     </div>
                 </div>
 
+                <div className = "row mt-4 align-items-center justify-content-center text-center"> 
+                <tx>{this.state.text}</tx>
+                </div> 
                 <div className = "row mt-4 align-items-center justify-content-center"> 
       
+                    <div className = "col-8  d-md-block text-center" >
+                        <div className= "row"> 
+                            <div className = "col-sm-12 col-md-4  d-md-block text-center" >
+                                <PlayStopButton text= {this.state.playingState === false?  "PLAY" : "QUIT"} onButtonClick = {this.playClick}/>
+                            </div> 
 
-                    <div className = "col-sm-12 col-md-6  d-md-block text-center" >
-                        <PlayStopButton text= {this.state.playingState === false?  "PLAY" : "QUIT"} onButtonClick = {this.playClick}/>
-                    </div> 
+                            <div className ="col-sm-12 col-md-4  d-md-block text-center">
+                                <PlayStopButton text= {this.state.status === "pending"?  "Confirm" : "Confirmed"} onButtonClick = {this.confirmClick}/>
+                            </div>
 
-                    <div className ="col-sm-12 col-md-6  d-md-block text-center">
-                        <PlayStopButton text= {this.state.status === "pending"?  "Confirm" : "Confirmed"} onButtonClick = {this.confirmClick}/>
+                            <div className ="col-sm-12 col-md-4  d-md-block text-center">
+
+                                <Button className= "font-face-zkgam" size="sm" variant="outline-dark" onClick={this.instructions}>
+                                   Instructions
+                                </Button>
+                           
+                                    <Modal
+                                        show={this.state.show}
+                                        onHide={this.instructions}
+                                        dialogClassName="modal-90w"
+                                        aria-labelledby="example-custom-modal-styling-title"
+                                        style={{"width" : "100%"}}
+                                    >
+                                        <Modal.Header closeButton>
+                                        <Modal.Title id="example-custom-modal-styling-title">
+                                            Instrucciones:
+                                        </Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                        <p>
+                                        <ol className= "font-face-zkgam"> 
+                                            <li> Seleccionar un barco</li>     
+                                            <li>Hacer clic en la primer y última celda del tablero derecho donde quieras ubicarlo</li>
+                                            <li>Para cambiar la ubicación de un barco, pulsa botón derecho sobre el mismo</li>
+                                            <li>Una vez ubicados todos los barcos pulsa "Confirm" y luego "Play" para comenzar a jugar</li>
+                                            <li>Comenzá haciendo un disparo pulsando sobre la celda que quieras del tablero izquierdo</li>
+                                            <li>Podés hacer botón derecho sobre una celda del tablero izquierdo si pensás que ahí no hay un barco</li>
+                                            <li>No puede haber dos barcos que se toquén entre sí</li>
+                                            <li>Todavía el juego no avisa quién ganó :) </li>
+                                        </ol>
+                                        </p>
+                                        </Modal.Body>
+                                    </Modal>
+
+
+                            </div>
+                        </div>
                     </div>
                 </div> 
             </div> 

@@ -20,11 +20,11 @@ function Sidebar () {
             <div className ="col-3">
                 <Nav defaultActiveKey="/home" className="flex-column">
                     <Nav.Link className= " sideButton text-dark" >Home</Nav.Link>
-                    <Nav.Link className= "text-secondary sideButton" as={Link} to="./gameOne" >TONE Test</Nav.Link>
+                    <Nav.Link className= "text-secondary sideButton" as={Link} to="./gameOne" >TONES</Nav.Link>
                     <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameTwo" eventKey="link-2">SENKU</Nav.Link>
                     <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameThree">PICZLE</Nav.Link>
                     <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameFour">MINES</Nav.Link>
-                    <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameFive">SUB</Nav.Link>
+                    <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameFive">BATTLE</Nav.Link>
              
                 </Nav>
                 </div>
