@@ -301,7 +301,8 @@ handleClick(row,col) {
     var tempcells = this.state.cells.slice()
     var tempresult = this.state.result.slice()
     var tempcells2 = tempcells.slice()
-    if (this.state.playingState === true) {
+    var tempuserBombs = this.state.userBombs.slice()
+    if ((this.state.playingState === true)&& (!(tempuserBombs[row][col] ===  "bomba"))) {
         // si hay bomba se pone roja
         if (tempcells[row][col] === "a") {
             

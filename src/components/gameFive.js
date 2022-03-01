@@ -155,7 +155,7 @@ class GameFive extends React.Component{
         shipsLocations.push(new Array(1).fill(0));
         } 
 
-        this.state = {hundidosSystem: 0, hundidos: 0, show: true, text: "", textSystem: "", leftShipLocations: leftShipLocations, lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations}
+        this.state = {lastSystemTocado: [0, 0, 0, 0], hundidosSystem: 0, hundidos: 0, show: true, text: "", textSystem: "", leftShipLocations: leftShipLocations, lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations}
         this.playClick = this.playClick.bind(this)
         //en tablero izquierda:
         this.handleClick = this.handleClick.bind(this)
@@ -182,7 +182,6 @@ this.setState({show: showTemp})
 handleSubSelectClick(size, id){
     var subSelectedTemp = [size, id]
     
-    console.log("subSelectedTemp" + subSelectedTemp)
     this.setState({subSelected:subSelectedTemp})
 }    
 
@@ -196,8 +195,6 @@ confirmClick(){
     if(pending === 0) {
         this.setState({status: "completed", turn: "user"})
     }
-    console.log("status" + this.state.status)
-    console.log("this.state.userCells al confirmClick" + this.state.userCells)
 
 }
 
@@ -217,8 +214,7 @@ handleRClick(row, col) {
 }
 
 handleClick(row, col) {
-    console.log("lastSystemShoot" + this.state.lastSystemShoot)
-    console.log("systemShoots al clic" + this.state.systemShoots)
+
     var turnTemp = this.state.turn
     var leftShipLocationsTemp = this.state.leftShipLocations
     var textTemp
@@ -277,7 +273,6 @@ handleClick(row, col) {
                 textTemp = "TOCADO"
             }
 
-            console.log("6")
             this.setState({hundidos: hundidosTemp, text: textTemp, userShoots:tempUserShoots, leftClics:tempClics, turn: "user" }) 
         } else if (!(tempcells[row][col] > 0)) {
             textTemp = "AGUA"
@@ -291,21 +286,113 @@ handleClick(row, col) {
 
 systemTurn(){
     var turnTemp = "system"
-    console.log("system turn")
-    console.log("shipsLocations inicio" + this.state.shipsLocations)
-    console.log("hundidos system inicio" + this.state.hundidosSystem)
-
-    var systemRow = Math.floor(Math.random() * (12 - 2)) + 2;
-    var systemCol = Math.floor(Math.random() * (12 - 2)) + 2;
+    var systemRow
+    var systemCol
     var systemShootsTemp = JSON.parse(JSON.stringify(this.state.systemShoots))
     var userCellsTemp = JSON.parse(JSON.stringify(this.state.userCells))
     var lastSystemShootTemp = this.state.lastSystemShoot.slice()
     var hundidosSystemTemp = this.state.hundidosSystem
-    console.log("hundidos system inicio" + hundidosSystemTemp)
+    var lastSystemTocadoTemp = this.state.lastSystemTocado.slice()
+    var playingStateTemp = this.state.playingState
 
+    //si hay un barco a medio hundir:
+    if(lastSystemTocadoTemp[2] === "tocado"){
+        var x = 0
+        var v 
+      //y si ya se sabe la orientacion:
+        if(lastSystemTocadoTemp[3] === "v"){
+
+      
+            v = 1
+            do{
+
+            if((systemShootsTemp[(lastSystemTocadoTemp[0] - v)][lastSystemTocadoTemp[1]] === "empty") && ((lastSystemTocadoTemp[0] - v) > 1)){
+            systemRow = (lastSystemTocadoTemp[0] - v)
+            systemCol = lastSystemTocadoTemp[1]
+            x = 1
+
+            } 
+            else if ((systemShootsTemp[(lastSystemTocadoTemp[0] + v)][lastSystemTocadoTemp[1]] === "empty")&& ((lastSystemTocadoTemp[0] + v) < 12)){
+            systemRow = (lastSystemTocadoTemp[0] + v)
+            systemCol = lastSystemTocadoTemp[1]
+            x = 1
+
+            } 
+            else {
+            v++
+
+            }
+            }while (x=== 0)
+        }
+
+        if(lastSystemTocadoTemp[3] === "h"){
+
+            var h = 1
+            do{
+            if((systemShootsTemp[lastSystemTocadoTemp[0]][(lastSystemTocadoTemp[1] - h)] === "empty") && ((lastSystemTocadoTemp[0] - h) > 1) ){
+            systemRow = (lastSystemTocadoTemp[0] - h)
+            systemCol = lastSystemTocadoTemp[1]
+            x = 1
+            } 
+            else if ((systemShootsTemp[lastSystemTocadoTemp[0]][(lastSystemTocadoTemp[1] + h)] === "empty") && ((lastSystemTocadoTemp[1] + h ) < 12)){
+            systemRow = lastSystemTocadoTemp[0]
+            systemCol = (lastSystemTocadoTemp[1]  + h)
+            x = 1
+            } 
+            else {
+            h++
+            }
+            }while (x=== 0)
+        }
+   
+        //si no se sabe la orientacion:
+
+
+        if(lastSystemTocadoTemp[3] === 0){
+            var i = 1
+            do{
+            if((systemShootsTemp[(lastSystemTocadoTemp[0] - i)][lastSystemTocadoTemp[1]] === "empty") && ((lastSystemTocadoTemp[0] - i) > 1)){
+
+                systemRow = (lastSystemTocadoTemp[0] - i)
+                systemCol = lastSystemTocadoTemp[1]
+                x=1
+            } else if(systemShootsTemp[(lastSystemTocadoTemp[0])][(lastSystemTocadoTemp[1] - i)] === "empty" && ((lastSystemTocadoTemp[1] - i) > 1)){
+
+                systemRow = lastSystemTocadoTemp[0]
+                systemCol = (lastSystemTocadoTemp[1] - i)
+                x=1
+            } else if(systemShootsTemp[lastSystemTocadoTemp[0]][(lastSystemTocadoTemp[1] + i)] === "empty" && ((lastSystemTocadoTemp[1] + i) < 12) ){
+
+                systemRow = lastSystemTocadoTemp[0]
+                systemCol = (lastSystemTocadoTemp[1] + i)
+                x=1
+            } else if(systemShootsTemp[lastSystemTocadoTemp[0] + i][lastSystemTocadoTemp[1]] === "empty" && ((lastSystemTocadoTemp[0] + i) < 12)){
+
+                systemRow = (lastSystemTocadoTemp[0] + i)
+                systemCol = lastSystemTocadoTemp[1]
+                x=1
+            } else if(x===0){
+                i++
+            }
+            
+
+            } while(x === 0)
+        }
+
+
+    }  // fin if tocado
+    
+    else{
+        systemRow = Math.floor(Math.random() * (12 - 2)) + 2;
+        systemCol = Math.floor(Math.random() * (12 - 2)) + 2;
+    }
+
+
+    
     if (!(systemShootsTemp[systemRow][systemCol] === "empty")){
         this.systemTurn()
     }
+
     //si no lo había disparado a la cell...
     else if (systemShootsTemp[systemRow][systemCol] === "empty"){
         var thisShootNumber
@@ -317,9 +404,13 @@ systemTurn(){
         if (thisShootStatus ===  "shoot") {
             thisShootNumber = (lastSystemShootTemp[3] + 1)
             lastSystemShootTemp = [systemRow, systemCol, thisShootStatus, thisShootNumber]
-            
+            lastSystemTocadoTemp[0] = systemRow
+            lastSystemTocadoTemp[1] = systemCol
+            lastSystemTocadoTemp[2] = "tocado"
+            lastSystemTocadoTemp[3] = 0
+
                     //this down:
-            console.log("THIS DOWN INICIO")
+
 
 
             let i = 1
@@ -331,9 +422,26 @@ systemTurn(){
                 systemShootsTemp[(row + i)][col] = userCellsTemp[(row + i)][col]
                     // si es tocado:
                     if (thisShootStatus === "shoot") {   
+                    
                     thisShootNumber = (lastSystemShootTemp[3] + 1)
                     lastSystemShootTemp = [(row + i) , col, thisShootStatus, thisShootNumber]
-
+                    lastSystemTocadoTemp[0] = (row + i)
+                    lastSystemTocadoTemp[1] = col
+                    lastSystemTocadoTemp[2] = "tocado"
+                    lastSystemTocadoTemp[3] = "v"
+                    systemShootsTemp[row][col + 1] = "x"
+                    systemShootsTemp[row][col - 1] = "x"
+                    systemShootsTemp[row - 1][col + 1] = "x"
+                    systemShootsTemp[row - 1][col - 1] = "x"
+                    systemShootsTemp[row + 1][col + 1] = "x"
+                    systemShootsTemp[row + 1][col - 1] = "x"
+                    
+                    systemShootsTemp[row + i][col + 1] = "x"
+                    systemShootsTemp[row + i][col - 1] = "x"
+                    systemShootsTemp[(row + i + 1)][col + 1] = "x"
+                    systemShootsTemp[(row + i + 1)][col - 1] = "x"
+                    systemShootsTemp[(row + i - 1)][col + 1] = "x"
+                    systemShootsTemp[(row + i - 1)][col - 1] = "x"
                     } 
                     else if (thisShootStatus === "no shoot") {
                         thisShootNumber = 0
@@ -351,10 +459,29 @@ systemTurn(){
             while(((row + i)  > 1) && (turnTemp === "system") && (systemShootsTemp[(row + i)][col] === "empty")) {
                     thisShootStatus = userCellsTemp[(row + i)][col] > - 1? "shoot":"no shoot"  
                     systemShootsTemp[(row + i)][col] = userCellsTemp[(row + i)][col]
+
                     // si es tocado:
                     if (thisShootStatus === "shoot") {
+
                         thisShootNumber = (lastSystemShootTemp[3] + 1)
                         lastSystemShootTemp = [(row + i) , col, thisShootStatus, thisShootNumber]
+                        lastSystemTocadoTemp[0] = (row + i)
+                        lastSystemTocadoTemp[1] = col
+                        lastSystemTocadoTemp[2] = "tocado"
+                        lastSystemTocadoTemp[3] = "v"
+                        systemShootsTemp[row][col + 1] = "x"
+                        systemShootsTemp[row][col - 1] = "x"
+                        systemShootsTemp[row - 1][col + 1] = "x"
+                        systemShootsTemp[row - 1][col - 1] = "x"
+                        systemShootsTemp[row + 1][col + 1] = "x"
+                        systemShootsTemp[row + 1][col - 1] = "x"
+                        
+                        systemShootsTemp[row + i][col + 1] = "x"
+                        systemShootsTemp[row + i][col - 1] = "x"
+                        systemShootsTemp[((row + i) + 1)][col + 1] = "x"
+                        systemShootsTemp[((row + i) + 1)][col - 1] = "x"
+                        systemShootsTemp[((row + i) - 1)][col + 1] = "x"
+                        systemShootsTemp[((row + i) - 1)][col - 1] = "x"
                     } 
                     
                     else if (thisShootStatus === "no shoot") {
@@ -368,6 +495,7 @@ systemTurn(){
                 i--
 
             }  // fin this up
+
                 //this.left       
                i = - 1
                 while(((col + i)  > 1) && (turnTemp === "system") && (systemShootsTemp[row][(col + i)] === "empty")) {
@@ -377,12 +505,17 @@ systemTurn(){
                         if (thisShootStatus === "shoot") {
                         thisShootNumber = (lastSystemShootTemp[3] + 1)
                         lastSystemShootTemp = [row , (col + i), thisShootStatus, thisShootNumber]
-            
+                        lastSystemTocadoTemp[0] = row
+                        lastSystemTocadoTemp[1] = (col + i)
+                        lastSystemTocadoTemp[2] = "tocado"
+                        lastSystemTocadoTemp[3] = "h"
+
+
                         } 
                         
                         else if (thisShootStatus === "no shoot") {
                             thisShootNumber = 0
-                            lastSystemShootTemp = [row , (col + i), thisShootStatus, thisShootNumber]
+                           // nuevo  lastSystemShootTemp = [row , (col + i), thisShootStatus, thisShootNumber]
                             turnTemp = "user"
                         }
                         lastSystemShootTemp = [row , (col + i), thisShootStatus, thisShootNumber]
@@ -394,7 +527,7 @@ systemTurn(){
                     // right:
 
                     i =  1
-                //if ((systemShootsTemp[(row + i)][col] === "empty") && (turnTemp === "system")){
+               
                 
                 while (((col + i)  > 1)&& (turnTemp === "system")) {
                     if (systemShootsTemp[(row + i)][col] === "empty"){
@@ -404,6 +537,10 @@ systemTurn(){
                         if (thisShootStatus === "shoot") {
                         thisShootNumber = (lastSystemShootTemp[3] + 1)
                         lastSystemShootTemp = [row , (col + i), thisShootStatus, thisShootNumber]
+                        lastSystemTocadoTemp[0] = row
+                        lastSystemTocadoTemp[1] = (col + i)
+                        lastSystemTocadoTemp[2] = "tocado"
+                        lastSystemTocadoTemp[3] = "h"
                         } 
                         
                         else if (thisShootStatus === "no shoot") {
@@ -414,20 +551,22 @@ systemTurn(){
                         lastSystemShootTemp = [row , (col + i), thisShootStatus, thisShootNumber]
                         
                     } 
+                    /*
                     else if (!(systemShootsTemp[(row + i)][col] === "empty") && (turnTemp === "system")){
                         this.systemTurn()
                     }
+                    */
                     i++
                 }
 
                     //right fin
 
                  //verificar si es hundido o tocado:
-                 console.log("verificacion inicio" )
+
              
                  var indexTemp = userCellsTemp[systemRow][systemCol]
                  var shipsLocationsTemp = this.state.shipsLocations
-                 var sizeTemp = shipsLocationsTemp[indexTemp][3]
+                 var sizeTemp = parseInt(shipsLocationsTemp[indexTemp][3])
                  var localrow = shipsLocationsTemp[indexTemp][0]
                  var localcol = shipsLocationsTemp[indexTemp][1]
                  var orient = shipsLocationsTemp[indexTemp][2]
@@ -437,43 +576,72 @@ systemTurn(){
 
                  if(orient === "h"){
                     i = 0
-                    console.log("verific h" + hundidosSystemTemp)
+
                 
                         do{ 
-                            if(systemShootsTemp[localrow][localcol + count] === userCellsTemp[row][col]){
+                            if(systemShootsTemp[localrow][localcol + count] === userCellsTemp[localrow][localcol + count]){
                              count++
                          }
                          i++
                          } while (i<sizeTemp)
                  }
                  else if(orient === "v"){
-                    console.log("verific V" + hundidosSystemTemp)
+
                      i = 0
                 
                         do{ 
-                            if(systemShootsTemp[localrow + count][localcol] === userCellsTemp[row][col]){
+                            if(systemShootsTemp[localrow + count][localcol] === userCellsTemp[localrow + count][localcol]){
                              count++
                          }
                          i++
                          } while (i<sizeTemp)
-                         console.log("1 count" + count)
+
                  }
      
      
                  if((count == sizeTemp) && (hundidosSystemTemp === 9)){
                      textTemp = "PERDISTE"
+                     playingStateTemp = false
                 
                  }
                  else if((count == sizeTemp) && (hundidosSystemTemp < 9)){
-                    console.log("hundidosSystemTemp 3" + hundidosSystemTemp)
                      textTemp = "Te hundieron un barco"
                      hundidosSystemTemp++
+                     //nuevo:
+                     lastSystemTocadoTemp[2] = "hundido"
+                     lastSystemTocadoTemp[3] = 0
+
+                     if(orient === "v"){
+                        systemShootsTemp[localrow - 1][localcol] = userCellsTemp[localrow - 1][localcol]
+                        systemShootsTemp[localrow + sizeTemp][localcol] = userCellsTemp[localrow + sizeTemp][localcol]
+                     }
+                     else if(orient === "h"){
+                        systemShootsTemp[localrow][localcol - 1] = userCellsTemp[localrow][localcol - 1]
+                        systemShootsTemp[localrow ][localcol + sizeTemp] = userCellsTemp[localrow ][localcol + sizeTemp]
+                     } 
+                     
+                     if(sizeTemp === 1){
+                        systemShootsTemp[localrow - 1][localcol] = userCellsTemp[localrow - 1][localcol]
+                        systemShootsTemp[localrow + 1][localcol] = userCellsTemp[localrow + 1][localcol]
+
+                        systemShootsTemp[localrow][localcol + 1] = userCellsTemp[localrow][localcol + 1]
+                        systemShootsTemp[localrow][localcol - 1] = userCellsTemp[localrow][localcol - 1]
+
+                        systemShootsTemp[localrow - 1][localcol + 1] = userCellsTemp[localrow - 1][localcol + 1]
+                        systemShootsTemp[localrow + 1][localcol - 1] = userCellsTemp[localrow + 1][localcol - 1]
+
+                        systemShootsTemp[localrow - 1][localcol - 1] = userCellsTemp[localrow - 1][localcol - 1]
+                        systemShootsTemp[localrow - 1][localcol - 1] = userCellsTemp[localrow - 1][localcol - 1]
+                     }
+
                  }
+
+                
      
                   else {
              
                      textTemp = "Te dispararon un barco"
-                     console.log("hundidosSystemTemp 2" + hundidosSystemTemp)
+
                  }
 
 
@@ -494,8 +662,8 @@ systemTurn(){
             lastSystemShootTemp = [systemRow, systemCol, thisShootStatus, thisShootNumber]
 
         } 
+        this.setState({playingState: playingStateTemp, lastSystemTocado: lastSystemTocadoTemp, hundidosSystem: hundidosSystemTemp, text: textTemp, turn:turnTemp, lastSystemShoot:lastSystemShootTemp, systemShoots: systemShootsTemp})
 
-        this.setState({hundidosSystem: hundidosSystemTemp, text: textTemp, turn:turnTemp, lastSystemShoot:lastSystemShootTemp, systemShoots: systemShootsTemp})
 }
 
 }
@@ -664,18 +832,17 @@ handleRBoardClick(row, col){
 
     if( ((click1Temp[0]) === row)  &&  ( ((col - click1Temp[1]) ===  (sizeTemp - 1)))) {
             if(((click1Temp[1] + sizeTemp) < 13) && (check1) && (check2) && (check3)){
-                console.log("checks ok")
+
                 var i = 0
                 do{
                     userCellsTemp[row][click1Temp[1] + i] = subSelectedTemp[1]
                     i++
                 } while (i < sizeTemp);
-                console.log("do while")
+
                 shipsLocationsTemp[subSelectedTemp[1]] = [row, click1Temp[1], "h", subSelectedTemp[0]]
                 shipsToPlaceTemp[subSelectedTemp[1]] = 0
                 subSelectedTemp = 0
-                console.log("shipsLocations" + shipsLocationsTemp)
-                console.log("shipsLocations[0]" + shipsLocationsTemp[0])
+
                 document.getElementById(idTemp).style.display = "none"
             }
     }   
@@ -683,54 +850,51 @@ handleRBoardClick(row, col){
 
     else if( ((click1Temp[0]) === row)  &&  ( ((click1Temp[1] - col) ===  (sizeTemp - 1))  )) {
         if(((col + sizeTemp) < 13) && (check7) && (check8) && (check9)){
-            console.log("checks ok")
+
             i = 0
             do{
                 userCellsTemp[row][(click1Temp[1] - i)] = subSelectedTemp[1]
                 i++
             } while (i < sizeTemp);
-            console.log("do while")
+
             shipsLocationsTemp[subSelectedTemp[1]] = [row, col, "h", subSelectedTemp[0]]
             shipsToPlaceTemp[subSelectedTemp[1]] = 0
             subSelectedTemp = 0
-            console.log("shipsLocations" + shipsLocationsTemp)
-            console.log("shipsLocations[0]" + shipsLocationsTemp[0])
+
             document.getElementById(idTemp).style.display = "none"
         }
     }
     // de arriba a abajo:
     else if ( ((click1Temp[1]) === col)  &&  ( ((row - click1Temp[0]) ===  (sizeTemp - 1)) )) {
             if(((click1Temp[0] + sizeTemp) < 13) && (check4) && (check5) && (check6)){
-                console.log("checks ok")
+
                 var y = 0
                 do{
                     userCellsTemp[(click1Temp[0] + y)][col] = subSelectedTemp[1]
                     y++
                 } while (y < sizeTemp);
-                console.log("do while")
+
                 shipsLocationsTemp[subSelectedTemp[1]] = [click1Temp[0], col, "v", subSelectedTemp[0]]
                 shipsToPlaceTemp[subSelectedTemp[1]] = 0
                 subSelectedTemp = 0
-                console.log("shipsLocations" + shipsLocationsTemp)
-                console.log("shipsLocations[0]" + shipsLocationsTemp[0])
+
                 document.getElementById(idTemp).style.display = "none"
         }
     }
         // de abajo a arriba:
     else if ( ((click1Temp[1]) === col)  &&  (((click1Temp[0] - row) ===  (sizeTemp - 1)) )) {
             if(((row + sizeTemp) < 13) && (check10) && (check11) && (check12)){
-                console.log("checks ok")
+
                 y = 0
                 do{
                     userCellsTemp[(click1Temp[0] - y)][col] = subSelectedTemp[1]
                     y++
                 } while (y < sizeTemp);
-                console.log("do while")
+
                 shipsLocationsTemp[subSelectedTemp[1]] = [row, col, "v", subSelectedTemp[0]]
                 shipsToPlaceTemp[subSelectedTemp[1]] = 0
                 subSelectedTemp = 0
-                console.log("shipsLocations" + shipsLocationsTemp)
-                console.log("shipsLocations[0]" + shipsLocationsTemp[0])
+
                 document.getElementById(idTemp).style.display = "none"
         }
     }
@@ -739,7 +903,7 @@ handleRBoardClick(row, col){
     
 }
         this.setState({click1: click1Temp, userCells:userCellsTemp, subSelected:subSelectedTemp, shipsToPlace:shipsToPlaceTemp, shipsLocations:shipsLocationsTemp})
-        console.log(shipsToPlaceTemp)
+
     
     }
 }
@@ -748,7 +912,7 @@ handleRBoardClick(row, col){
 handleROnRightBoardClick(row, col) {
 
     if(this.state.status === "pending"){
-        console.log("right clic")
+
     var userCellsTemp = this.state.userCells.slice()
     var shipsLocationsTemp = this.state.shipsLocations.slice()
     var shipData = shipsLocationsTemp[userCellsTemp[row][col]]
@@ -1026,22 +1190,13 @@ text(systemshoots){
 
                 <div className = "row" > 
                     <div className ="col-sm-12 col-md-5  d-md-block text-center">
-                        <Board style= {this.leftstyle} systemshoots = "{this.state.systemShoots}"  shoots = {this.state.userShoots} text = "{this.state.cells}" cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>
-                     
-                        <div className = "row mt-4 align-items-center justify-content-center text-center"> 
-                            <tx>{this.state.text}</tx>
-                        </div> 
-                     
-                     
+                        <Board style= {this.leftstyle} systemshoots = "{this.state.systemShoots}"  shoots = {this.state.userShoots} text = "{this.state.cells}" cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>                     
                      </div>
                      
 
                     <div className ="col-sm-12 col-md-5  d-md-block text-center">
                          <Board style = {this.rightstyle} systemshoots = {this.state.systemShoots} shoots = {this.state.userCells} text = "{this.state.systemShoots}" cells = {this.state.userCells} handleRClick = {this.handleROnRightBoardClick} handleClick = {this.handleRBoardClick }/>
-                    
-                         <div className = "row mt-4 align-items-center justify-content-center text-center"> 
-                            <tx>{this.state.textSystem}</tx>
-                        </div> 
+                
                     
                     </div>
 
@@ -1049,7 +1204,11 @@ text(systemshoots){
                         <UserSubs handleClick = {this.handleSubSelectClick} shipsToPlace = {this.state.shipsToPlace} />
                     </div>
                 </div>
-
+                <div className = "row" >
+                    <div className ="col-sm-12 col-md-10  d-md-block text-center"> 
+                        <div className = "font-face-zkgam" style={{fontSize: 20}}><strong>{this.state.text}</strong></div>
+                    </div> 
+                </div> 
 
                 <div className = "row mt-4 align-items-center "> 
       
@@ -1082,18 +1241,19 @@ text(systemshoots){
                                         </Modal.Title>
                                         </Modal.Header>
                                         <Modal.Body>
-                                        <p>
+                                        
                                         <ol className= "font-face-zkgam"> 
                                             <li> Seleccionar un barco</li>     
                                             <li>Hacer clic en la primer y última celda del tablero derecho donde quieras ubicarlo</li>
-                                            <li>Para cambiar la ubicación de un barco, pulsa botón derecho sobre el mismo</li>
-                                            <li>Una vez ubicados todos los barcos pulsa "Confirm" y luego "Play" para comenzar a jugar</li>
+                                            <li>Para cambiar la ubicación de un barco, pulsar botón derecho sobre el mismo</li>
+                                            <li>Una vez ubicados todos los barcos pulsar "Confirm" y luego "Play" para comenzar a jugar</li>
                                             <li>Comenzá haciendo un disparo pulsando sobre la celda que quieras del tablero izquierdo</li>
                                             <li>Podés hacer botón derecho sobre una celda del tablero izquierdo si pensás que ahí no hay un barco</li>
                                             <li>No puede haber dos barcos que se toquén entre sí</li>
-                                            <li>Todavía el juego no avisa quién ganó :) </li>
+                                            <li>Al acertar un disparo, se vuelve a disparar</li>
+                                           
                                         </ol>
-                                        </p>
+                                      
                                         </Modal.Body>
                                     </Modal>
 
