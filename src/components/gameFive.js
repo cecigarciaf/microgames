@@ -614,10 +614,17 @@ systemTurn(){
                      if(orient === "v"){
                         systemShootsTemp[localrow - 1][localcol] = userCellsTemp[localrow - 1][localcol]
                         systemShootsTemp[localrow + sizeTemp][localcol] = userCellsTemp[localrow + sizeTemp][localcol]
+                        
                      }
                      else if(orient === "h"){
                         systemShootsTemp[localrow][localcol - 1] = userCellsTemp[localrow][localcol - 1]
                         systemShootsTemp[localrow ][localcol + sizeTemp] = userCellsTemp[localrow ][localcol + sizeTemp]
+                        systemShootsTemp[localrow - 1][localcol - 1] = userCellsTemp[localrow - 1][localcol - 1]
+                        systemShootsTemp[localrow - 1][localcol + sizeTemp] = userCellsTemp[localrow - 1][localcol + sizeTemp]
+                        systemShootsTemp[localrow + 1][localcol - 1] = userCellsTemp[localrow + 1][localcol - 1]
+                        systemShootsTemp[localrow + 1][localcol + sizeTemp] = userCellsTemp[localrow + 1][localcol + sizeTemp]
+                        systemShootsTemp[localrow - 1][localcol + (sizeTemp - 1)] = userCellsTemp[localrow - 1][localcol + (sizeTemp - 1)]
+                        systemShootsTemp[localrow + 1][localcol] = userCellsTemp[localrow + 1][localcol] 
                      } 
                      
                      if(sizeTemp === 1){
@@ -631,7 +638,7 @@ systemTurn(){
                         systemShootsTemp[localrow + 1][localcol - 1] = userCellsTemp[localrow + 1][localcol - 1]
 
                         systemShootsTemp[localrow - 1][localcol - 1] = userCellsTemp[localrow - 1][localcol - 1]
-                        systemShootsTemp[localrow - 1][localcol - 1] = userCellsTemp[localrow - 1][localcol - 1]
+                        systemShootsTemp[localrow + 1][localcol + 1] = userCellsTemp[localrow + 1][localcol + 1]
                      }
 
                  }
@@ -1113,7 +1120,11 @@ if(statusTemp === "completed") {
             for(let i = 0; i < 10; i++ ){
             shipsLocations.push(new Array(1).fill(0));
             }    
-    this.setState({text: "", lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations})
+            var leftShipLocations = []
+            for(let i = 0; i < 10; i++ ){
+            shipsLocations.push(new Array(1).fill(0));
+            } 
+            this.state = {lastSystemTocado: [0, 0, 0, 0], hundidosSystem: 0, hundidos: 0, show: true, text: "", textSystem: "", leftShipLocations: leftShipLocations, lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations}
     for(let i=0; i<10; i++){
     document.getElementById(i).style.display = "block"
         }
