@@ -48,7 +48,7 @@ var containerStyle = {
 
 return (
     <div style= {containerStyle }>
-    <div className= {cN} level = {props.level} userBombs = {props.userBombs} style = {style} cell = {props.cell} onContextMenu = {() => props.handleRightClick(props.row,props.col)} onClick = {() => props.handleClick(props.row,props.col)}>
+    <div className= {cN} level = {props.level} userBombs = {props.userBombs} style = {style} cell = {props.cell} row = {props.row} col = {props.col} onContextMenu = {(e) =>props.handleRightClick(props.row,props.col, e)} onClick = {() => props.handleClick(props.row,props.col)}>
         <tx > {props.result} </tx>
     </div>
     </div>
@@ -62,7 +62,7 @@ function Row(props) {
 
     var row = []
         for (let i=0; i < props.level; i++) {
-            row.push(<Cell  userBombs = {props.userBombs[props.row][i]} result = {props.result[props.row][i]} key = {i} cell = {props.cells[i]} row = {props.row} col = {i} handleRightClick={props.handleRClick} handleClick = {props.handleClick}/>)
+            row.push(<Cell  userBombs = {props.userBombs[props.row][i]} result = {props.result[props.row][i]} key = {i} cell = {props.cells[i]} row = {props.row} col = {i} handleRightClick = {props.handleRClick} handleClick = {props.handleClick}/>)
         }
 
     return (
@@ -128,10 +128,12 @@ handleLevel(event) {
     }
 }
 
-handleRClick(row, col) {
+handleRClick(row, col, e) {
+    console.log("aca")
     var tempuserBombs = this.state.userBombs.slice()
     var bombsleftTemp = this.state.bombsleft
-
+    e.preventDefault()
+    
     if ((this.state.playingState === true) && (tempuserBombs[row][col] === "")) {
     bombsleftTemp--
     tempuserBombs[row][col] =  "bomba"

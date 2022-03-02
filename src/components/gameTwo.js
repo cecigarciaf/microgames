@@ -17,7 +17,7 @@ class PlayStopButton extends React.Component {
     render () { 
     return (
       
-       <Button className = "font-face-zkgam"  id="playbutton" size="lg" variant="outline-dark"  onClick={this.handleClick}>{this.props.text}</Button>
+       <Button className = "font-face-zkgam"  id="playbutton" size="md" variant="outline-dark"  onClick={this.handleClick}>{this.props.text}</Button>
      
   
     )
@@ -75,7 +75,7 @@ function LongRow(props) {
         }
 
     return (
-        <div className = "justify-content-start" style = {style}>
+        <div className = "justify-content-center" style = {style}>
         {row}
         </div>
     )
@@ -98,7 +98,7 @@ function ShortRow(props) {
         }
 
     return (
-        <div className= "justify-content-start" style = {style}>
+        <div className= "justify-content-center" style = {style}>
         {row}
         </div>
     )
@@ -251,15 +251,15 @@ class GameTwo extends React.Component{
                     </Navbar>
                 </div>
 
-                <div className = "row" > 
-                    <div className ="col-9">
+                <div className = "row " > 
+                    <div className ="col-12 text-center">
                         <Board cells = {this.state.cells} handleClick = {this.handleClick}/>
                     </div>
                 </div>
                 
-                <div className = "row mt-4 align-items-center" >
-                    <div className = "col-3 text-center" > <PlayStopButton  text = "Reset" onButtonClick= {this.handleReset}/> </div>
-                    <div className = "col-3" > <h1 className = "font-face-zkga" id = "result">{this.state.resultText}</h1> </div>
+                <div className = "row mt-4 " >
+                    <div className = "col-12 text-center" > <PlayStopButton  text = "Reset" onButtonClick= {this.handleReset}/> </div>
+               
                 </div>
              </div>
 

@@ -2,7 +2,7 @@ import React from 'react';
 import {Howl} from 'howler';
 import Button from 'react-bootstrap/Button';
 import './gameOneMelodies';
-
+import PlayStopButton from './playButton';
 
 class GameOneRandom extends React.Component {
     constructor(props) {
@@ -138,8 +138,8 @@ class GameOneRandom extends React.Component {
         
           <div className = "row mt-4 align-items-center" >
             <div className = "col-sm-9 col-md-9 col-lg-2 col-xl-2 d-md-block text-center" > <PlayStopButton  text = {this.state.gameStatus === "false"?  "PLAY" : "QUIT"} onButtonClick={this.state.gameStatus === "false"? this.handlePlay : this.handleQuit}/> </div>
-            <div className = "col-sm-9 col-md-9 col-lg-4 col-xl-4 d-md-block text-center" > <h1 className = "font-face-zkga" id = "result">{this.state.resultText}</h1> </div>
-            <div className = "col-sm-9 col-md-9 col-lg-3 col-xl-3 d-md-block text-center" > <tx className = "font-face-zkgam" id = "scoreTitle"> Score:  </tx>  <tx id = "score" className = "font-face-zkga"> {this.state.score} </tx> </div>
+            <div className = "col-sm-9 col-md-9 col-lg-4 col-xl-4 d-md-block text-center" > <h1 style={{fontSize: 20}} className = "font-face-zkga" id = "result">{this.state.resultText}</h1> </div>
+            <div className = "col-sm-9 col-md-9 col-lg-3 col-xl-3 d-md-block text-center" > <tx style={{fontSize: 20}} className = "font-face-zkgam" id = "scoreTitle"> Score:  </tx>  <tx style={{fontSize: 20}} id = "score" className = "font-face-zkga"> {this.state.score} </tx> </div>
             <div className = "col-3" > </div>
           </div>
           </div>
@@ -158,23 +158,6 @@ class GameOneRandom extends React.Component {
    
   }
   
-  class PlayStopButton extends React.Component {
-    constructor(props) {
-      super(props);
-      this.handleClick = this.handleClick.bind(this)
-    }
-  
-    handleClick (event){
-      this.props.onButtonClick(event)
-    }
-    render () { 
-    return (
-      
-       <Button  id="playbutton" size="lg" variant="outline-dark"  onClick={this.handleClick}>{this.props.text}</Button>
-     
-  
-    )
-    }
-  }  
+
 
   export default GameOneRandom;

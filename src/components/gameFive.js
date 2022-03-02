@@ -62,7 +62,7 @@ var containerStyle = {
 }
 return (
     <div style= {containerStyle }>
-    <div  systemshoots = {props.systemshoots} shoots = {props.shoots} className= {cN}  style = {props.style(props.shoots, props.systemshoots)} cell = {props.cell} onContextMenu = {() => props.handleRightClick(props.row,props.col)} onClick = {() => props.handleClick(props.row,props.col)}>
+    <div  systemshoots = {props.systemshoots} shoots = {props.shoots} className= {cN}  style = {props.style(props.shoots, props.systemshoots)} cell = {props.cell} onContextMenu = {(e) => props.handleRightClick(props.row,props.col, e)} onClick = {() => props.handleClick(props.row,props.col)}>
         <tx >{props.text} </tx>
     </div>
     </div>
@@ -199,8 +199,8 @@ confirmClick(){
 }
 
 //right clic en tablero izzquierda
-handleRClick(row, col) {
-
+handleRClick(row, col, e) {
+    e.preventDefault()
     if(this.state.playingState === true) {
         var tempUserShoots = this.state.userShoots.slice()
         if(tempUserShoots[row][col] === "empty" ){
@@ -290,12 +290,18 @@ systemTurn(){
     var systemCol
     var systemShootsTemp = JSON.parse(JSON.stringify(this.state.systemShoots))
     var userCellsTemp = JSON.parse(JSON.stringify(this.state.userCells))
-    var lastSystemShootTemp = this.state.lastSystemShoot.slice()
+    var shipsLocationsTemp = this.state.shipsLocations
     var hundidosSystemTemp = this.state.hundidosSystem
     var lastSystemTocadoTemp = this.state.lastSystemTocado.slice()
     var playingStateTemp = this.state.playingState
+    var lastSystemTocadoTempTemp = 0
 
-    //si hay un barco a medio hundir:
+    do{
+
+
+    //Busca nueva row/col para disparar, que no haya disparado:
+
+    //si hay un barco ya tocado:
     if(lastSystemTocadoTemp[2] === "tocado"){
         var x = 0
         var v 
@@ -305,19 +311,23 @@ systemTurn(){
       
             v = 1
             do{
-
+                //arriba=
             if((systemShootsTemp[(lastSystemTocadoTemp[0] - v)][lastSystemTocadoTemp[1]] === "empty") && ((lastSystemTocadoTemp[0] - v) > 1)){
             systemRow = (lastSystemTocadoTemp[0] - v)
             systemCol = lastSystemTocadoTemp[1]
             x = 1
+            lastSystemTocadoTempTemp = "v"
 
             } 
+            //abajo:
             else if ((systemShootsTemp[(lastSystemTocadoTemp[0] + v)][lastSystemTocadoTemp[1]] === "empty")&& ((lastSystemTocadoTemp[0] + v) < 12)){
             systemRow = (lastSystemTocadoTemp[0] + v)
             systemCol = lastSystemTocadoTemp[1]
             x = 1
-
+            lastSystemTocadoTempTemp = "v"
             } 
+           
+
             else {
             v++
 
@@ -329,16 +339,26 @@ systemTurn(){
 
             var h = 1
             do{
-            if((systemShootsTemp[lastSystemTocadoTemp[0]][(lastSystemTocadoTemp[1] - h)] === "empty") && ((lastSystemTocadoTemp[0] - h) > 1) ){
-            systemRow = (lastSystemTocadoTemp[0] - h)
-            systemCol = lastSystemTocadoTemp[1]
+                //izquierda:
+            if((systemShootsTemp[lastSystemTocadoTemp[0]][(lastSystemTocadoTemp[1] - h)] === "empty") && ((lastSystemTocadoTemp[1] - h) > 1) ){
+            systemRow = lastSystemTocadoTemp[0]
+            systemCol = (lastSystemTocadoTemp[1] - h)
             x = 1
+            lastSystemTocadoTempTemp = "h"
             } 
+            else if (systemShootsTemp[lastSystemTocadoTemp[0]][(lastSystemTocadoTemp[1] - h)] === "x"){
+                h++
+            }
+            // derecha:
             else if ((systemShootsTemp[lastSystemTocadoTemp[0]][(lastSystemTocadoTemp[1] + h)] === "empty") && ((lastSystemTocadoTemp[1] + h ) < 12)){
             systemRow = lastSystemTocadoTemp[0]
             systemCol = (lastSystemTocadoTemp[1]  + h)
             x = 1
+            lastSystemTocadoTempTemp = "h"
             } 
+           else if (systemShootsTemp[lastSystemTocadoTemp[0]][(lastSystemTocadoTemp[1] + h)] === "x"){
+            h++
+           }
             else {
             h++
             }
@@ -351,26 +371,46 @@ systemTurn(){
         if(lastSystemTocadoTemp[3] === 0){
             var i = 1
             do{
-            if((systemShootsTemp[(lastSystemTocadoTemp[0] - i)][lastSystemTocadoTemp[1]] === "empty") && ((lastSystemTocadoTemp[0] - i) > 1)){
+                    //derecha
+             if(systemShootsTemp[lastSystemTocadoTemp[0]][(lastSystemTocadoTemp[1] + i)] === "empty" && ((lastSystemTocadoTemp[1] + i) < 12) ){
 
-                systemRow = (lastSystemTocadoTemp[0] - i)
-                systemCol = lastSystemTocadoTemp[1]
-                x=1
+                    systemRow = lastSystemTocadoTemp[0]
+                    systemCol = (lastSystemTocadoTemp[1] + i)
+                    x=1
+                    if(userCellsTemp[systemRow][systemCol] > -1) {
+                        lastSystemTocadoTempTemp = "h"
+
+                        
+                    }
+                                // izquierda
             } else if(systemShootsTemp[(lastSystemTocadoTemp[0])][(lastSystemTocadoTemp[1] - i)] === "empty" && ((lastSystemTocadoTemp[1] - i) > 1)){
 
                 systemRow = lastSystemTocadoTemp[0]
                 systemCol = (lastSystemTocadoTemp[1] - i)
                 x=1
-            } else if(systemShootsTemp[lastSystemTocadoTemp[0]][(lastSystemTocadoTemp[1] + i)] === "empty" && ((lastSystemTocadoTemp[1] + i) < 12) ){
-
-                systemRow = lastSystemTocadoTemp[0]
-                systemCol = (lastSystemTocadoTemp[1] + i)
-                x=1
+                if(userCellsTemp[systemRow][systemCol] > -1) {
+                    lastSystemTocadoTempTemp = "h"
+                }
+                    //abajo:
             } else if(systemShootsTemp[lastSystemTocadoTemp[0] + i][lastSystemTocadoTemp[1]] === "empty" && ((lastSystemTocadoTemp[0] + i) < 12)){
+    
+                    systemRow = (lastSystemTocadoTemp[0] + i)
+                    systemCol = lastSystemTocadoTemp[1]
+                    x=1
+                    if(userCellsTemp[systemRow][systemCol] > -1) {
+                        lastSystemTocadoTempTemp = "v"
+                    }
 
-                systemRow = (lastSystemTocadoTemp[0] + i)
+                    //arriba
+            } else if((systemShootsTemp[(lastSystemTocadoTemp[0] - i)][lastSystemTocadoTemp[1]] === "empty") && ((lastSystemTocadoTemp[0] - i) > 1)){
+
+                systemRow = (lastSystemTocadoTemp[0] - i)
                 systemCol = lastSystemTocadoTemp[1]
                 x=1
+                if(userCellsTemp[systemRow][systemCol] > -1) {
+                    lastSystemTocadoTempTemp = "v"
+                }
+
             } else if(x===0){
                 i++
             }
@@ -382,190 +422,40 @@ systemTurn(){
 
     }  // fin if tocado
     
+    //coordenadas random si no hay un tocado sin hundir:
     else{
+        var p = 0
+        do{
         systemRow = Math.floor(Math.random() * (12 - 2)) + 2;
         systemCol = Math.floor(Math.random() * (12 - 2)) + 2;
-    }
 
+        if(systemShootsTemp[systemRow][systemCol] === "empty"){
+            p++
+        }
+    } while(p === 0)
 
-    
-    if (!(systemShootsTemp[systemRow][systemCol] === "empty")){
-        this.systemTurn()
     }
 
     //si no lo había disparado a la cell...
-    else if (systemShootsTemp[systemRow][systemCol] === "empty"){
-        var thisShootNumber
+   //Nuevo else if (systemShootsTemp[systemRow][systemCol] === "empty"){
+        
         var thisShootStatus = userCellsTemp[systemRow][systemCol] > -1? "shoot":"no shoot"
            
         // dispara:
         systemShootsTemp[systemRow][systemCol] = userCellsTemp[systemRow][systemCol]
-                // si es tocado  sube el thisshootnumber:
+           
         if (thisShootStatus ===  "shoot") {
-            thisShootNumber = (lastSystemShootTemp[3] + 1)
-            lastSystemShootTemp = [systemRow, systemCol, thisShootStatus, thisShootNumber]
             lastSystemTocadoTemp[0] = systemRow
             lastSystemTocadoTemp[1] = systemCol
             lastSystemTocadoTemp[2] = "tocado"
-            lastSystemTocadoTemp[3] = 0
+            lastSystemTocadoTemp[3] = lastSystemTocadoTempTemp
 
-                    //this down:
-
-
-
-            let i = 1
-            let row = systemRow
-            let col = systemCol
-
-            while(((row + i)  < 12) && (turnTemp === "system") && (systemShootsTemp[(row + i)][col] === "empty")) {
-                thisShootStatus = userCellsTemp[(row + i)][col] > - 1? "shoot":"no shoot"  
-                systemShootsTemp[(row + i)][col] = userCellsTemp[(row + i)][col]
-                    // si es tocado:
-                    if (thisShootStatus === "shoot") {   
-                    
-                    thisShootNumber = (lastSystemShootTemp[3] + 1)
-                    lastSystemShootTemp = [(row + i) , col, thisShootStatus, thisShootNumber]
-                    lastSystemTocadoTemp[0] = (row + i)
-                    lastSystemTocadoTemp[1] = col
-                    lastSystemTocadoTemp[2] = "tocado"
-                    lastSystemTocadoTemp[3] = "v"
-                    systemShootsTemp[row][col + 1] = "x"
-                    systemShootsTemp[row][col - 1] = "x"
-                    systemShootsTemp[row - 1][col + 1] = "x"
-                    systemShootsTemp[row - 1][col - 1] = "x"
-                    systemShootsTemp[row + 1][col + 1] = "x"
-                    systemShootsTemp[row + 1][col - 1] = "x"
-                    
-                    systemShootsTemp[row + i][col + 1] = "x"
-                    systemShootsTemp[row + i][col - 1] = "x"
-                    systemShootsTemp[(row + i + 1)][col + 1] = "x"
-                    systemShootsTemp[(row + i + 1)][col - 1] = "x"
-                    systemShootsTemp[(row + i - 1)][col + 1] = "x"
-                    systemShootsTemp[(row + i - 1)][col - 1] = "x"
-                    } 
-                    else if (thisShootStatus === "no shoot") {
-                        thisShootNumber = 0
-                        turnTemp = "user" 
-                        lastSystemShootTemp = [(row + i) , col, thisShootStatus, thisShootNumber]
-
-                    }
-                i++
-                
-            }  //fin this down.
-            //this up:
-
-           i = - 1
-           
-            while(((row + i)  > 1) && (turnTemp === "system") && (systemShootsTemp[(row + i)][col] === "empty")) {
-                    thisShootStatus = userCellsTemp[(row + i)][col] > - 1? "shoot":"no shoot"  
-                    systemShootsTemp[(row + i)][col] = userCellsTemp[(row + i)][col]
-
-                    // si es tocado:
-                    if (thisShootStatus === "shoot") {
-
-                        thisShootNumber = (lastSystemShootTemp[3] + 1)
-                        lastSystemShootTemp = [(row + i) , col, thisShootStatus, thisShootNumber]
-                        lastSystemTocadoTemp[0] = (row + i)
-                        lastSystemTocadoTemp[1] = col
-                        lastSystemTocadoTemp[2] = "tocado"
-                        lastSystemTocadoTemp[3] = "v"
-                        systemShootsTemp[row][col + 1] = "x"
-                        systemShootsTemp[row][col - 1] = "x"
-                        systemShootsTemp[row - 1][col + 1] = "x"
-                        systemShootsTemp[row - 1][col - 1] = "x"
-                        systemShootsTemp[row + 1][col + 1] = "x"
-                        systemShootsTemp[row + 1][col - 1] = "x"
-                        
-                        systemShootsTemp[row + i][col + 1] = "x"
-                        systemShootsTemp[row + i][col - 1] = "x"
-                        systemShootsTemp[((row + i) + 1)][col + 1] = "x"
-                        systemShootsTemp[((row + i) + 1)][col - 1] = "x"
-                        systemShootsTemp[((row + i) - 1)][col + 1] = "x"
-                        systemShootsTemp[((row + i) - 1)][col - 1] = "x"
-                    } 
-                    
-                    else if (thisShootStatus === "no shoot") {
-                        thisShootNumber = 0
-                        lastSystemShootTemp = [(row + i) , col, thisShootStatus, thisShootNumber]
-                        turnTemp = "user"
-                    }
-                    lastSystemShootTemp = [(row + i) , col, thisShootStatus, thisShootNumber]
-        
-                
-                i--
-
-            }  // fin this up
-
-                //this.left       
-               i = - 1
-                while(((col + i)  > 1) && (turnTemp === "system") && (systemShootsTemp[row][(col + i)] === "empty")) {
-                        thisShootStatus = userCellsTemp[row][(col + i)] > 0? "shoot":"no shoot"  
-                        systemShootsTemp[row][(col + i)] = userCellsTemp[row][(col + i)]
-                        // si es tocado:
-                        if (thisShootStatus === "shoot") {
-                        thisShootNumber = (lastSystemShootTemp[3] + 1)
-                        lastSystemShootTemp = [row , (col + i), thisShootStatus, thisShootNumber]
-                        lastSystemTocadoTemp[0] = row
-                        lastSystemTocadoTemp[1] = (col + i)
-                        lastSystemTocadoTemp[2] = "tocado"
-                        lastSystemTocadoTemp[3] = "h"
-
-
-                        } 
-                        
-                        else if (thisShootStatus === "no shoot") {
-                            thisShootNumber = 0
-                           // nuevo  lastSystemShootTemp = [row , (col + i), thisShootStatus, thisShootNumber]
-                            turnTemp = "user"
-                        }
-                        lastSystemShootTemp = [row , (col + i), thisShootStatus, thisShootNumber]
-            
-                    
-                    i--
-                }  // fin left
-
-                    // right:
-
-                    i =  1
-               
-                
-                while (((col + i)  > 1)&& (turnTemp === "system")) {
-                    if (systemShootsTemp[(row + i)][col] === "empty"){
-                        thisShootStatus = userCellsTemp[row][(col + i)] > 0? "shoot":"no shoot"  
-                        systemShootsTemp[row][(col + i)] = userCellsTemp[row][(col + i)]
-                        // si es tocado:
-                        if (thisShootStatus === "shoot") {
-                        thisShootNumber = (lastSystemShootTemp[3] + 1)
-                        lastSystemShootTemp = [row , (col + i), thisShootStatus, thisShootNumber]
-                        lastSystemTocadoTemp[0] = row
-                        lastSystemTocadoTemp[1] = (col + i)
-                        lastSystemTocadoTemp[2] = "tocado"
-                        lastSystemTocadoTemp[3] = "h"
-                        } 
-                        
-                        else if (thisShootStatus === "no shoot") {
-                            thisShootNumber = 0
-                            turnTemp = "user"
-                            lastSystemShootTemp = [row , (col + i), thisShootStatus, thisShootNumber]
-                        }
-                        lastSystemShootTemp = [row , (col + i), thisShootStatus, thisShootNumber]
-                        
-                    } 
-                    /*
-                    else if (!(systemShootsTemp[(row + i)][col] === "empty") && (turnTemp === "system")){
-                        this.systemTurn()
-                    }
-                    */
-                    i++
-                }
-
-                    //right fin
-
+          
                  //verificar si es hundido o tocado:
 
              
                  var indexTemp = userCellsTemp[systemRow][systemCol]
-                 var shipsLocationsTemp = this.state.shipsLocations
+                 
                  var sizeTemp = parseInt(shipsLocationsTemp[indexTemp][3])
                  var localrow = shipsLocationsTemp[indexTemp][0]
                  var localcol = shipsLocationsTemp[indexTemp][1]
@@ -599,81 +489,100 @@ systemTurn(){
                  }
      
      
-                 if((count == sizeTemp) && (hundidosSystemTemp === 9)){
-                     textTemp = "PERDISTE"
-                     playingStateTemp = false
-                
-                 }
+                if((count == sizeTemp) && (hundidosSystemTemp === 9)){
+                    textTemp = "PERDISTE"
+                    turnTemp = "user"
+               
+                }
                  else if((count == sizeTemp) && (hundidosSystemTemp < 9)){
                      textTemp = "Te hundieron un barco"
                      hundidosSystemTemp++
-                     //nuevo:
+                
                      lastSystemTocadoTemp[2] = "hundido"
                      lastSystemTocadoTemp[3] = 0
 
                      if(orient === "v"){
                         systemShootsTemp[localrow - 1][localcol] = userCellsTemp[localrow - 1][localcol]
+                        systemShootsTemp[localrow - 1][localcol - 1] = userCellsTemp[localrow - 1][localcol - 1]
+                        systemShootsTemp[localrow - 1][localcol + 1] = userCellsTemp[localrow - 1][localcol + 1]
                         systemShootsTemp[localrow + sizeTemp][localcol] = userCellsTemp[localrow + sizeTemp][localcol]
-                        
+                        systemShootsTemp[localrow + sizeTemp][localcol - 1] = userCellsTemp[localrow + sizeTemp][localcol - 1]
+                        systemShootsTemp[localrow + sizeTemp][localcol + 1] = userCellsTemp[localrow + sizeTemp][localcol + 1]
+
+                        for(let i = -1; i < (sizeTemp + 1); i++){
+                            systemShootsTemp[localrow + i][localcol - 1] = userCellsTemp[localrow + i][localcol - 1] 
+                            systemShootsTemp[localrow + i][localcol + 1] = userCellsTemp[localrow + i][localcol + 1]
+                        }
                      }
+
                      else if(orient === "h"){
                         systemShootsTemp[localrow][localcol - 1] = userCellsTemp[localrow][localcol - 1]
                         systemShootsTemp[localrow ][localcol + sizeTemp] = userCellsTemp[localrow ][localcol + sizeTemp]
                         systemShootsTemp[localrow - 1][localcol - 1] = userCellsTemp[localrow - 1][localcol - 1]
                         systemShootsTemp[localrow - 1][localcol + sizeTemp] = userCellsTemp[localrow - 1][localcol + sizeTemp]
-                        systemShootsTemp[localrow + 1][localcol - 1] = userCellsTemp[localrow + 1][localcol - 1]
+                        systemShootsTemp[localrow - 1][localcol - 1] = userCellsTemp[localrow - 1][localcol - 1]
                         systemShootsTemp[localrow + 1][localcol + sizeTemp] = userCellsTemp[localrow + 1][localcol + sizeTemp]
-                        systemShootsTemp[localrow - 1][localcol + (sizeTemp - 1)] = userCellsTemp[localrow - 1][localcol + (sizeTemp - 1)]
-                        systemShootsTemp[localrow + 1][localcol] = userCellsTemp[localrow + 1][localcol] 
+
+                        for(let i = -1; i < (sizeTemp + 1); i++){
+                            systemShootsTemp[localrow - 1][localcol + i] = userCellsTemp[localrow - 1][localcol + i]
+                            systemShootsTemp[localrow + 1][localcol + i] = userCellsTemp[localrow + 1][localcol + i]
+                        }
                      } 
                      
                      if(sizeTemp === 1){
                         systemShootsTemp[localrow - 1][localcol] = userCellsTemp[localrow - 1][localcol]
                         systemShootsTemp[localrow + 1][localcol] = userCellsTemp[localrow + 1][localcol]
-
                         systemShootsTemp[localrow][localcol + 1] = userCellsTemp[localrow][localcol + 1]
                         systemShootsTemp[localrow][localcol - 1] = userCellsTemp[localrow][localcol - 1]
-
                         systemShootsTemp[localrow - 1][localcol + 1] = userCellsTemp[localrow - 1][localcol + 1]
                         systemShootsTemp[localrow + 1][localcol - 1] = userCellsTemp[localrow + 1][localcol - 1]
-
                         systemShootsTemp[localrow - 1][localcol - 1] = userCellsTemp[localrow - 1][localcol - 1]
                         systemShootsTemp[localrow + 1][localcol + 1] = userCellsTemp[localrow + 1][localcol + 1]
                      }
 
                  }
 
-                
-     
-                  else {
+                  else if (count < sizeTemp) {
              
                      textTemp = "Te dispararon un barco"
+                     if(orient === "v"){
+                        systemShootsTemp[systemRow][systemCol+ 1] = userCellsTemp[systemRow][systemCol + 1]
+                        systemShootsTemp[systemRow][localcol - 1] = userCellsTemp[systemRow][systemCol - 1]
+
+                        systemShootsTemp[systemRow - 1][systemCol+ 1] = userCellsTemp[systemRow - 1][systemCol + 1]
+                        systemShootsTemp[systemRow + 1][systemCol - 1] = userCellsTemp[systemRow + 1][systemCol - 1]
+
+                        systemShootsTemp[systemRow - 1][systemCol - 1] = userCellsTemp[systemRow - 1][systemCol - 1]
+                        systemShootsTemp[systemRow + 1][systemCol + 1] = userCellsTemp[systemRow + 1][systemCol + 1]
+
+                     }
+                     if(orient === "h"){
+
+                        systemShootsTemp[systemRow - 1][systemCol + 1] = userCellsTemp[systemRow - 1][systemCol + 1]
+                        systemShootsTemp[systemRow + 1][systemCol - 1] = userCellsTemp[systemRow + 1][systemCol - 1]
+
+                        systemShootsTemp[systemRow - 1][systemCol - 1] = userCellsTemp[systemRow - 1][systemCol- 1]
+                        systemShootsTemp[systemRow + 1][systemCol + 1] = userCellsTemp[systemRow + 1][systemCol + 1]
+
+                        systemShootsTemp[systemRow - 1][systemCol] = userCellsTemp[systemRow - 1][systemCol]
+                        systemShootsTemp[systemRow + 1][systemCol] = userCellsTemp[systemRow + 1][systemCol]
+
+                     }
 
                  }
 
-
-
-
-
-
-
-
-
         } 
                   // si es agua
-        else if (thisShootStatus ===  "no shoot") {
-                    
-            thisShootNumber = 0
-            turnTemp = "user" 
-            textTemp = "AGUA"
-            lastSystemShootTemp = [systemRow, systemCol, thisShootStatus, thisShootNumber]
 
-        } 
-        this.setState({playingState: playingStateTemp, lastSystemTocado: lastSystemTocadoTemp, hundidosSystem: hundidosSystemTemp, text: textTemp, turn:turnTemp, lastSystemShoot:lastSystemShootTemp, systemShoots: systemShootsTemp})
+                  else if (thisShootStatus === "no shoot") {
+                    turnTemp = "user"          
+                }
 
-}
+            } while(turnTemp === "system")
+            this.setState({playingState: playingStateTemp, lastSystemTocado: lastSystemTocadoTemp, hundidosSystem: hundidosSystemTemp, text: textTemp, turn:turnTemp,  systemShoots: systemShootsTemp})
 
-}
+            }
+               
 
 //right clic en tablero derecha:
 handleRBoardClick(row, col){
@@ -916,8 +825,8 @@ handleRBoardClick(row, col){
 }
 
 // sacar barcos si no esta confirmado el juego:
-handleROnRightBoardClick(row, col) {
-
+handleROnRightBoardClick(row, col, e) {
+    e.preventDefault()
     if(this.state.status === "pending"){
 
     var userCellsTemp = this.state.userCells.slice()
@@ -1124,7 +1033,7 @@ if(statusTemp === "completed") {
             for(let i = 0; i < 10; i++ ){
             shipsLocations.push(new Array(1).fill(0));
             } 
-            this.state = {lastSystemTocado: [0, 0, 0, 0], hundidosSystem: 0, hundidos: 0, show: true, text: "", textSystem: "", leftShipLocations: leftShipLocations, lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations}
+            this.setState({lastSystemTocado: [0, 0, 0, 0], hundidosSystem: 0, hundidos: 0, show: false, text: "", textSystem: "", leftShipLocations: leftShipLocations, lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations})
     for(let i=0; i<10; i++){
     document.getElementById(i).style.display = "block"
         }
