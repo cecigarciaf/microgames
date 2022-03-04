@@ -16,13 +16,13 @@ function Cell(props){
       color = "white"
     }
     else if ((props.cell === 1) || (props.cell === "fix")){
-      color = "red"
+      color = "pink"
     }
 
    var style = {
        width: "1rem",
        height: "1rem",
-       border:"1px solid grey",
+       border:"0.5px solid grey",
        backgroundColor: color
    }
 
@@ -58,7 +58,7 @@ function Cell(props){
               board.push(<Row   key = {i} row = {i} cells = {props.cells[i]}  handleClick = {props.handleClick}/>)
           }
           return (
-              <div  className = "align-items-center justify-content-center row m-5" > 
+              <div   className = "align-items-center justify-content-center row m-5" > 
               {board}
               </div>
           )
@@ -76,34 +76,28 @@ function GameSeven() {
 
     const [cells, addBlock] = useState(cells2);
     const [playingState, changePlayingState] = useState(false);
-
+    const [speed, updateSpeed] = useState(200)
     var square = JSON.parse(JSON.stringify(cells))
     square[2][8] = 1
     square[2][9] = 1
     square[3][8] = 1
     square[3][9] = 1
 
-    //const interval = setInterval(() => {
+        if(keyDown === "ArrowDown"){
+          updateSpeed(speed + 100)
+          keyDown = 0
+        }
       
+
+
     useEffect(() => {
- 
+       
         const test =  setInterval(() => {
           
           addBlock((cells, playingState) => updateBoard(cells, playingState));
-        }, 200);
+        }, speed);
         return () => {
           clearInterval(test);
-        };
-      }, []);
-
-      useEffect(() => {
- 
-        const test2 =  setInterval(() => {
-          
-          addBlock((cells) => blocks(cells));
-        }, 12000);
-        return () => {
-          clearInterval(test2);
         };
       }, []);
 
@@ -150,14 +144,21 @@ function blocks(cells){
 }
 
 
-
+var keyDown = 0
 var key = 0
 function handleKeyDown(e){  
   if((e.key === "ArrowRight") || (e.key === "ArrowLeft") ){
     key = e.key
+    return key
+  } else  if((e.key === "ArrowDown")){
+    keyDown = e.key
+    return keyDown
   }
-  return key
+  
 }
+
+
+
 
 function updateBoard(cells, playingState){
   //busca ubicacion de una pieza que se mueva y no toque nada abajo:
@@ -175,22 +176,37 @@ function updateBoard(cells, playingState){
 
   if(key === "ArrowRight"){
     var updateTemp = JSON.parse(JSON.stringify(update))
+    var okMoveR = 0
+    for(let i=0; i<4; i++){
+      if(!((updateTemp[movingBlock[i][0]][(movingBlock[i][1]) + 1]) === "fix") && ((movingBlock[i][1]+ 1) < 16)) {
+        okMoveR++
+      }
+    }
+    if(okMoveR === 4){
     for(let i=0; i<4; i++){
    
       updateTemp[(movingBlock[i][0])][(movingBlock[i][1]) + 1] = update[(movingBlock[i][0])][(movingBlock[i][1])]
       updateTemp[(movingBlock[i][0])][(movingBlock[i][1])] = update[(movingBlock[i][0])][(movingBlock[i][1]) - 1]
-  
     }
+  }
     update = updateTemp
   }
   if(key === "ArrowLeft"){
     var updateTemp = JSON.parse(JSON.stringify(update))
+    var okMoveL = 0
+    for(let i=0; i<4; i++){
+      if( !((updateTemp[movingBlock[i][0]][(movingBlock[i][1]) - 1]) === "fix") && (( (movingBlock[i][1]) - 1) > 1 )  ){
+        okMoveL++
+      }
+    }
+    if(okMoveL === 4){
     for(let i=0; i<4; i++){
    
       updateTemp[(movingBlock[i][0])][(movingBlock[i][1]) - 1] = update[(movingBlock[i][0])][(movingBlock[i][1])]
       updateTemp[(movingBlock[i][0])][(movingBlock[i][1])] = update[(movingBlock[i][0])][(movingBlock[i][1]) + 1]
   
     }
+  }
     update = updateTemp
   }
 
@@ -220,13 +236,11 @@ if(key === 0){
           update[movingBlock[1][0]][movingBlock[1][1]] = "fix"
           update[movingBlock[2][0]][movingBlock[2][1]] = "fix"
           update[movingBlock[3][0]][movingBlock[3][1]] = "fix"
+          update = blocks(update)
         }  
     }
   }
-  console.log("update 34   " + update[34])
-  console.log("update 35   " + update[35])
-  console.log("update 36  " + update[36])
-  console.log("update 37  " + update[37])
+
     key = 0
     var updateTemp2 = JSON.parse(JSON.stringify(update))
     for(let r = 0; r<38; r++){     
@@ -236,7 +250,7 @@ if(key === 0){
           if(updateTemp2[r][c] == "fix"){
             count2++
           }
-        } console.log("count2" + count2)
+        } 
         
           if(count2 === 14){
             console.log("14!!")
