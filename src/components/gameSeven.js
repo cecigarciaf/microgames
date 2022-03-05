@@ -134,9 +134,9 @@ function GameSeven() {
     useEffect(() => {
        
         const test =  setInterval(() => {
-          var playingStateTemp = playingState
-          console.log("3" + playingStateTemp)
-          addBlock((cells, playingState ) => updateBoard(cells, playingStateTemp ));
+        
+       
+          addBlock((cells) => updateBoard(cells));
           updateResult(result2)
           updateScore(score2)
         }, speed);
@@ -263,9 +263,9 @@ function handleUpButton(){
 }
 
 
-function updateBoard(cells, playingState){
+function updateBoard(cells){
 
-  console.log("2" + playingState)
+
   //busca ubicacion de una pieza que se mueva y no toque nada abajo:
   var update = JSON.parse(JSON.stringify(cells))
   
@@ -280,7 +280,7 @@ function updateBoard(cells, playingState){
     }
   }
 
-  if (playingState){
+
   if(key === "ArrowRight"){
     var updateTemp = JSON.parse(JSON.stringify(update))
     var okMoveR = 0
@@ -537,7 +537,7 @@ if((key === 0) && (keyUp === 0)){
     }
 
     update = updateTemp2
-  }
+
     return update;
 }
 
