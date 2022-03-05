@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PlayStopButton from './playButton';
 import './gameSeven.css';
-import { ArrowRepeat } from 'react-bootstrap-icons';
-import { ArrowRightSquare } from 'react-bootstrap-icons';
-import { ArrowLeftSquare } from 'react-bootstrap-icons';
-
-var  result2 = ""
-var score2 = 0
-var updateScore2 = false
 
 function Cell(props){
 
@@ -24,26 +17,28 @@ function Cell(props){
     if(props.cell === 0){
       color = "rgb(226, 224, 224)"
     }
-
-    else if ((props.cell === 1) || (props.cell === 10)){
+    else if (props.cell === "fix"){
+      color = "rgb(182, 182, 182)"
+    }
+    else if ((props.cell === 1) || (props.cell === "fix")){
       color = "pink"
     }
-    else if ((props.cell === 3) || (props.cell === 30)) {
+    else if (props.cell === 3) {
       color = "rgb(248, 211, 141)"
     }
-    else if ((props.cell === 4) || (props.cell === 40)) {
+    else if (props.cell === 4) {
       color = "rgb(193, 233, 168)"
     }
-    else if ((props.cell === 5) || (props.cell === 50)) {
+    else if (props.cell === 5) {
       color = "rgb(174, 252, 252)"
     }
-    else if ((props.cell === 6) || (props.cell === 60)) {
+    else if (props.cell === 6) {
       color = "rgb(226, 198, 250)"
     }
-    else if ((props.cell === 7) || (props.cell === 70)) {
+    else if (props.cell === 7) {
       color = "rgb(218, 151, 151)"
     }
-    else if ((props.cell === 8) || (props.cell === 80)) {
+    else if (props.cell === 8) {
       color = "rgb(130, 162, 231)"
     }
     
@@ -92,7 +87,7 @@ function Cell(props){
               board.push(<Row   key = {i} row = {i} cells = {props.cells[i]}  handleClick = {props.handleClick}/>)
           }
           return (
-              <div   className = "align-items-center justify-content-center col-12 m-5" > 
+              <div   className = "align-items-center justify-content-center row m-5" > 
           
                 <div  display= "inline-block" >
               {board}
@@ -113,32 +108,26 @@ function GameSeven() {
         }
 
     const [cells, addBlock] = useState(cells2);
-    const [score, updateScore] = useState(0);
-    const [result, updateResult] = useState("");
+    const [playingState, changePlayingState] = useState(false);
     const [speed, updateSpeed] = useState(100)
-    const [playingState, updatePlay] = useState(true)
     var square = JSON.parse(JSON.stringify(cells))
     square[2][8] = 1
     square[2][9] = 1
     square[3][8] = 1
     square[3][9] = 1
 
-    if (updateScore2){
-      updateSpeed(speed - 30)
-      updateScore2 = false
-    }
-
-
+        if(keyDown === "ArrowDown"){
+          updateSpeed(speed + 10)
+          
+        }
+      
 
 
     useEffect(() => {
        
         const test =  setInterval(() => {
-          var playingStateTemp = playingState
-          console.log("3" + playingStateTemp)
-          addBlock((cells, playingState ) => updateBoard(cells, playingStateTemp ));
-          updateResult(result2)
-          updateScore(score2)
+          
+          addBlock((cells, playingState) => updateBoard(cells, playingState));
         }, speed);
         return () => {
           clearInterval(test);
@@ -148,27 +137,15 @@ function GameSeven() {
     return (
 
     <div  onKeyDown={(e) => handleKeyDown(e)} className ="col-9">
-        <div className = "row mt-4 align-items-center"> 
+        <div className = "row"> 
             <Board cells= {cells}  />
-        </div> 
-        <div className = "row mt-4 align-items-center"> 
-        
-        <div className = "col-4 text-center" > <ArrowLeftSquare  width="28" height="28" onClick={() => handleLeftButton()}/> </div>
-        <div className = "col-4 text-center" > <ArrowRepeat  width="28" height="28" onClick={() => handleUpButton()}/> </div>
-        <div className = "col-4 text-center" > <ArrowRightSquare  width="28" height="28" onClick={() => handleRightButton()}/> </div>
         </div>
-        <div className = "row mt-4 align-items-center"> 
-            <div className = "col-sm-9 col-md-9 col-lg-4 col-xl-4 d-md-block text-center" > <PlayStopButton  size="sm" text= "PLAY"  onButtonClick={() => addBlock(square)}/> </div>
-            <div className = "col-sm-9 col-md-9 col-lg-4 col-xl-4 d-md-block text-center" > <h1 className = "font-face-zkga" style={{fontSize: 20}} id = "result">{result}</h1> </div>
-            <div className = "col-sm-9 col-md-9 col-lg-4 col-xl-4 d-md-block text-center" > <tx className = "font-face-zkgam" style={{fontSize: 20}} id = "scoreTitle"> Score:  </tx>  <tx style={{fontSize: 20}} id = "score" className = "font-face-zkga"> {score} </tx> </div>
-           
-         
+        <div className = "row"> 
+            <PlayStopButton text= "PLAY"  onButtonClick={() => addBlock(square)} />
         </div>
     </div>
     );
 }
-
-
 
 var activeBlock = 0
 
@@ -236,7 +213,6 @@ var keyUp = 0
 var keyDown = 0
 var key = 0
 function handleKeyDown(e){  
-  e.preventDefault()
   console.log(keyDown)
   if((e.key === "ArrowRight") || (e.key === "ArrowLeft") ) {
     key = e.key
@@ -247,48 +223,32 @@ function handleKeyDown(e){
   } 
 }
 
-function handleLeftButton(){
-  key = "ArrowLeft"
-  return key
-}
 
-function handleRightButton(){
-  key = "ArrowRight"
-  return key
+function handleKeyPress(e){
+  console.log("aca" + e.key)
 }
-
-function handleUpButton(){
-  keyUp = "ArrowUp"
-  return keyUp
-}
-
 
 function updateBoard(cells, playingState){
-
-  console.log("2" + playingState)
   //busca ubicacion de una pieza que se mueva y no toque nada abajo:
   var update = JSON.parse(JSON.stringify(cells))
-  
   var movingBlock = []
   var y = 0
   for(let c = 2; c<16; c++){    
     for(let r = 38; r>1; r--){
-      if((cells[r][c] > 0 ) && (cells[r][c] < 9 )){
+      if(cells[r][c] > 0 ){
         movingBlock[y]=[r, c]
         y++
       }
     }
   }
 
-  if (playingState){
   if(key === "ArrowRight"){
     var updateTemp = JSON.parse(JSON.stringify(update))
     var okMoveR = 0
     for(let i=0; i<4; i++){
-      if(!((updateTemp[movingBlock[i][0]][(movingBlock[i][1]) + 1]) > 9) && ((movingBlock[i][1]+ 1) < 16)) {
+      if(!((updateTemp[movingBlock[i][0]][(movingBlock[i][1]) + 1]) === "fix") && ((movingBlock[i][1]+ 1) < 16)) {
         okMoveR++
       }
-    
     }
     if(okMoveR === 4){
     for(let i=0; i<4; i++){
@@ -303,7 +263,7 @@ function updateBoard(cells, playingState){
     var updateTemp = JSON.parse(JSON.stringify(update))
     var okMoveL = 0
     for(let i=0; i<4; i++){
-      if( !((updateTemp[movingBlock[i][0]][(movingBlock[i][1]) - 1]) > 9) && (( (movingBlock[i][1]) - 1) > 1 )  ){
+      if( !((updateTemp[movingBlock[i][0]][(movingBlock[i][1]) - 1]) === "fix") && (( (movingBlock[i][1]) - 1) > 1 )  ){
         okMoveL++
       }
     }
@@ -324,7 +284,7 @@ function updateBoard(cells, playingState){
     var updateTemp = JSON.parse(JSON.stringify(update))
     
     // si es zeta en posición original:
-    if((activeBlock === "zeta") && (!(cells[(movingBlock[1][0]) + 1][movingBlock[1][1]] === "x" ) && !(cells[(movingBlock[1][0]) + 1][movingBlock[1][1]] > 9 ) && (movingBlock[2][1] === movingBlock[1][1]))){      
+    if((activeBlock === "zeta") && (!(cells[(movingBlock[1][0]) + 1][movingBlock[1][1]] === "x" ) && !(cells[(movingBlock[1][0]) + 1][movingBlock[1][1]] === "fix" ) && (movingBlock[2][1] === movingBlock[1][1]))){      
       
       updateTemp[((movingBlock[2][0]) + 2)][(movingBlock[2][1]) ] = update[(movingBlock[2][0])][(movingBlock[2][1]) ]
       updateTemp[(movingBlock[0][0])][(movingBlock[0][1]) + 2] = update[(movingBlock[0][0])][(movingBlock[0][1])]
@@ -334,7 +294,7 @@ function updateBoard(cells, playingState){
     }
 
         // si es zeta en posición 2:
-        if((activeBlock === "zeta") && ((movingBlock[1][1] - 1) > 1 ) && !(cells[(movingBlock[1][0])][(movingBlock[1][1] - 1)] > 9 ) && (movingBlock[0][1] === movingBlock[1][1])){      
+        if((activeBlock === "zeta") && ((movingBlock[1][1] - 1) > 1 ) && !(cells[(movingBlock[1][0])][(movingBlock[1][1] - 1)] === "fix" ) && (movingBlock[0][1] === movingBlock[1][1])){      
       
           updateTemp[((movingBlock[3][0]))][(movingBlock[3][1]) - 1] = update[(movingBlock[3][0])][(movingBlock[3][1]) ] 
           updateTemp[(movingBlock[0][0]) - 2][(movingBlock[0][1]) - 1] = update[(movingBlock[0][0])][(movingBlock[0][1])]
@@ -344,7 +304,7 @@ function updateBoard(cells, playingState){
         }
 
         // si es stick en posicion original:
-        if((activeBlock === "stick") && !(movingBlock[1][1] === movingBlock[2][1]) && !((cells[(movingBlock[2][0]) + 1][((movingBlock[2][1]))]) > 9) && !((cells[(movingBlock[2][0]) + 2][((movingBlock[2][1]))]) > 9) && !((cells[(movingBlock[3][0]) + 1][(movingBlock[3][1])]) > 9) && !((cells[(movingBlock[3][0]) + 2][(movingBlock[3][1])]) > 9) && !((cells[(movingBlock[1][0]) + 1][(movingBlock[1][1])]) > 9) && !(cells[(movingBlock[1][0])  + 2][((movingBlock[1][1]))] > 9) && !(cells[(movingBlock[1][0])  - 1][((movingBlock[1][1]))] > 9) && !(cells[(movingBlock[1][0])  + 2][((movingBlock[1][1]))] === "x")) {
+        if((activeBlock === "stick") && !(movingBlock[1][1] === movingBlock[2][1]) && !((cells[(movingBlock[2][0]) + 1][((movingBlock[2][1]))]) === "fix") && !((cells[(movingBlock[2][0]) + 2][((movingBlock[2][1]))]) === "fix") && !((cells[(movingBlock[3][0]) + 1][(movingBlock[3][1])]) === "fix") && !((cells[(movingBlock[3][0]) + 2][(movingBlock[3][1])]) === "fix") && !((cells[(movingBlock[1][0]) + 1][(movingBlock[1][1])]) === "fix") && !(cells[(movingBlock[1][0])  + 2][((movingBlock[1][1]))] === "fix") && !(cells[(movingBlock[1][0])  - 1][((movingBlock[1][1]))] === "fix") && !(cells[(movingBlock[1][0])  + 2][((movingBlock[1][1]))] === "x")) {
           updateTemp[((movingBlock[0][0]))][movingBlock[0][1]] = 0
           updateTemp[((movingBlock[2][0]))][movingBlock[2][1]] = 0
           updateTemp[((movingBlock[3][0]))][movingBlock[3][1]] = 0
@@ -354,7 +314,7 @@ function updateBoard(cells, playingState){
           updateTemp[(movingBlock[3][0]) + 2][(movingBlock[3][1]) - 2] = 3
         }
         // si es stick en posicion 2:
-        if((activeBlock === "stick") && !(movingBlock[1][0] === movingBlock[2][0])  && !(((movingBlock[1][1]) + 2 ) > 15) && !(((movingBlock[1][1]) - 2 ) < 2) && !((cells[movingBlock[0][0]][(movingBlock[0][1]) + 1] ) > 9) && !((cells[movingBlock[0][0]][(movingBlock[0][1]) + 2] ) > 9) && !((cells[movingBlock[1][0]][(movingBlock[1][1]) + 1] ) > 9) && !((cells[movingBlock[1][0]][(movingBlock[1][1]) + 2] ) > 9) && !((cells[movingBlock[2][0]][(movingBlock[2][1]) + 1] ) > 9) && !((cells[movingBlock[2][0]][(movingBlock[2][1]) + 2] ) > 9) && !((cells[(movingBlock[3][0]) - 1][(movingBlock[3][1]) - 1] ) > 9)){
+        if((activeBlock === "stick") && !(movingBlock[1][0] === movingBlock[2][0])  && !(((movingBlock[1][1]) + 2 ) > 15) && !(((movingBlock[1][1]) - 2 ) < 2) && !((cells[movingBlock[0][0]][(movingBlock[0][1]) + 1] ) === "fix") && !((cells[movingBlock[0][0]][(movingBlock[0][1]) + 2] ) === "fix") && !((cells[movingBlock[1][0]][(movingBlock[1][1]) + 1] ) === "fix") && !((cells[movingBlock[1][0]][(movingBlock[1][1]) + 2] ) === "fix") && !((cells[movingBlock[2][0]][(movingBlock[2][1]) + 1] ) === "fix") && !((cells[movingBlock[2][0]][(movingBlock[2][1]) + 2] ) === "fix") && !((cells[(movingBlock[3][0]) - 1][(movingBlock[3][1]) - 1] ) === "fix")){
           updateTemp[((movingBlock[0][0]))][movingBlock[0][1]] = 0
           updateTemp[((movingBlock[2][0]))][movingBlock[2][1]] = 0
           updateTemp[((movingBlock[3][0]))][movingBlock[3][1]] = 0
@@ -365,7 +325,7 @@ function updateBoard(cells, playingState){
 
         }
       // si es ele:(ele al reves)
-        if((activeBlock === "ele") && (movingBlock[2][1] === movingBlock[3][1]) && !(movingBlock[1][1] === movingBlock[2][1]) && !( cells[(movingBlock[2][0]) + 1][movingBlock[2][1]]  > 9) && !( cells[(movingBlock[2][0]) + 1][(movingBlock[2][1]) - 1]  > 9) && !( cells[(movingBlock[2][0]) + 1][(movingBlock[2][1]) - 1]  === "x") ) {
+        if((activeBlock === "ele") && (movingBlock[2][1] === movingBlock[3][1]) && !(movingBlock[1][1] === movingBlock[2][1]) && !( cells[(movingBlock[2][0]) + 1][movingBlock[2][1]]  === "fix") && !( cells[(movingBlock[2][0]) + 1][(movingBlock[2][1]) - 1]  === "fix") && !( cells[(movingBlock[2][0]) + 1][(movingBlock[2][1]) - 1]  === "x") ) {
           updateTemp[(movingBlock[0][0]) + 2][(movingBlock[0][1])] = 4
           updateTemp[movingBlock[0][0]][(movingBlock[0][1])] = 0
           updateTemp[(movingBlock[1][0]) + 2][(movingBlock[1][1])] = 4
@@ -374,21 +334,21 @@ function updateBoard(cells, playingState){
           updateTemp[(movingBlock[2][0])][(movingBlock[2][1])] = 0
         }
 
-        if((activeBlock === "ele") && (movingBlock[3][1] === movingBlock[1][1]) && (((movingBlock[1][1]) + 1) < 15) && !(cells[movingBlock[2][0]][((movingBlock[2][1]) - 1)] > 9) && !(cells[((movingBlock[2][0]))][((movingBlock[2][1]) + 1)] > 9) && !(cells[((movingBlock[3][0]))][((movingBlock[3][1]) + 1)] > 9) && !(cells[((movingBlock[1][0]))][((movingBlock[1][1]) + 1)] > 9)){
+        if((activeBlock === "ele") && (movingBlock[3][1] === movingBlock[1][1]) && (((movingBlock[1][1]) + 1) < 15) && !(cells[movingBlock[2][0]][((movingBlock[2][1]) - 1)] === "fix") && !(cells[((movingBlock[2][0]))][((movingBlock[2][1]) + 1)] === "fix") && !(cells[((movingBlock[3][0]))][((movingBlock[3][1]) + 1)] === "fix") && !(cells[((movingBlock[1][0]))][((movingBlock[1][1]) + 1)] === "fix")){
           updateTemp[movingBlock[2][0]][((movingBlock[2][1]) - 1)] = 4
           updateTemp[((movingBlock[1][0]))][((movingBlock[1][1]) + 1)] = 4
           updateTemp[movingBlock[2][0]][((movingBlock[2][1]))] = 0
           updateTemp[movingBlock[3][0]][((movingBlock[3][1]))] = 0
         }
 
-        if((activeBlock === "ele") && (movingBlock[3][0] === movingBlock[2][0]) && (movingBlock[2][0] === movingBlock[0][0]) && !(cells[((movingBlock[2][0]) - 2)][movingBlock[2][1]] > 9) && !(cells[((movingBlock[0][0]) - 2)][movingBlock[0][1]] > 9)) {
+        if((activeBlock === "ele") && (movingBlock[3][0] === movingBlock[2][0]) && (movingBlock[2][0] === movingBlock[0][0]) && !(cells[((movingBlock[2][0]) - 2)][movingBlock[2][1]] === "fix") && !(cells[((movingBlock[0][0]) - 2)][movingBlock[0][1]] === "fix")) {
           updateTemp[((movingBlock[0][0]) - 2)][movingBlock[0][1]] = 4
           updateTemp[((movingBlock[2][0]) - 2)][movingBlock[2][1]] = 4
           updateTemp[((movingBlock[2][0]))][movingBlock[2][1]] = 0
           updateTemp[((movingBlock[3][0]))][movingBlock[3][1]] = 0
         }
 
-        if((activeBlock === "ele") && (movingBlock[0][1] === movingBlock[1][1]) && ( movingBlock[1][1] === movingBlock[2][1]) && ((movingBlock[3][1] + 1) < 15) && !((cells[(movingBlock[3][0]) + 1][(movingBlock[3][1]) + 1]) > 9) && !((cells[(movingBlock[1][0]) + 1][(movingBlock[1][1]) + 2]) > 9) && !((cells[(movingBlock[3][0]) + 1][(movingBlock[3][1])]) > 9)) {
+        if((activeBlock === "ele") && (movingBlock[0][1] === movingBlock[1][1]) && ( movingBlock[1][1] === movingBlock[2][1]) && ((movingBlock[3][1] + 1) < 15) && !((cells[(movingBlock[3][0]) + 1][(movingBlock[3][1]) + 1]) === "fix") && !((cells[(movingBlock[1][0]) + 1][(movingBlock[1][1]) + 2]) === "fix") && !((cells[(movingBlock[3][0]) + 1][(movingBlock[3][1])]) === "fix")) {
           updateTemp[(movingBlock[3][0]) + 1][(movingBlock[3][1]) + 1] = 4
           updateTemp[(movingBlock[1][0]) + 1][(movingBlock[1][1]) + 2] = 4
           updateTemp[(movingBlock[3][0]) + 1][(movingBlock[3][1])] = 4
@@ -397,7 +357,7 @@ function updateBoard(cells, playingState){
           updateTemp[movingBlock[3][0]][(movingBlock[3][1])] = 0
         }
         //si es la otra ele: (ele)
-        if((activeBlock === "otherele") && (movingBlock[3][0] === movingBlock[2][0]) && (movingBlock[2][0] === movingBlock[1][0]) && !((cells[((movingBlock[3][0]) + 1)][movingBlock[3][1]]) > 9)  && !((cells[((movingBlock[3][0]) + 2)][movingBlock[3][1]]) > 9) && !((cells[((movingBlock[3][0]) + 2)][movingBlock[3][1]]) === "x")   ){
+        if((activeBlock === "otherele") && (movingBlock[3][0] === movingBlock[2][0]) && (movingBlock[2][0] === movingBlock[1][0]) && !((cells[((movingBlock[3][0]) + 1)][movingBlock[3][1]]) === "fix")  && !((cells[((movingBlock[3][0]) + 2)][movingBlock[3][1]]) === "fix") && !((cells[((movingBlock[3][0]) + 2)][movingBlock[3][1]]) === "x")   ){
           updateTemp[((movingBlock[3][0]) + 2)][movingBlock[3][1]] = 5
           updateTemp[((movingBlock[3][0]) + 1)][movingBlock[3][1]] = 5
           updateTemp[movingBlock[0][0]][(movingBlock[0][1])] = 0
@@ -405,14 +365,14 @@ function updateBoard(cells, playingState){
 
         }
 
-        if((activeBlock === "otherele") && (movingBlock[3][1] === movingBlock[2][1]) && (movingBlock[2][1] === movingBlock[1][1]) && (((movingBlock[0][1]) - 1) > 1) && !(cells[movingBlock[1][0]][((movingBlock[1][1]) - 1)] > 9) && !(cells[movingBlock[1][0]][((movingBlock[1][1]) - 2)] > 9) ){
+        if((activeBlock === "otherele") && (movingBlock[3][1] === movingBlock[2][1]) && (movingBlock[2][1] === movingBlock[1][1]) && (((movingBlock[0][1]) - 1) > 1) && !(cells[movingBlock[1][0]][((movingBlock[1][1]) - 1)] === "fix") && !(cells[movingBlock[1][0]][((movingBlock[1][1]) - 2)] === "fix") ){
           updateTemp[movingBlock[1][0]][((movingBlock[1][1]) - 2)] = 5
           updateTemp[movingBlock[1][0]][((movingBlock[1][1]) - 1)] = 5
           updateTemp[movingBlock[0][0]][(movingBlock[0][1])] = 0
           updateTemp[movingBlock[3][0]][(movingBlock[3][1])] = 0
         }
 
-        if((activeBlock === "otherele") && (movingBlock[0][0] === movingBlock[1][0]) && (movingBlock[1][0] === movingBlock[2][0]) && !(cells[movingBlock[0][0]][((movingBlock[0][1]) - 1)] > 9) && !(cells[movingBlock[0][0]][((movingBlock[0][1]) - 2)] > 9) && !(cells[movingBlock[1][0]][((movingBlock[1][1]) - 1)] > 9) && !(cells[movingBlock[1][0]][((movingBlock[1][1]) - 2)] > 9)) {
+        if((activeBlock === "otherele") && (movingBlock[0][0] === movingBlock[1][0]) && (movingBlock[1][0] === movingBlock[2][0]) && !(cells[movingBlock[0][0]][((movingBlock[0][1]) - 1)] === "fix") && !(cells[movingBlock[0][0]][((movingBlock[0][1]) - 2)] === "fix") && !(cells[movingBlock[1][0]][((movingBlock[1][1]) - 1)] === "fix") && !(cells[movingBlock[1][0]][((movingBlock[1][1]) - 2)] === "fix")) {
           updateTemp[((movingBlock[1][0]) - 2)][((movingBlock[1][1]))] = 5
           updateTemp[((movingBlock[1][0]) - 1)][movingBlock[1][1]] = 5
           updateTemp[movingBlock[0][0]][(movingBlock[0][1])] = 0
@@ -420,7 +380,7 @@ function updateBoard(cells, playingState){
 
         }
  
-        if((activeBlock === "otherele") && (movingBlock[0][1] === movingBlock[1][1]) && (movingBlock[1][1] === movingBlock[2][1]) && (((movingBlock[2][1]) + 2) < 15) && !(cells[movingBlock[1][0]][((movingBlock[1][1]) + 2)] > 9) && !(cells[movingBlock[1][0]][((movingBlock[1][1]) + 1)] > 9)   ) {
+        if((activeBlock === "otherele") && (movingBlock[0][1] === movingBlock[1][1]) && (movingBlock[1][1] === movingBlock[2][1]) && (((movingBlock[2][1]) + 2) < 15) && !(cells[movingBlock[1][0]][((movingBlock[1][1]) + 2)] === "fix") && !(cells[movingBlock[1][0]][((movingBlock[1][1]) + 1)] === "fix")   ) {
           updateTemp[movingBlock[1][0]][((movingBlock[1][1]) + 2)] = 5
           updateTemp[movingBlock[1][0]][((movingBlock[1][1]) + 1)] = 5
           updateTemp[movingBlock[3][0]][(movingBlock[3][1])] = 0
@@ -429,14 +389,14 @@ function updateBoard(cells, playingState){
         }
 
         //si es ese:
-        if((activeBlock === "ese") && ((movingBlock[1][1]) === (movingBlock[2][1])) && !(cells[((movingBlock[1][0]) + 1)][movingBlock[1][1]] === "x") && !(cells[((movingBlock[1][0]) + 1)][movingBlock[1][1]] > 9) && !(cells[((movingBlock[0][0]) + 1)][(movingBlock[0][1])] > 9) && !(cells[((movingBlock[0][0]) - 1)][(movingBlock[0][0])] > 9)) {
+        if((activeBlock === "ese") && ((movingBlock[1][1]) === (movingBlock[2][1])) && !(cells[((movingBlock[1][0]) + 1)][movingBlock[1][1]] === "x") && !(cells[((movingBlock[1][0]) + 1)][movingBlock[1][1]] === "fix") && !(cells[((movingBlock[0][0]) + 1)][(movingBlock[0][1])] === "fix") && !(cells[((movingBlock[0][0]) - 1)][(movingBlock[0][0])] === "fix")) {
             updateTemp[((movingBlock[0][0]) - 1)][(movingBlock[0][1])] = 6
             updateTemp[((movingBlock[1][0]) + 1)][movingBlock[1][1]] = 6
             updateTemp[movingBlock[3][0]][(movingBlock[3][1])] = 0
             updateTemp[movingBlock[2][0]][(movingBlock[2][1])] = 0
         }
 
-        if((activeBlock === "ese") && ((movingBlock[1][1]) === (movingBlock[0][1])) && !(cells[((movingBlock[0][0]) + 1)][movingBlock[0][1]] > 9) && !(cells[((movingBlock[1][0]))][((movingBlock[1][1]) + 1)] > 9) && !(cells[((movingBlock[1][0]))][((movingBlock[1][1]) + 2)] > 9) && (((movingBlock[1][1]) + 1)) < 15) {
+        if((activeBlock === "ese") && ((movingBlock[1][1]) === (movingBlock[0][1])) && !(cells[((movingBlock[0][0]) + 1)][movingBlock[0][1]] === "fix") && !(cells[((movingBlock[1][0]))][((movingBlock[1][1]) + 1)] === "fix") && !(cells[((movingBlock[1][0]))][((movingBlock[1][1]) + 2)] === "fix") && (((movingBlock[1][1]) + 1)) < 15) {
           updateTemp[((movingBlock[3][0]))][((movingBlock[3][1]) + 1)] = 6
           
           updateTemp[movingBlock[0][0]][(movingBlock[0][1])] = 0
@@ -445,22 +405,22 @@ function updateBoard(cells, playingState){
         }
         //si es te:
 
-        if((activeBlock === "te") && ((movingBlock[0][0]) === (movingBlock[1][0])) && !(cells[((movingBlock[1][0]) + 1)][movingBlock[1][1]] > 9) && !(cells[((movingBlock[1][0]) + 1)][movingBlock[1][1]] > 9) && !(cells[((movingBlock[3][0]) + 1)][movingBlock[3][1]] > 9) && !(cells[((movingBlock[3][0]) - 1)][movingBlock[3][1]] > 9)) {
+        if((activeBlock === "te") && ((movingBlock[0][0]) === (movingBlock[1][0])) && !(cells[((movingBlock[1][0]) + 1)][movingBlock[1][1]] === "x") && !(cells[((movingBlock[1][0]) + 1)][movingBlock[1][1]] === "fix") && !(cells[((movingBlock[3][0]) + 1)][movingBlock[3][1]] === "fix") && !(cells[((movingBlock[3][0]) - 1)][movingBlock[3][1]] === "fix")) {
           updateTemp[((movingBlock[1][0]) + 1)][movingBlock[1][1]] = 8
           updateTemp[movingBlock[0][0]][(movingBlock[0][1])] = 0
         }
 
-        if((activeBlock === "te") && ((movingBlock[0][1]) === (movingBlock[1][1])) && !(((movingBlock[0][1]) - 1) < 2 )  && !((cells[movingBlock[0][0]][((movingBlock[0][1]) - 1)]) > 9 )  && !((cells[movingBlock[0][0]][((movingBlock[0][1]) + 1)]) > 9 ) && !((cells[movingBlock[1][0]][((movingBlock[1][1]) - 1)]) > 9 )){
+        if((activeBlock === "te") && ((movingBlock[0][1]) === (movingBlock[1][1])) && !(((movingBlock[0][1]) - 1) < 2 )  && !((cells[movingBlock[0][0]][((movingBlock[0][1]) - 1)]) === "fix" )  && !((cells[movingBlock[0][0]][((movingBlock[0][1]) + 1)]) === "fix" ) && !((cells[movingBlock[1][0]][((movingBlock[1][1]) - 1)]) === "fix" )){
           updateTemp[movingBlock[2][0]][(movingBlock[2][1])] = 0
           updateTemp[movingBlock[1][0]][((movingBlock[1][1]) - 1)] = 8
         }
 
-        if ( (activeBlock === "te") && ((movingBlock[0][0]) === (movingBlock[2][0])) && ((movingBlock[2][0]) === (movingBlock[3][0])) && !(cells[movingBlock[1][0]][((movingBlock[1][1]) + 1)] > 9) && !(cells[movingBlock[1][0]][((movingBlock[1][1]) - 1)] > 9)&& !(cells[((movingBlock[1][0]) - 2)][movingBlock[1][1]] > 9) ){
+        if ( (activeBlock === "te") && ((movingBlock[0][0]) === (movingBlock[2][0])) && ((movingBlock[2][0]) === (movingBlock[3][0])) && !(cells[movingBlock[1][0]][((movingBlock[1][1]) + 1)] === "fix") && !(cells[movingBlock[1][0]][((movingBlock[1][1]) - 1)] === "fix")&& !(cells[((movingBlock[1][0]) - 2)][movingBlock[1][1]] === "fix") ){
           updateTemp[movingBlock[3][0]][(movingBlock[3][1])] = 0
           updateTemp[((movingBlock[1][0])  - 2)][movingBlock[1][1]] = 8
         }
 
-        if ( (activeBlock === "te") && ((movingBlock[1][1]) === (movingBlock[3][1])) && (((movingBlock[1][1]) + 1) < 16) && !((cells[movingBlock[2][0]][((movingBlock[2][1]) + 1)]) > 9) && !((cells[((movingBlock[2][0]) - 1)][((movingBlock[2][1]) + 1)]) > 9) && !((cells[((movingBlock[0][0]) - 1)][(movingBlock[0][1])]) > 9) && !((cells[((movingBlock[0][0]) + 1)][(movingBlock[0][1])] > 9) )) {
+        if ( (activeBlock === "te") && ((movingBlock[1][1]) === (movingBlock[3][1])) && (((movingBlock[1][1]) + 1) < 16) && !((cells[movingBlock[2][0]][((movingBlock[2][1]) + 1)]) === "fix") && !((cells[((movingBlock[2][0]) - 1)][((movingBlock[2][1]) + 1)]) === "fix") && !((cells[((movingBlock[0][0]) - 1)][(movingBlock[0][1])]) === "fix") && !((cells[((movingBlock[0][0]) + 1)][(movingBlock[0][1])] === "fix") )) {
           updateTemp[movingBlock[1][0]][(movingBlock[1][1])] = 0
           updateTemp[movingBlock[2][0]][((movingBlock[2][1]) + 1)] = 8
         }
@@ -477,7 +437,7 @@ if((key === 0) && (keyUp === 0)){
      if(movingBlock.length === 4){
       for(let i = 0; i < 4; i++){
 
-        if(!(cells[(movingBlock[i][0]) + 1][movingBlock[i][1]] === "x" ) && !(cells[(movingBlock[i][0]) + 1][movingBlock[i][1]] > 9 )){
+        if(!(cells[(movingBlock[i][0]) + 1][movingBlock[i][1]] === "x" ) && !(cells[(movingBlock[i][0]) + 1][movingBlock[i][1]] === "fix" )){
           count++
         }
       }
@@ -489,14 +449,13 @@ if((key === 0) && (keyUp === 0)){
             update[(movingBlock[i][0])][movingBlock[i][1]] = cells[(movingBlock[i][0]) - 1][movingBlock[i][1]]
             }
         }
-        //fija el bloque en el piso y tira una nueva pieza:
         else if(count<4){
-          update[movingBlock[0][0]][movingBlock[0][1]] = update[movingBlock[0][0]][movingBlock[0][1]] * 10
-          update[movingBlock[1][0]][movingBlock[1][1]] = update[movingBlock[1][0]][movingBlock[1][1]] * 10
-          update[movingBlock[2][0]][movingBlock[2][1]] = update[movingBlock[2][0]][movingBlock[2][1]] * 10
-          update[movingBlock[3][0]][movingBlock[3][1]] = update[movingBlock[3][0]][movingBlock[3][1]] * 10
+          update[movingBlock[0][0]][movingBlock[0][1]] = "fix"
+          update[movingBlock[1][0]][movingBlock[1][1]] = "fix"
+          update[movingBlock[2][0]][movingBlock[2][1]] = "fix"
+          update[movingBlock[3][0]][movingBlock[3][1]] = "fix"
           update = blocks(update)
-         
+          console.log("activeBlock" + activeBlock)
         }  
     }
   }
@@ -508,7 +467,7 @@ if((key === 0) && (keyUp === 0)){
       var count2 = 0
       for(let c = 2; c<16; c++){
           
-          if(updateTemp2[r][c] > 9){
+          if(updateTemp2[r][c] == "fix"){
             count2++
           }
         } 
@@ -520,24 +479,14 @@ if((key === 0) && (keyUp === 0)){
                 updateTemp2[r2][c] = update[r2-1][c]
               }
             }
-            score2++
-            if(score2 % 2 === 0){
-              updateScore2 = true
-            }
-
           }
      
     }
 
-    for(let c = 2; c < 16 ; c++){
-      if(updateTemp2[2][c] > 9){
-        console.log("Game Over")
-        result2 = "Game Over"
-      }
-    }
+
 
     update = updateTemp2
-  }
+
     return update;
 }
 
