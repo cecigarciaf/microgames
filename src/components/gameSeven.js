@@ -123,13 +123,7 @@ function GameSeven() {
     square[3][8] = 1
     square[3][9] = 1
 
-    if (updateScore2){
-      updateSpeed(speed - 30)
-      updateScore2 = false
-    }
-
-
-
+  
 
     useEffect(() => {
        
@@ -139,7 +133,7 @@ function GameSeven() {
           addBlock((cells) => updateBoard(cells));
           updateResult(result2)
           updateScore(score2)
-        }, speed);
+        }, 100);
         return () => {
           clearInterval(test);
         };
