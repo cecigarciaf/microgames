@@ -1056,7 +1056,7 @@ leftstyle(shoots){
     var style = {
         width: "2rem",
         height: "2rem",
-        border:"1px solid grey",
+        border:"0.5px solid grey",
         backgroundColor: color
     }
     return style;
@@ -1082,7 +1082,7 @@ rightstyle(shoots, systemshoots){
     var style = {
         width: "2rem",
         height: "2rem",
-        border:"1px solid grey",
+        border:"0.5px solid grey",
         backgroundColor: color
     }
     return style;
@@ -1105,7 +1105,7 @@ text(systemshoots){
         <li>Comenzá haciendo un disparo pulsando sobre la celda que quieras del tablero izquierdo</li>
         <li>Podés hacer botón derecho sobre una celda del tablero izquierdo si pensás que ahí no hay un barco</li>
         <li>No puede haber dos barcos que se toquén entre sí</li>
-        <li>Al acertar un disparo, se vuelve a disparar</li>
+        <li>Al acertar un disparo, el turno se mantiene</li>
         </ol>
 
         return (
@@ -1122,12 +1122,12 @@ text(systemshoots){
                 </div>
 
                 <div className = "row" > 
-                    <div className ="col-sm-12 col-md-5  d-md-block text-center">
+                    <div className ="col-sm-12 col-md-5  d-md-block text-center mr-4">
                         <Board style= {this.leftstyle} systemshoots = "{this.state.systemShoots}"  shoots = {this.state.userShoots} text = "{this.state.cells}" cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>                     
                      </div>
                      
 
-                    <div className ="col-sm-12 col-md-5  d-md-block text-center">
+                    <div className ="col-sm-12 col-md-5  d-md-block text-center mr-4">
                          <Board style = {this.rightstyle} systemshoots = {this.state.systemShoots} shoots = {this.state.userCells} text = "{this.state.systemShoots}" cells = {this.state.userCells} handleRClick = {this.handleROnRightBoardClick} handleClick = {this.handleRBoardClick }/>
                 
                     
