@@ -17,27 +17,42 @@ import GameFive from './gameFive';
 import GameSix from './gameSix';
 import GameSeven from './gameSeven';
 
-function Sidebar () {
-    
+class Sidebar extends React.Component{
+    constructor(props){
+        super(props)
+        this.state = {navExpanded: false}
+        this.closeNav = this.closeNav.bind(this)
+        this.setNavExpanded = this.setNavExpanded.bind(this)
+       
+}
+setNavExpanded(expanded) {
+    this.setState({ navExpanded: expanded });
+  }
+
+  closeNav() {
+    this.setState({ navExpanded: false });
+  }
+render(){    
     return (
-        <BrowserRouter> 
+        <BrowserRouter >  
             
                 <div className ="col-3">
-                <Navbar collapseonselect="true" expand="lg"defaultActiveKey="/home" className="flex-column">
+                <Navbar onToggle={this.setNavExpanded}
+                expanded={this.state.navExpanded} expand="lg" className="flex-column">
                     <Container>
                 
                         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                         <Navbar.Collapse id="responsive-navbar-nav">
                         
-                        <Nav collapseonselect="true" expand="lg"defaultActiveKey="/home" className="flex-column">
-                        <Nav.Link className= " sideButton text-dark" >Home</Nav.Link>
-                        <Nav.Link className= "text-secondary sideButton" as={Link} to="./gameOne" >TONES</Nav.Link>
-                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameTwo" eventKey="link-2">SENKU</Nav.Link>   
-                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameFour">MINES</Nav.Link>
-                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameFive">BATTLE</Nav.Link>
-                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameSix">NUMBERS</Nav.Link>
-                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameSeven">TETRIS</Nav.Link>
-                        <Nav.Link className= "hideOnPhone text-secondary sideButton" as={Link} to="/gameThree">PICZLE</Nav.Link>
+                        <Nav onSelect={this.closeNav} defaultActiveKey="/home" className="flex-column">
+                        <Nav.Link className= "sideButton text-dark" >Home</Nav.Link>
+                        <Nav.Link className= "text-secondary sideButton " as={Link} to="./gameOne"  eventKey="link-1"><tx className = "sideText font-face-zkgam">TONES</tx></Nav.Link>
+                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameTwo" eventKey="link-2"><tx className = "sideText font-face-zkgam">SENKU</tx></Nav.Link>   
+                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameFour"  eventKey="link-3" ><tx className = "sideText font-face-zkgam">MINES</tx></Nav.Link>
+                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameFive"  eventKey="link-4"><tx className = "sideText font-face-zkgam">BATTLE</tx></Nav.Link>
+                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameSix"  eventKey="link-5"><tx className = "sideText font-face-zkgam">NUMBERS</tx></Nav.Link>
+                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameSeven"  eventKey="link-6"><tx className = "sideText font-face-zkgam">TETRIS</tx></Nav.Link>
+                        <Nav.Link className= "hideOnPhone text-secondary sideButton" as={Link} to="/gameThree"  eventKey="link-7"><tx className = "sideText font-face-zkgam">PICZLE</tx></Nav.Link>
                         </Nav>
 
                         </Navbar.Collapse>
@@ -62,6 +77,7 @@ function Sidebar () {
          
 
     )
+}
 }
 
 export default Sidebar;

@@ -143,7 +143,7 @@ function GameSeven() {
 
     <div  onKeyDown={(e) => handleKeyDown(e)} className ="col-9 justify-content-center">
           <div className = "row mt-4 justify-content-center">
-            <div className = "col-2 text-center justify-content-center " >  
+            <div className = "col-sm-4 col-md-3 col-lg-2 text-center justify-content-center " >  
               <tx className = "font-face-zkgam" style={{fontSize: 13}} id = "scoreTitle"> SCORE:  </tx>  
               <tx style={{fontSize: 15}} id = "score" className = "font-face-zkga"> {score} </tx> 
             </div>

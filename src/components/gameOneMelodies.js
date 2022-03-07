@@ -1,9 +1,6 @@
 import React from 'react';
 import {Howl} from 'howler';
-
 import PlayStopButton from './playButton';
-
-import Nav  from 'react-bootstrap/Nav';
 import './gameOneRandom';
 
 
@@ -173,10 +170,12 @@ class GameOneMelodies extends React.Component {
               
 
           <div className = "row mt-4 align-items-center" >
-            <div className = "col-sm-9 col-md-9 col-lg-2 col-xl-2 d-md-block text-center" > <PlayStopButton  size="sm" text = {this.state.gameStatus === "false"?  "PLAY" : "QUIT"} onButtonClick={this.state.gameStatus === "false"? this.handlePlay : this.handleQuit}/> </div>
-            <div className = "col-sm-9 col-md-9 col-lg-4 col-xl-4 d-md-block text-center" > <h1 className = "font-face-zkga" style={{fontSize: 20}} id = "result">{this.state.resultText}</h1> </div>
-            <div className = "col-sm-9 col-md-9 col-lg-3 col-xl-3 d-md-block text-center" > <tx className = "font-face-zkgam" style={{fontSize: 20}} id = "scoreTitle"> Score:  </tx>  <tx style={{fontSize: 20}} id = "score" className = "font-face-zkga"> {this.state.score} </tx> </div>
-            <div className = "col-3"></div>
+            <div className = "col-sm-4 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" > <PlayStopButton   text = {this.state.gameStatus === "false"?  "PLAY" : "QUIT"} onButtonClick={this.state.gameStatus === "false"? this.handlePlay : this.handleQuit}/> </div>
+            
+            <div className = "col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center justify-content-center " >  
+              <tx className = "font-face-zkgam" style={{fontSize: 13}} id = "scoreTitle"> SCORE:  </tx>  
+              <tx style={{fontSize: 15}} id = "score" className = "font-face-zkga"> {this.state.score} </tx> 
+            </div>
           </div>
 
         </div>

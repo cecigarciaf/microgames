@@ -129,3 +129,15 @@
   visibility: hidden;
 }
 }
+
+.sideText:hover{
+  color: rgb(211, 177, 250);
+}
+
+
+
+
+
+.active {
+  background-color: rgb(240, 232, 250);
+ }
