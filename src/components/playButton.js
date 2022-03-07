@@ -13,7 +13,7 @@ class PlayStopButton extends React.Component {
     render () { 
     return (
       
-       <Button className = "font-face-zkgam" id="playbutton" size="sm" variant="outline-dark"  onClick={this.handleClick}>{this.props.text}</Button>
+       <Button className = "font-face-zkgam mt-1 " id="playbutton" size="sm" variant="outline-dark"  onClick={this.handleClick}>{this.props.text}</Button>
      
     )
     }

@@ -5,18 +5,25 @@ import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Nav  from 'react-bootstrap/Nav';
 import NavDropdown  from 'react-bootstrap/NavDropdown';
+import Instructions from './Instructions'
+import InstructionsButton from './InstructionsButton';
 
 
+//cuadro con cantidad de bombas:
 function UserBomb(props){
     var style = {
-        color: "grey",
+        color: "black",
         fontSize: "60",
         textAlign: "center",
         backgroundColor: "white",
-        border:"1px solid #212529"
+        border:"1px solid #212529",
+        lineHeight: "2",
+        fontWeight: "bold",
+        height: "2rem",
+        width: "2rem"
     }
     return (
-        <div className = "mx-auto rounded" id= "bombsleft" style = {style}>{props.text}</div>
+        <div size="sm" className = "mx-auto rounded mt-1"  style = {style}>{props.text}</div>
     )
 }
 
@@ -25,31 +32,40 @@ function UserBomb(props){
 function Cell(props){
 var color = "rgb(199, 196, 196)"
 var cN = "text-center justify-content-center"
+var backgroundColor = "rgb(199, 196, 196)"
 if(props.cell === "b"){
-    color = "red"
+    color = "rgb(223, 164, 176)"
 }
 else if(props.cell === "c"){
     color = "white"
 } else if(props.userBombs === "bomba") {
     color = "black";
     cN = "text-center justify-content-center rounded-circle ";
+    
 }
 
 var style = {
     width: "2rem",
     height: "2rem",
-    border:"1px solid grey",
-    backgroundColor: color
+    backgroundColor: color,
+    lineHeight: "2",
+    fontSize: "30"
 }
 
 var containerStyle = {
-    backgroundColor: "grey"
+    border:"0.5px solid grey",
+    backgroundColor: {backgroundColor }
+}
+
+var fontStyle = {
+    fontWeight: "bold"
+
 }
 
 return (
     <div style= {containerStyle }>
     <div className= {cN} level = {props.level} userBombs = {props.userBombs} style = {style} cell = {props.cell} row = {props.row} col = {props.col} onContextMenu = {(e) =>props.handleRightClick(props.row,props.col, e)} onClick = {() => props.handleClick(props.row,props.col)}>
-        <tx > {props.result} </tx>
+        <tx style = {fontStyle}> {props.result} </tx>
     </div>
     </div>
     )
@@ -105,11 +121,12 @@ constructor(props){
     cells.push(new Array(10).fill(0))
 }
 
-    this.state = {level: 0, playingState: false, bombsleft:"", cells:cells, correctCells: [], result:result, userBombs: userBombs}
+    this.state = {show: true, level: 0, playingState: false, bombsleft:"", cells:cells, correctCells: [], result:result, userBombs: userBombs}
     this.playClick = this.playClick.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleRClick = this.handleRClick.bind(this)
     this.handleLevel = this.handleLevel.bind(this)
+    this.instructions = this.instructions.bind(this)
 }
 
 handleLevel(event) {
@@ -360,17 +377,41 @@ handleClick(row,col) {
     }
 }
 
+instructions(){
+    var showTemp = this.state.show
+    if(showTemp === false){
+        showTemp = true
+    } else if (showTemp === true){
+        showTemp = false
+    }
+    this.setState({show: showTemp})
+}   
+
 render(){  
+
+    var howtoplay =    
+   
+        <ol className= "font-face-zkgam">   
+        <li> Seleccionar un nivel (level)</li>     
+        <li>Hacer clic en PLAY</li>
+        <li>Comenzá haciendo un disparo pulsando sobre la celda que quieras</li>
+        
+        <li>Podés ubicar o remover bombas con botón derecho en una casilla</li>
+        <li>Un recuadro mostrará la cantidad de bombas que falta ubicar</li>
+
+        </ol>
+
+
     return (
         <div className ="col-9">
             <div className = "row" > 
             <Navbar bg="white" variant="light">
                 <Container >
                 <Nav className="me-auto mx-auto">
-                <NavDropdown title="Level" id="basic-nav-dropdown">
-                    <NavDropdown.Item onClick={this.handleLevel} id="4" > Small </NavDropdown.Item>
-                    <NavDropdown.Item onClick={this.handleLevel} id="8" > Medium </NavDropdown.Item>
-                    <NavDropdown.Item onClick={this.handleLevel} id="10"> Large </NavDropdown.Item>
+                <NavDropdown  className = "font-face-zkgam " title="Level" id="basic-nav-dropdown">
+                    <NavDropdown.Item onClick={this.handleLevel} className = "select font-face-zkgam " id="4" > Small </NavDropdown.Item>
+                    <NavDropdown.Item onClick={this.handleLevel} className = "select font-face-zkgam " id="8" > Medium </NavDropdown.Item>
+                    <NavDropdown.Item onClick={this.handleLevel} className = "select font-face-zkgam " id="10"> Large </NavDropdown.Item>
                 </NavDropdown>
                 </Nav>
                 </Container>
@@ -384,12 +425,21 @@ render(){
             </div>
 
             <div className = "row mt-4 align-items-center justify-content-center" >
-                <div className = "col-sm-12 col-md-6 col-lg-2 col-xl-2 d-md-block text-center" >
-                <UserBomb  text = {this.state.bombsleft}/>
+                <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" >
+                    <UserBomb  text = {this.state.bombsleft}/>
                 </div>
 
-            <div className = "col-sm-12 col-md-6 col-lg-2 col-xl-2 d-md-block text-center" >
+            <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" >
                 <PlayStopButton text= {this.state.playingState === false?  "PLAY" : "QUIT"} onButtonClick = {this.playClick}/>
+            </div>
+
+            <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" >
+
+                <InstructionsButton instructions = {this.instructions}/>
+                            
+                <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay} /> 
+
+
             </div>
             
             </div> 

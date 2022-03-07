@@ -124,3 +124,8 @@
 #b2:hover {background-color: #663a43}
 
 
+@media only screen and (max-width: 600px) {
+.hideOnPhone{
+  visibility: hidden;
+}
+}

@@ -7,7 +7,8 @@ import PICS from "./pics/index.js";
 import './gameThree.css';
 import PlayStopButton from './playButton'
 import Button from 'react-bootstrap/Button';
-
+import Instructions from './Instructions'
+import InstructionsButton from './InstructionsButton';
 
 class GameThree extends React.Component {
   constructor(props) {
@@ -19,12 +20,15 @@ class GameThree extends React.Component {
     this.handleDropBack = this.handleDropBack.bind(this)
     this.handlePicChange = this.handlePicChange.bind(this)
     this.handleSubject = this.handleSubject.bind(this)
+    this.instructions = this.instructions.bind(this)
+
+
       var cells2 = []
       for(let i = 0; i < 20; i++ ){
       cells2.push("empty")
       } 
     
-    this.state = {subject: "", picSelected: "", leftCellsState: cells2, result: "", currentResult:["a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a"], playingState: "false", selectedCell: "no", assignedId: [0, 1, 2, 3, 4, 5,6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]}
+    this.state = {show:true, subject: "", picSelected: "", leftCellsState: cells2, result: "", currentResult:["a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a"], playingState: "false", selectedCell: "no", assignedId: [0, 1, 2, 3, 4, 5,6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]}
   }
 
   correctOrder = ["col1 row1", "col2 row1", "col3 row1", "col4 row1", "col5 row1", "col1 row2", "col2 row2", "col3 row2", "col4 row2", "col5 row2", "col1 row3", "col2 row3", "col3 row3", "col4 row3", "col5 row3", "col1 row4", "col2 row4", "col3 row4", "col4 row4", "col5 row4"]
@@ -167,7 +171,15 @@ class GameThree extends React.Component {
     
   }}
   
-
+  instructions(){
+    var showTemp = this.state.show
+    if(showTemp === false){
+        showTemp = true
+    } else if (showTemp === true){
+        showTemp = false
+    }
+    this.setState({show: showTemp})
+}   
 
   handleDropBack(event) { 
 
@@ -205,7 +217,17 @@ class GameThree extends React.Component {
         backgroundColor: color
 
     }
+    var howtoplay =    
+   
+    <ol className= "font-face-zkgam">   
+    <li>Buscar una foto aleatoria con el botón "Select a pic"</li>     
+    <li>O elegir primero un tema en el menu "Themes"</li>
+    <li>Al hacer click en "PLAY" se mezcla el rompecabezas </li>
+    <li>Arrastrar las piezas con el mouse para re-armar la foto</li>
     
+
+    </ol>
+
     return (
       <div className ="col-9">
         <div className = "row" > 
@@ -214,8 +236,8 @@ class GameThree extends React.Component {
               <Nav className="me-auto mx-auto">
               
               <NavDropdown   title="Themes" id="basic-nav-dropdown">
-                <NavDropdown.Item onClick={this.handleSubject} id="argentina">Argentina</NavDropdown.Item>
-                <NavDropdown.Item onClick={this.handleSubject} id="birds" >Birds</NavDropdown.Item>
+                <NavDropdown.Item className = "select font-face-zkgam " onClick={this.handleSubject} id="argentina">Argentina</NavDropdown.Item>
+                <NavDropdown.Item className = "select font-face-zkgam " onClick={this.handleSubject} id="birds" >Birds</NavDropdown.Item>
                  
               </NavDropdown>
               </Nav>
@@ -269,12 +291,23 @@ class GameThree extends React.Component {
 
       </div>
       
-      <div className = "row mt-4 align-items-center" >
-            <div className = "col-1" > </div>
-            <div className = "col-3" > <Button  className = "font-face-zkga" id="selectbutton" size="lg" variant="outline-dark"  onClick={this.handlePicChange}>Select a Pic</Button></div>
-            <div className = "col-2 text-center" > <PlayStopButton   text = {this.state.playingState === "false"?  "PLAY" : "QUIT"}  onButtonClick= {this.handlePlay}/> </div>
-            <div className = "col-1" > </div>
+      <div className = "row mt-4 align-items-center justify-content-center " >
+          <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" >
+            <Button  className = "font-face-zkga select" id="selectbutton" size="sm" variant="outline-dark"  onClick={this.handlePicChange}>Select a Pic</Button>
+          </div>
+
+          <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" > 
+            <PlayStopButton   text = {this.state.playingState === "false"?  "PLAY" : "QUIT"}  onButtonClick= {this.handlePlay}/> 
+          </div>
+
+          <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" >
+            <InstructionsButton instructions = {this.instructions}/>
+            <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay} /> 
+          </div>  
+            
       </div>
+
+
       <div className = "row mt-4 align-items-center text-center" >
         <h1 className = "font-face-zkga" id = "result">{this.state.result}</h1> 
       </div>

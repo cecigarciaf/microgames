@@ -3,9 +3,9 @@ import PlayStopButton from './playButton';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Nav  from 'react-bootstrap/Nav';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal'
-
+import Instructions from './Instructions'
+import InstructionsButton from './InstructionsButton';
+import './gameFive.css';
 
 function UserClicks(props){
     var style = {
@@ -167,6 +167,7 @@ class GameFive extends React.Component{
         this.handleRBoardClick = this.handleRBoardClick.bind(this)
         this.confirmClick = this.confirmClick.bind(this)
         this.instructions = this.instructions.bind(this)
+
     }
 
 instructions(){
@@ -1092,8 +1093,20 @@ text(systemshoots){
 }
 
 
-    render(){  
 
+    render(){  
+        var howtoplay =    
+   
+        <ol className= "font-face-zkgam">   
+        <li> Seleccionar un barco</li>     
+        <li>Hacer clic en la primer y última celda del tablero derecho donde quieras ubicarlo</li>
+        <li>Para cambiar la ubicación de un barco, pulsar botón derecho sobre el mismo</li>
+        <li>Una vez ubicados todos los barcos pulsar "Confirm" y luego "Play" para comenzar a jugar</li>
+        <li>Comenzá haciendo un disparo pulsando sobre la celda que quieras del tablero izquierdo</li>
+        <li>Podés hacer botón derecho sobre una celda del tablero izquierdo si pensás que ahí no hay un barco</li>
+        <li>No puede haber dos barcos que se toquén entre sí</li>
+        <li>Al acertar un disparo, se vuelve a disparar</li>
+        </ol>
 
         return (
             <div className ="col-9">
@@ -1144,38 +1157,9 @@ text(systemshoots){
 
                             <div className ="col-sm-12 col-md-4  d-md-block text-center">
 
-                                <Button className= "font-face-zkgam" size="sm" variant="outline-dark" onClick={this.instructions}>
-                                   Instructions
-                                </Button>
+                                <InstructionsButton instructions = {this.instructions}/>
                            
-                                    <Modal
-                                        show={this.state.show}
-                                        onHide={this.instructions}
-                                        dialogClassName="modal-90w"
-                                        aria-labelledby="example-custom-modal-styling-title"
-                                        style={{"width" : "100%"}}
-                                    >
-                                        <Modal.Header closeButton>
-                                        <Modal.Title id="example-custom-modal-styling-title">
-                                            Instrucciones:
-                                        </Modal.Title>
-                                        </Modal.Header>
-                                        <Modal.Body>
-                                        
-                                        <ol className= "font-face-zkgam"> 
-                                            <li> Seleccionar un barco</li>     
-                                            <li>Hacer clic en la primer y última celda del tablero derecho donde quieras ubicarlo</li>
-                                            <li>Para cambiar la ubicación de un barco, pulsar botón derecho sobre el mismo</li>
-                                            <li>Una vez ubicados todos los barcos pulsar "Confirm" y luego "Play" para comenzar a jugar</li>
-                                            <li>Comenzá haciendo un disparo pulsando sobre la celda que quieras del tablero izquierdo</li>
-                                            <li>Podés hacer botón derecho sobre una celda del tablero izquierdo si pensás que ahí no hay un barco</li>
-                                            <li>No puede haber dos barcos que se toquén entre sí</li>
-                                            <li>Al acertar un disparo, se vuelve a disparar</li>
-                                           
-                                        </ol>
-                                      
-                                        </Modal.Body>
-                                    </Modal>
+                                <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay} /> 
 
 
                             </div>

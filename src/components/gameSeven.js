@@ -92,7 +92,7 @@ function Cell(props){
               board.push(<Row   key = {i} row = {i} cells = {props.cells[i]}  handleClick = {props.handleClick}/>)
           }
           return (
-              <div   className = "align-items-center justify-content-center col-12 m-5" > 
+              <div   className = "align-items-center justify-content-center col-12" > 
           
                 <div  display= "inline-block" >
               {board}
@@ -141,8 +141,18 @@ function GameSeven() {
 
     return (
 
-    <div  onKeyDown={(e) => handleKeyDown(e)} className ="col-9">
-        <div className = "row mt-4 align-items-center"> 
+    <div  onKeyDown={(e) => handleKeyDown(e)} className ="col-9 justify-content-center">
+          <div className = "row mt-4 justify-content-center">
+            <div className = "col-2 text-center justify-content-center " >  
+              <tx className = "font-face-zkgam" style={{fontSize: 13}} id = "scoreTitle"> SCORE:  </tx>  
+              <tx style={{fontSize: 15}} id = "score" className = "font-face-zkga"> {score} </tx> 
+            </div>
+
+            <div className = "col-2 text-center justify-content-center " >  
+            <h1 className = "font-face-zkga" style={{fontSize: 15}} id = "result">{result}</h1> 
+            </div>
+          </div>
+        <div className = "row  align-items-center justify-content-center"> 
             <Board cells= {cells}  />
         </div> 
         <div className = "row mt-4 align-items-center"> 
@@ -152,11 +162,8 @@ function GameSeven() {
         <div className = "col-4 text-center" > <ArrowRightSquare  width="28" height="28" onClick={() => handleRightButton()}/> </div>
         </div>
         <div className = "row mt-4 align-items-center"> 
-            <div className = "col-sm-9 col-md-9 col-lg-4 col-xl-4 d-md-block text-center" > <PlayStopButton  size="sm" text= "PLAY"  onButtonClick={() => addBlock(square)}/> </div>
-            <div className = "col-sm-9 col-md-9 col-lg-4 col-xl-4 d-md-block text-center" > <h1 className = "font-face-zkga" style={{fontSize: 20}} id = "result">{result}</h1> </div>
-            <div className = "col-sm-9 col-md-9 col-lg-4 col-xl-4 d-md-block text-center" > <tx className = "font-face-zkgam" style={{fontSize: 20}} id = "scoreTitle"> Score:  </tx>  <tx style={{fontSize: 20}} id = "score" className = "font-face-zkga"> {score} </tx> </div>
-           
-         
+            <div className = "col-12 text-center" > <PlayStopButton  size="sm" text= "PLAY"  onButtonClick={() => addBlock(square)}/> </div>
+            
         </div>
     </div>
     );

@@ -1,5 +1,7 @@
 import React from 'react';
 import Nav  from 'react-bootstrap/Nav';
+import Navbar  from 'react-bootstrap/Navbar';
+import Container  from 'react-bootstrap/Container';
 import "../App.css";
 import {
     BrowserRouter,
@@ -16,22 +18,35 @@ import GameSix from './gameSix';
 import GameSeven from './gameSeven';
 
 function Sidebar () {
+    
     return (
         <BrowserRouter> 
-      
-            <div className ="col-3">
-                <Nav defaultActiveKey="/home" className="flex-column">
-                    <Nav.Link className= " sideButton text-dark" >Home</Nav.Link>
-                    <Nav.Link className= "text-secondary sideButton" as={Link} to="./gameOne" >TONES</Nav.Link>
-                    <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameTwo" eventKey="link-2">SENKU</Nav.Link>
-                    <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameThree">PICZLE</Nav.Link>
-                    <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameFour">MINES</Nav.Link>
-                    <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameFive">BATTLE</Nav.Link>
-                    <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameSix">NUMBERS</Nav.Link>
-                    <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameSeven">TETRIS</Nav.Link>
-             
-                </Nav>
+            
+                <div className ="col-3">
+                <Navbar collapseonselect="true" expand="lg"defaultActiveKey="/home" className="flex-column">
+                    <Container>
+                
+                        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                        <Navbar.Collapse id="responsive-navbar-nav">
+                        
+                        <Nav collapseonselect="true" expand="lg"defaultActiveKey="/home" className="flex-column">
+                        <Nav.Link className= " sideButton text-dark" >Home</Nav.Link>
+                        <Nav.Link className= "text-secondary sideButton" as={Link} to="./gameOne" >TONES</Nav.Link>
+                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameTwo" eventKey="link-2">SENKU</Nav.Link>   
+                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameFour">MINES</Nav.Link>
+                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameFive">BATTLE</Nav.Link>
+                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameSix">NUMBERS</Nav.Link>
+                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameSeven">TETRIS</Nav.Link>
+                        <Nav.Link className= "hideOnPhone text-secondary sideButton" as={Link} to="/gameThree">PICZLE</Nav.Link>
+                        </Nav>
+
+                        </Navbar.Collapse>
+
+                    </Container>
+                </Navbar>
                 </div>
+            
+                
                   
                     <Routes>
                         <Route path= "/gameOne" element= {<GameOne/>}/>
@@ -42,7 +57,7 @@ function Sidebar () {
                         <Route path= "/gameSix" element= {<GameSix/>}/>
                         <Route path= "/gameSeven" element= {<GameSeven/>}/>
                     </Routes>
-
+                
          </BrowserRouter>
          
 
