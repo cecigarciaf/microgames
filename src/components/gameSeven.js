@@ -4,10 +4,17 @@ import './gameSeven.css';
 import { ArrowRepeat } from 'react-bootstrap-icons';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { ArrowLeftSquare } from 'react-bootstrap-icons';
+import Navbar from 'react-bootstrap/Navbar';
+import Container from 'react-bootstrap/Container';
+import Nav  from 'react-bootstrap/Nav';
+import NavDropdown  from 'react-bootstrap/NavDropdown';
 
 var  result2 = ""
 var score2 = 0
-var updateScore2 = false
+var playingState = false
+
+
+
 
 function Cell(props){
 
@@ -92,11 +99,10 @@ function Cell(props){
               board.push(<Row   key = {i} row = {i} cells = {props.cells[i]}  handleClick = {props.handleClick}/>)
           }
           return (
-              <div   className = "align-items-center justify-content-center col-12" > 
-          
-                <div  display= "inline-block" >
-              {board}
-              </div>
+              <div className = "align-items-center justify-content-center col-12" > 
+                <div display= "inline-block" >
+                  {board}
+                </div>
               </div>
 
           )
@@ -116,24 +122,31 @@ function GameSeven() {
     const [score, updateScore] = useState(0);
     const [result, updateResult] = useState("");
     const [speed, updateSpeed] = useState(100)
-    const [playingState, updatePlay] = useState(true)
-    var square = JSON.parse(JSON.stringify(cells))
+   
+    var square = JSON.parse(JSON.stringify(cells2))
     square[2][8] = 1
     square[2][9] = 1
     square[3][8] = 1
     square[3][9] = 1
 
-  
-
+function playClick()  {
+    console.log(speed)
+    if(playingState === false){
+    
+    playingState = true
+    addBlock(square)
+  } else if(playingState === true){
+    playingState = false
+    addBlock(cells2)
+  }
+}
     useEffect(() => {
        
         const test =  setInterval(() => {
-        
-       
           addBlock((cells) => updateBoard(cells));
           updateResult(result2)
           updateScore(score2)
-        }, 100);
+        }, speed);
         return () => {
           clearInterval(test);
         };
@@ -142,6 +155,8 @@ function GameSeven() {
     return (
 
     <div  onKeyDown={(e) => handleKeyDown(e)} className ="col-9 justify-content-center">
+
+
           <div className = "row mt-4 justify-content-center">
             <div className = "col-sm-4 col-md-3 col-lg-2 text-center justify-content-center " >  
               <tx className = "font-face-zkgam" style={{fontSize: 13}} id = "scoreTitle"> SCORE:  </tx>  
@@ -162,7 +177,7 @@ function GameSeven() {
         <div className = "col-4 text-center" > <ArrowRightSquare  width="28" height="28" onClick={() => handleRightButton()}/> </div>
         </div>
         <div className = "row mt-4 align-items-center"> 
-            <div className = "col-12 text-center" > <PlayStopButton  size="sm" text= "PLAY"  onButtonClick={() => addBlock(square)}/> </div>
+            <div className = "col-12 text-center" > <PlayStopButton  size="sm" text= "PLAY"  onButtonClick= {playClick}/> </div>
             
         </div>
     </div>
@@ -266,10 +281,11 @@ function handleUpButton(){
 
 function updateBoard(cells){
 
+ console.log("pl" + playingState)
 
   //busca ubicacion de una pieza que se mueva y no toque nada abajo:
   var update = JSON.parse(JSON.stringify(cells))
-  
+  if (playingState === true) {
   var movingBlock = []
   var y = 0
   for(let c = 2; c<16; c++){    
@@ -473,7 +489,7 @@ function updateBoard(cells){
   
 if((key === 0) && (keyUp === 0)){
   //si no toca nada la sigue bajando, sino la fija:
-  console.log("movingBlock 2   "+ movingBlock)
+  console.log("movingBlock 2   "+ movingBlock + playingState)
      var count = 0
      if(movingBlock.length === 4){
       for(let i = 0; i < 4; i++){
@@ -522,9 +538,7 @@ if((key === 0) && (keyUp === 0)){
               }
             }
             score2++
-            if(score2 % 2 === 0){
-              updateScore2 = true
-            }
+            
 
           }
      
@@ -534,12 +548,14 @@ if((key === 0) && (keyUp === 0)){
       if(updateTemp2[2][c] > 9){
         console.log("Game Over")
         result2 = "Game Over"
+        playingState = false
       }
     }
 
     update = updateTemp2
-
     return update;
+  } else {
+    return update;}
 }
 
 

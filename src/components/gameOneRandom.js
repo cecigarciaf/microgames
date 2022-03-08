@@ -1,6 +1,5 @@
 import React from 'react';
 import {Howl} from 'howler';
-import Button from 'react-bootstrap/Button';
 import './gameOneMelodies';
 import PlayStopButton from './playButton';
 
@@ -34,7 +33,7 @@ class GameOneRandom extends React.Component {
     }
   
     addNote(){
-      const options = ["c", "d", "e", "f", "g", "a", "b"]
+      const options = ["c", "d", "e", "f", "g", "a", "b", "c2", "d2", "e2", "f2", "g2", "a2", "b2"]
       var newCorrectOrder = this.state.correctOrder
       newCorrectOrder.push(options[Math.floor(Math.random() * options.length)])
       this.setState ({correctOrder: newCorrectOrder})
@@ -46,7 +45,7 @@ class GameOneRandom extends React.Component {
     handlePlay(){
       this.setState({score: 0, i: 0, guess : [], gameStatus: "true", turn: "computer"})
       console.log("correctOrder al PLAY" + this.state.correctOrder)
-      const options = ["c", "d", "e", "f", "g", "a", "b"]
+      const options = ["c", "d", "e", "f", "g", "a", "b", "c2", "d2", "e2", "f2", "g2", "a2", "b2"]
       var newCorrectOrder = this.state.correctOrder
       newCorrectOrder.push(options[Math.floor(Math.random() * options.length)])
       this.setState ({correctOrder: newCorrectOrder})
@@ -130,13 +129,20 @@ class GameOneRandom extends React.Component {
 
           <div className = "row mt-4 align-items-center" >  
             <div className= "container"> 
-              <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "c" text = "c" /> 
-              <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "d" text = "d" /> 
-              <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "e" text = "e" /> 
-              <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "f" text = "f" /> 
-              <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "g" text = "g" /> 
-              <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "a" text = "a" /> 
-              <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "b" text = "b" /> 
+            <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "c" text = "c" /> 
+                    <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "d" text = "d" /> 
+                    <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "e" text = "e" /> 
+                    <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "f" text = "f" /> 
+                    <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "g" text = "g" /> 
+                    <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "a" text = "a" /> 
+                    <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "b" text = "b" /> 
+                    <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "c2" text = "c" /> 
+                    <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "d2" text = "d" /> 
+                    <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "e2" text = "e" /> 
+                    <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "f2" text = "f" /> 
+                    <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "g2" text = "g" /> 
+                    <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "a2" text = "a" /> 
+                    <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "b2" text = "b" /> 
             </div>
           </div>
         

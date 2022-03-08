@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal'
 import emailjs from 'emailjs-com'
+import './Mailer.css'
 
 function sendEmail(e){
     e.preventDefault();
@@ -14,14 +15,14 @@ function Mailer (props) {
         
     <Modal
         show={props.show}
-       
+        
         dialogClassName="modal-90w"
         aria-labelledby="example-custom-modal-styling-title"
         style={{"width" : "100%", marginTop: "50px"}}
         >
-            <Modal.Header closeButton onClick= {props.close}>
-            <Modal.Title  className = "font-face-zkgam" id="example-custom-modal-styling-title">
-                <tx style={{align: "center"}}> <b>CONTACT: </b></tx>
+            <Modal.Header  closeButton onClick= {props.close}>
+            <Modal.Title className = "font-face-zkgam" id="example-custom-modal-styling-title">
+                <tx style={{color: "cornflowerblue"}}> <b>CONTACT: </b></tx>
             </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -37,7 +38,7 @@ function Mailer (props) {
 
                     <label style= {{margin: "1px", color: "grey"}} > Message: </label>   
                     <textarea className = "font-face-zkgam form-control" name= "message" rows="4"></textarea> 
-                    <input onClick= {props.close} style= {{margin: "1px", color: "grey"}} className = "btn btn-light mt-4 row font-face-zkgam form-control"  type="submit" value="Send"></input>
+                    <input onClick= {props.close} id= "sendEmail" style= {{margin: "1px", color: "white", backgroundColor: "cornflowerblue"}} className = " mt-4 row font-face-zkgam form-control"  type="submit" value="SEND"></input>
                 </form>       
             </div>
 

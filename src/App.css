@@ -142,9 +142,21 @@
 
 
 .active.sideButton {
-  background-color: rgb(240, 232, 250);
+  background-color: rgb(235, 229, 241);
  }
 
  .topBarText {
   color: rgb(190, 189, 189);
  }
+
+
+ .page-container{
+   display: flex;
+   flex-direction: column;
+   min-height: 100vh;
+
+ }
+
+.content-wrap{
+  flex: 1;
+}

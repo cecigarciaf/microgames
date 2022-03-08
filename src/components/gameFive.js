@@ -26,19 +26,19 @@ function UserSub(props){
     var color
  
     if(props.size === "4"){
-        color = "brown"
+        color = "rgb(248, 183, 183)"
     } else if(props.size === "3"){
-        color = "chocolate"
+        color = "rgb(223, 158, 111)"
     } else if(props.size === "2"){
-        color = "coral"
+        color = "rgb(255, 184, 158)"
     } else if(props.size ==="1"){
-        color = "burlywood"
+        color = "rgb(206, 186, 160)"
     }
 
     var style = {
         width: `${props.size * 1.8}rem`,
         height: "1.8rem",
-        border:"1px solid grey",
+        border:"1px solid rgb(212, 202, 200)",
         backgroundColor: color,
         display: "flex",
         margin: "4px"
@@ -58,7 +58,7 @@ var cN = "text-center justify-content-center test"
 
 
 var containerStyle = {
-    backgroundColor: "grey"
+    backgroundColor: "rgb(207, 203, 203)"
 }
 return (
     <div style= {containerStyle }>
@@ -107,16 +107,17 @@ class UserSubs extends React.Component{
     render(){  
         return (
             <div className ="col-sm-12 col-md-4 d-md-block text-center mt-4">
-                <UserSub id = "0" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[0]}/>
-                <UserSub id = "1" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[1]}/>
-                <UserSub id = "2" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[2]}/>
-                <UserSub id = "3" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[3]}/>
-                <UserSub id = "4" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[4]}/>
-                <UserSub id = "5" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[5]}/>       
-                <UserSub id = "6" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[6]}/>
-                <UserSub id = "7" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[7]}/>
-                <UserSub id = "8" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[8]}/>
+                
                 <UserSub id = "9" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[9]}/>  
+                <UserSub id = "8" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[8]}/>
+                <UserSub id = "7" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[7]}/>
+                <UserSub id = "6" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[6]}/>
+                <UserSub id = "5" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[5]}/>
+                <UserSub id = "4" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[4]}/>
+                <UserSub id = "3" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[3]}/>
+                <UserSub id = "2" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[2]}/>
+                <UserSub id = "1" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[1]}/>
+                <UserSub id = "0" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[0]}/>
             </div>
         )
     }
@@ -138,8 +139,8 @@ class GameFive extends React.Component{
 
         //tablero derecha
         var userCells = []
-        for(let i = 0; i < 14; i++ ){
-        userCells.push(new Array(14).fill("x"))
+        for(let i = 0; i < 16; i++ ){
+        userCells.push(new Array(16).fill("x"))
         }
         var systemShoots = []
         for(let i = 0; i < 14; i++ ){
@@ -182,7 +183,7 @@ this.setState({show: showTemp})
 //click en barco para poner:
 handleSubSelectClick(size, id){
     var subSelectedTemp = [size, id]
-    
+    console.log("subSelectedTemp  " + subSelectedTemp )
     this.setState({subSelected:subSelectedTemp})
 }    
 
@@ -599,6 +600,7 @@ handleRBoardClick(row, col){
     // click 1:
     if((click1Temp === 0) && (userCellsTemp[row][col] === "x")) {
         click1Temp = [row,col]
+        console.log("click1Temp" + click1Temp)
     } 
     // click 2:
     else if (click1Temp !== 0) {
@@ -1056,18 +1058,18 @@ leftstyle(shoots){
     var style = {
         width: "1.8rem",
         height: "1.8rem",
-        border:"0.5px solid grey",
+        border:"0.5px solid rgb(247, 220, 207)",
         backgroundColor: color
     }
     return style;
 }
 
 rightstyle(shoots, systemshoots){
-    var color = "rgb(199, 196, 196)"
+    var color = "rgb(207, 203, 203)"
     if(systemshoots === "x") {
         color =  "rgb(159, 159, 219)"
     }else if(parseInt(systemshoots) > -1) {
-        color = "black"
+        color = "rgb(192, 81, 81)"
     }
     else if(shoots=== "0")    {
         color = "brown"
@@ -1082,7 +1084,7 @@ rightstyle(shoots, systemshoots){
     var style = {
         width: "1.8rem",
         height: "1.8rem",
-        border:"0.5px solid grey",
+        border:"0.5px solid rgb(247, 220, 207)",
         backgroundColor: color
     }
     return style;

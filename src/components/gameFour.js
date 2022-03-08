@@ -12,10 +12,10 @@ import InstructionsButton from './InstructionsButton';
 //cuadro con cantidad de bombas:
 function UserBomb(props){
     var style = {
-        color: "rgb(132, 28, 230)",
+        color: "rgb(223, 164, 176)",
         fontSize: "60",
         textAlign: "center",
-        backgroundColor: "rgb(230, 212, 247)",
+        backgroundColor: "white",
         border:"1px solid grey",
         lineHeight: "2",
         fontWeight: "bold",
@@ -53,7 +53,7 @@ var style = {
 }
 
 var containerStyle = {
-    border:"0.5px solid grey",
+    border:"0.5px solid rgb(230, 212, 247)",
     backgroundColor: {backgroundColor }
 }
 
