@@ -72,7 +72,7 @@ class GameOneMelodies extends React.Component {
 
       var parcialCorrectOrderNew = []
       parcialCorrectOrderNew.push(noteToPlay)
-        setTimeout(() => this.setState({resultText: "Your Turn", playingNote: "", parcialCorrectOrder: parcialCorrectOrderNew }), 1000)
+        setTimeout(() => this.setState({resultText: "Your turn", playingNote: "", parcialCorrectOrder: parcialCorrectOrderNew }), 1000)
     }    
   
     handleQuit(){
@@ -137,7 +137,7 @@ class GameOneMelodies extends React.Component {
         this.delay(x, toBePlayed)
   
         }
-        setTimeout(() => this.setState({resultText: "your turn", playingNote: ""}), 1500 * (i + 1))
+        setTimeout(() => this.setState({resultText: "Your turn", playingNote: ""}), 1500 * (i + 1))
       } 
     }
   }
@@ -148,6 +148,10 @@ class GameOneMelodies extends React.Component {
 
       
        <div className ="col-9">
+          <div className = "row mt-4 align-items-center" > 
+            <div className = "col-sm-8 col-md-8 col-lg-4 col-xl-4 text-center justify-content-center" > <h1 className = "font-face-zkga" style={{fontSize: 18, height: "20px"}} id = "result">{this.state.resultText}</h1> </div>
+          </div>
+          
           <div className = "row mt-4 align-items-center" >  
             <div className= "container"> 
         

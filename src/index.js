@@ -8,8 +8,11 @@ import './fonts/ZenKakuGothicAntique/ZenKakuGothicAntiqueMedium.ttf';
 
 
 ReactDOM.render(
+  
   <App/>,
+  
   document.getElementById('root')
+  
 );
 
 

@@ -148,7 +148,7 @@ function GameSeven() {
               <tx style={{fontSize: 15}} id = "score" className = "font-face-zkga"> {score} </tx> 
             </div>
 
-            <div className = "col-2 text-center justify-content-center " >  
+            <div className = "col-4 text-center justify-content-center " >  
             <h1 className = "font-face-zkga" style={{fontSize: 15}} id = "result">{result}</h1> 
             </div>
           </div>

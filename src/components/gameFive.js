@@ -36,8 +36,8 @@ function UserSub(props){
     }
 
     var style = {
-        width: `${props.size * 2}rem`,
-        height: "2rem",
+        width: `${props.size * 1.8}rem`,
+        height: "1.8rem",
         border:"1px solid grey",
         backgroundColor: color,
         display: "flex",
@@ -1054,8 +1054,8 @@ leftstyle(shoots){
     }
 
     var style = {
-        width: "2rem",
-        height: "2rem",
+        width: "1.8rem",
+        height: "1.8rem",
         border:"0.5px solid grey",
         backgroundColor: color
     }
@@ -1080,8 +1080,8 @@ rightstyle(shoots, systemshoots){
     } 
 
     var style = {
-        width: "2rem",
-        height: "2rem",
+        width: "1.8rem",
+        height: "1.8rem",
         border:"0.5px solid grey",
         backgroundColor: color
     }
@@ -1139,7 +1139,7 @@ text(systemshoots){
                 </div>
                 <div className = "row" >
                     <div className ="col-sm-12 col-md-10  d-md-block text-center"> 
-                        <div className = "font-face-zkgam" style={{fontSize: 20}}><strong>{this.state.text}</strong></div>
+                        <div className = "font-face-zkgam" style={{fontSize: 20, height: "20px"}}><strong>{this.state.text}</strong></div>
                     </div> 
                 </div> 
 
