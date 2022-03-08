@@ -1,3 +1,6 @@
+
+
+
 .sideButton{
   border-bottom-style: solid;
   border-bottom-width: 0.1em;
@@ -140,4 +143,8 @@
 
 .active {
   background-color: rgb(240, 232, 250);
+ }
+
+ .topBarText {
+  color: rgb(190, 189, 189);
  }

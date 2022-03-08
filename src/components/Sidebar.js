@@ -45,14 +45,14 @@ render(){
                         <Navbar.Collapse id="responsive-navbar-nav">
                         
                         <Nav onSelect={this.closeNav} defaultActiveKey="/home" className="flex-column">
-                        <Nav.Link className= "sideButton text-dark" >Home</Nav.Link>
-                        <Nav.Link className= "text-secondary sideButton " as={Link} to="./gameOne"  eventKey="link-1"><tx className = "sideText font-face-zkgam">TONES</tx></Nav.Link>
-                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameTwo" eventKey="link-2"><tx className = "sideText font-face-zkgam">SENKU</tx></Nav.Link>   
-                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameFour"  eventKey="link-3" ><tx className = "sideText font-face-zkgam">MINES</tx></Nav.Link>
-                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameFive"  eventKey="link-4"><tx className = "sideText font-face-zkgam">BATTLE</tx></Nav.Link>
-                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameSix"  eventKey="link-5"><tx className = "sideText font-face-zkgam">NUMBERS</tx></Nav.Link>
-                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameSeven"  eventKey="link-6"><tx className = "sideText font-face-zkgam">TETRIS</tx></Nav.Link>
-                        <Nav.Link className= "hideOnPhone text-secondary sideButton" as={Link} to="/gameThree"  eventKey="link-7"><tx className = "sideText font-face-zkgam">PICZLE</tx></Nav.Link>
+                        
+                        <Nav.Link className= "text-secondary sideButton " as={Link} to="./tones"  eventKey="link-1"><tx className = "sideText font-face-zkgam">TONES</tx></Nav.Link>
+                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/senku" eventKey="link-2"><tx className = "sideText font-face-zkgam">SENKU</tx></Nav.Link>   
+                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/bombs"  eventKey="link-4" ><tx className = "sideText font-face-zkgam">BOMBS</tx></Nav.Link>
+                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/battle"  eventKey="link-5"><tx className = "sideText font-face-zkgam">BATTLE</tx></Nav.Link>
+                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameSix"  eventKey="link-6"><tx className = "sideText font-face-zkgam">TBD</tx></Nav.Link>
+                        <Nav.Link className= "text-secondary sideButton" as={Link} to="/tetris"  eventKey="link-7"><tx className = "sideText font-face-zkgam">TETRIS</tx></Nav.Link>
+                        <Nav.Link className= "hideOnPhone text-secondary sideButton" as={Link} to="/piczle"  eventKey="link-3"><tx className = "sideText font-face-zkgam">PICZLE</tx></Nav.Link>
                         </Nav>
 
                         </Navbar.Collapse>
@@ -64,13 +64,13 @@ render(){
                 
                   
                     <Routes>
-                        <Route path= "/gameOne" element= {<GameOne/>}/>
-                        <Route path= "/gameTwo" element= {<GameTwo/>}/>
-                        <Route path= "/gameThree" element= {<GameThree/>}/>
-                        <Route path= "/gameFour" element= {<GameFour/>}/>
-                        <Route path= "/gameFive" element= {<GameFive/>}/>
+                        <Route path= "/tones" element= {<GameOne/>}/>
+                        <Route path= "/senku" element= {<GameTwo/>}/>
+                        <Route path= "/piczle" element= {<GameThree/>}/>
+                        <Route path= "/bombs" element= {<GameFour/>}/>
+                        <Route path= "/battle" element= {<GameFive/>}/>
                         <Route path= "/gameSix" element= {<GameSix/>}/>
-                        <Route path= "/gameSeven" element= {<GameSeven/>}/>
+                        <Route path= "/tetris" element= {<GameSeven/>}/>
                     </Routes>
                 
          </BrowserRouter>

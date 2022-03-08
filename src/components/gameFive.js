@@ -92,7 +92,7 @@ function Board(props) {
             board.push(<Row style= {props.style} color = {props.color} systemshoots = {props.systemshoots} shoots = {props.shoots} text = {props.text} key = {i} row = {i} cells = {props.cells[i]} handleRClick = {props.handleRClick} handleClick = {props.handleClick}/>)
         }
         return (
-            <div  className = "align-items-center justify-content-center row m-5" > 
+            <div  className = "testMargin align-items-center justify-content-center row m-1" > 
             {board}
             </div>
         )
