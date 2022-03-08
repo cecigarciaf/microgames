@@ -4,10 +4,6 @@ import './gameSeven.css';
 import { ArrowRepeat } from 'react-bootstrap-icons';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { ArrowLeftSquare } from 'react-bootstrap-icons';
-import Navbar from 'react-bootstrap/Navbar';
-import Container from 'react-bootstrap/Container';
-import Nav  from 'react-bootstrap/Nav';
-import NavDropdown  from 'react-bootstrap/NavDropdown';
 
 var  result2 = ""
 var score2 = 0

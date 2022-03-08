@@ -1072,13 +1072,13 @@ rightstyle(shoots, systemshoots){
         color = "rgb(192, 81, 81)"
     }
     else if(shoots=== "0")    {
-        color = "brown"
+        color = "rgb(248, 183, 183)"
     } else if((shoots=== "1") || (shoots=== "2")){
-        color = "chocolate"
+        color = "rgb(223, 158, 111)"
     } else if((shoots=== "3") || (shoots=== "4") || (shoots=== "5") ) {
-        color = "coral"
+        color = "rgb(255, 184, 158)"
     } else if((shoots=== "6") || (shoots=== "7") || (shoots=== "8") || (shoots=== "9")){
-        color = "burlywood"
+        color =  "rgb(206, 186, 160)"
     } 
 
     var style = {
@@ -1139,17 +1139,17 @@ text(systemshoots){
                         <UserSubs handleClick = {this.handleSubSelectClick} shipsToPlace = {this.state.shipsToPlace} />
                     </div>
                 </div>
-                <div className = "row" >
-                    <div className ="col-sm-12 col-md-10  d-md-block text-center"> 
+                <div className = "row " >
+                    <div className ="col-10  d-md-block text-center"> 
                         <div className = "font-face-zkgam" style={{fontSize: 20, height: "20px"}}><strong>{this.state.text}</strong></div>
                     </div> 
                 </div> 
 
-                <div className = "row mt-4 align-items-center "> 
+                <div className = "row mt-4 justify-content-center "> 
       
-                    <div className = "col-8  d-md-block text-center" >
+                    <div className = "col-6  d-md-block text-center" >
                         <div className= "row"> 
-                            <div className = "col-sm-12 col-md-4  d-md-block text-center" >
+                            <div className = "col-sm-12 col-md-4  d-md-block " >
                                 <PlayStopButton text= {this.state.playingState === false?  "PLAY" : "QUIT"} onButtonClick = {this.playClick}/>
                             </div> 
 

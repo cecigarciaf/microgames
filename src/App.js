@@ -17,10 +17,10 @@ class App extends Component {
           <div className = "row" style={{minHeight: "80vh"}}>    
             <Sidebar/>
           </div>
-
+          <div className = "row" > 
         
             <Footer/>
-     
+            </div>
      </div>
     </div>
     )

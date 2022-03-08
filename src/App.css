@@ -41,10 +41,15 @@
 .button {
   padding: 18px;
   border: 5px solid #ffffff;
+  height: relative;
+  width: 10%;
+  
 }
+
+
+
 #c, #c2, #c3{
   background-color: #c7a086; 
-
   color: white;
   text-align: center;
   text-decoration: none;
@@ -71,10 +76,9 @@
   color: white;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
-
-  
+  display: inline-block; 
 }
+
 #e:hover {background-color: #df8080}
 #e2:hover {background-color: #df8080}
 
@@ -137,10 +141,6 @@
   color: rgb(211, 177, 250);
 }
 
-
-
-
-
 .active.sideButton {
   background-color: rgb(235, 229, 241);
  }
@@ -149,12 +149,10 @@
   color: rgb(190, 189, 189);
  }
 
-
  .page-container{
    display: flex;
    flex-direction: column;
    min-height: 100vh;
-
  }
 
 .content-wrap{

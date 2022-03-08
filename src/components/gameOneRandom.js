@@ -24,7 +24,6 @@ class GameOneRandom extends React.Component {
   
     //falta agregar lo que hace para game over: 
     showParcialResult(newGuess) {
-     
       if (newGuess === this.state.correctOrder[this.state.i]) {
         this.setState({resultText: "Correct"}) }
       else  {
@@ -129,7 +128,7 @@ class GameOneRandom extends React.Component {
 
           <div className = "row mt-4 align-items-center" >  
             <div className= "container"> 
-            <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "c" text = "c" /> 
+                    <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "c" text = "c" /> 
                     <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "d" text = "d" /> 
                     <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "e" text = "e" /> 
                     <ButtonNote pL = {pL} className = {this.state.playingNote === this.props.id? "playNote":"button"} onClick={this.handleColorClick} id = "f" text = "f" /> 

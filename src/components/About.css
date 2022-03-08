@@ -1,0 +1,24 @@
+.aboutLink {
+    color: rgb(211, 177, 250);
+    text-decoration: none;
+}
+
+.aboutLink:hover {
+    color: rgb(142, 100, 189);
+    text-decoration: none;
+}
+
+.aboutLink:active {
+    color: rgb(92, 54, 136);
+    text-decoration: none;
+}
+
+.aboutLi {
+    color: rgb(143, 105, 185);
+    text-decoration: none;
+}
+
+.aboutTitle {
+    color: rgb(124, 119, 131);
+    font-size: 22px;
+}
