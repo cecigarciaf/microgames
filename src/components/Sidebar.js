@@ -50,7 +50,7 @@ render(){
                                 <Nav.Link className= "text-secondary sideButton" as={Link} to="/senku" eventKey="link-2"><tx className = "sideText font-face-zkgam">SENKU</tx></Nav.Link>   
                                 <Nav.Link className= "text-secondary sideButton" as={Link} to="/bombs"  eventKey="link-4" ><tx className = "sideText font-face-zkgam">BOMBS</tx></Nav.Link>
                                 <Nav.Link className= "text-secondary sideButton" as={Link} to="/battle"  eventKey="link-5"><tx className = "sideText font-face-zkgam">BATTLE</tx></Nav.Link>
-                                <Nav.Link className= "text-secondary sideButton" as={Link} to="/gameSix"  eventKey="link-6"><tx className = "sideText font-face-zkgam">TBD</tx></Nav.Link>
+                                <Nav.Link className= "text-secondary sideButton" as={Link} to="/guess4"  eventKey="link-6"><tx className = "sideText font-face-zkgam">GUESS4</tx></Nav.Link>
                                 <Nav.Link className= "text-secondary sideButton" as={Link} to="/tetris"  eventKey="link-7"><tx className = "sideText font-face-zkgam">TETRIS</tx></Nav.Link>
                                 <Nav.Link className= "hideOnPhone text-secondary sideButton" as={Link} to="/piczle"  eventKey="link-3"><tx className = "sideText font-face-zkgam">PICZLE</tx></Nav.Link>
                             
@@ -70,7 +70,7 @@ render(){
                         <Route path= "/piczle" element= {<GameThree/>}/>
                         <Route path= "/bombs" element= {<GameFour/>}/>
                         <Route path= "/battle" element= {<GameFive/>}/>
-                        <Route path= "/gameSix" element= {<GameSix/>}/>
+                        <Route path= "/guess4" element= {<GameSix/>}/>
                         <Route path= "/tetris" element= {<GameSeven/>}/>
                     </Routes>
                 
