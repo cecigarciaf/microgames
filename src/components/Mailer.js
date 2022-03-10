@@ -5,9 +5,21 @@ import './Mailer.css'
 
 function sendEmail(e){
     e.preventDefault();
-    emailjs.sendForm("service_vfdmf4y", "template_bpu8waa", e.target, "sVSo00CIm-Pv41BYQ").then(res=>{ console.log(res)}).catch(err=> console.log(err));
-}
+    var email = document.querySelector("#userEmail").value
 
+if(validateEmail(email)){
+    emailjs.sendForm("service_2riujad", "template_bpu8waa", e.target, "sVSo00CIm-Pv41BYQ").then(res=>{ console.log(res)}).catch(err=> console.log(err));
+} }
+
+function validateEmail(mail) {
+    
+ if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
+  {
+    return (true)
+  }
+   
+    return (false)
+}
 
 function Mailer (props) {
 
@@ -33,12 +45,12 @@ function Mailer (props) {
                     <label style= {{margin: "1px", color: "grey"}} > Name: </label>    
                     <input style= {{margin: "1px", color: "grey"}} className = "font-face-zkgam form-control" type="text" name="name"></input>
 
-                    <label style= {{margin: "1px", color: "grey"}} > email: </label>    
-                    <input className = "font-face-zkgam form-control" type="email" name="user_email"></input>
+                    <label  style= {{margin: "1px", color: "grey"}} > email: </label>   
+                    <input id = "userEmail" className = "font-face-zkgam form-control" type="email" name="user_email"></input>
 
                     <label style= {{margin: "1px", color: "grey"}} > Message: </label>   
                     <textarea className = "font-face-zkgam form-control" name= "message" rows="4"></textarea> 
-                    <input onClick= {props.close} id= "sendEmail" style= {{margin: "1px", color: "white", backgroundColor: "rgb(235, 229, 241)"}} className = " mt-4 row font-face-zkgam form-control"  type="submit" value="SEND"></input>
+                    <input id= "sendEmail" style= {{margin: "1px", color: "white", backgroundColor: "rgb(235, 229, 241)"}} className = " mt-4 row font-face-zkgam form-control"  type="submit" value="SEND"></input>
                 </form>       
             </div>
 
