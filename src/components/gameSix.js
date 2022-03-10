@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PlayStopButton from './playButton';
+import Instructions from './Instructions'
+import InstructionsButton from './InstructionsButton';
 
 
 
-var playingState = false
 
 function Shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -113,7 +114,7 @@ function Results(props)  {
   )
 
 }
-
+var playingState = false
 function GameSix(){
   const [correct, generateCorrect] = useState()
   const [guess, updateGuess] = useState()
@@ -123,13 +124,23 @@ function GameSix(){
   const [errors, displayErrors] = useState("")
   const [result, updateResult] = useState([""])
   const [final, showFinal] = useState("")
-  
+  const [show, updateShow] = useState(false)
 
-  
+  function instructions(){
+
+    var showTemp = show
+    if(showTemp === false){
+        showTemp = true
+    } else if (showTemp === true){
+        showTemp = false
+    }
+    updateShow(showTemp)
+} 
 
  
   const checkNumber = (event) => {
-    if (playingState === true){
+    event.preventDefault();
+    if (playingState){
       var goodTemp = submit(guess)[0]
       var regularTemp = submit(guess)[1]
       var errorsTemp = validate(guess)
@@ -153,16 +164,25 @@ function GameSix(){
   }
 
   const play = () => {
-    if(playingState === false){
+    console.log(playingState)
+    if(!(playingState)){
     playingState = true
     generateCorrect(number())
-    } else if (playingState === true){
+    } else if (playingState){
       playingState = false
     }
 
-
+    console.log(playingState)
   }
 
+  var howtoplay =    
+   
+  <ol className= "font-face-zkgam">   
+  <li>Hacer clic en PLAY</li>     
+  <li>Se debe descubrir el número de 4 dígitos distintos en menos de 10 intentos</li>
+  <li>En cada intento, ingresar un número y pulsar CHECK</li>
+  <li>El juego indicará cuántos dígitos están en el número a descubrir, indicando como "bien" los que están en la misma posición y "regular" los que están en el número pero en otra posición</li>
+  </ol>
 
   return (
   <div className ="col-9">
@@ -170,16 +190,20 @@ function GameSix(){
           <div>{final}</div>
     </div>
     <div className = "row  mt-5" >
-        <div className = "col-3"> 
+        <div className = "text-center col-sm-4 col-md-4 col-lg-2"> 
             <PlayStopButton onButtonClick= {play}  text= {playingState? "QUIT" : "PLAY"}/>
         </div>
-        <div className = "col-3"> 
+        <div className = "text-center col-sm-4 col-md-4 col-lg-2"> 
             <div className = "font-face-zkgam" >Intentos:  {guessesLeft}</div>
+        </div>
+        <div className = "text-center col-sm-4 col-md-4 col-lg-2"> 
+            <InstructionsButton instructions = {instructions}/>
+            <Instructions instructions = {instructions} show= {show} instructDetails= {howtoplay} /> 
         </div>
     </div>
 
     <div className = "row  mt-4" >
-      <div className = "col-6"> 
+      <div className = "col-sm-12 col-md-12 col-lg-6"> 
         <form onSubmit={checkNumber}>
             <input onChange={(e) => updateGuess(e.target.value)} className = "font-face-zkgam form-control" type="number" name="guess"></input>
             <input  id= "sendGuess" style= {{margin: "1px", color: "white", backgroundColor: "rgb(235, 229, 241)"}} className = " mt-4 row font-face-zkgam form-control"  type="submit" value="CHECK"></input>
@@ -188,12 +212,12 @@ function GameSix(){
     </div>
 
     <div className = "row" >
-      <div className = "col-6 text-center">
-          {errors} 
+      <div className = "font-face-zkgam col-sm-12 col-md-12 col-lg-6 text-center">
+         <b>{errors} </b> 
       </div>
 
       <div className= "row"> 
-        <div className = "col-6">
+        <div className = "col-sm-12 col-md-12 col-lg-6">
           <Results allresults = {result}/>
         </div>
       </div>

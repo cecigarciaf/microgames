@@ -156,7 +156,7 @@ class GameFive extends React.Component{
         shipsLocations.push(new Array(1).fill(0));
         } 
 
-        this.state = {lastSystemTocado: [0, 0, 0, 0], hundidosSystem: 0, hundidos: 0, show: true, text: "", textSystem: "", leftShipLocations: leftShipLocations, lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations}
+        this.state = {lastSystemTocado: [0, 0, 0, 0], hundidosSystem: 0, hundidos: 0, show: false, text: "", textSystem: "", leftShipLocations: leftShipLocations, lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations}
         this.playClick = this.playClick.bind(this)
         //en tablero izquierda:
         this.handleClick = this.handleClick.bind(this)

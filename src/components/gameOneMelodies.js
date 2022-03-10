@@ -2,16 +2,29 @@ import React from 'react';
 import {Howl} from 'howler';
 import PlayStopButton from './playButton';
 import './gameOneRandom';
+import Instructions from './Instructions'
+import InstructionsButton from './InstructionsButton';
 
 
 class GameOneMelodies extends React.Component {
     constructor(props) {
       super(props);
-      this.state = {correctOrder : [], guess : [], resultText : "", i: 0, round: 0, parcialCorrectOrder: [], gameStatus: "false", turn: "computer", playingNote: "", score: 0}
+      this.state = {show: false, correctOrder : [], guess : [], resultText : "", i: 0, round: 0, parcialCorrectOrder: [], gameStatus: "false", turn: "computer", playingNote: "", score: 0}
       this.handlePlay = this.handlePlay.bind(this);
       this.handleQuit = this.handleQuit.bind(this);
-      this.handleColorClick = this.handleColorClick.bind(this);
+      this.instructions = this.instructions.bind(this)
+
     }
+
+instructions(){
+var showTemp = this.state.show
+if(showTemp === false){
+    showTemp = true
+} else if (showTemp === true){
+    showTemp = false
+}
+this.setState({show: showTemp})
+}  
   
   
     playGuessNote(newGuess){
@@ -143,6 +156,17 @@ class GameOneMelodies extends React.Component {
   }
     render () { 
       var pL = this.state.playingNote
+
+      var howtoplay =    
+   
+      <ol className= "font-face-zkgam">   
+      <li>Pulsar PLAY</li>     
+      <li>Escuchar y ver la/s nota/s reproducidas</li>
+      <li>Repetir el patrón de notas reproducidas pulsando cada botón correspondiente</li>
+      <li>Las notas se van acumulando reproduciendo una famosa melodía</li>
+
+      </ol>
+
       return (
       
 
@@ -179,6 +203,10 @@ class GameOneMelodies extends React.Component {
             <div className = "col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center justify-content-center " >  
               <tx className = "font-face-zkgam" style={{fontSize: 13}} id = "scoreTitle"> SCORE:  </tx>  
               <tx style={{fontSize: 15}} id = "score" className = "font-face-zkga"> {this.state.score} </tx> 
+            </div>
+            <div className = "col-sm-4 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" >
+              <InstructionsButton instructions = {this.instructions}/>             
+              <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay} /> 
             </div>
           </div>
 

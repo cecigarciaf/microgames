@@ -4,6 +4,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import './gameTwo.css';
+import Instructions from './Instructions'
+import InstructionsButton from './InstructionsButton';
 
 class PlayStopButton extends React.Component {
     constructor(props) {
@@ -137,11 +139,22 @@ class GameTwo extends React.Component{
     cells2.push(new Array(12).fill("full"))
     }    
     cells2[5][5] = "empty"
-    this.state = {cells:cells2, selectedCell: "no", resultText: ""}
+    this.state = {show: false, cells:cells2, selectedCell: "no", resultText: ""}
     this.handleClick = this.handleClick.bind(this)
     this.handleReset = this.handleReset.bind(this)
+    this.instructions = this.instructions.bind(this)
 
     }
+
+    instructions(){
+    var showTemp = this.state.show
+    if(showTemp === false){
+    showTemp = true
+    } else if (showTemp === true){
+    showTemp = false
+    }
+    this.setState({show: showTemp})
+    }   
 
     handleClick(row,col) {
         var tempcells = this.state.cells.slice()
@@ -236,7 +249,15 @@ class GameTwo extends React.Component{
     }
 
     render(){
-        // nav bar vacia , no se que poner
+        var howtoplay =    
+   
+        <ol className= "font-face-zkgam">   
+        <li> El objetivo es eliminar la mayor cantidad de fichas (negras)</li>     
+        <li>Al hacer clic en una ficha negra y luego en un casillero vacío (blanco) salteando una ficha, la ficha salteada es eliminada</li>
+     
+
+        </ol>
+
         return (
        
             <div className ="col-9">
@@ -259,7 +280,11 @@ class GameTwo extends React.Component{
                 
                 <div className = "row mt-4 " >
                     <div className = "col-12 text-center" > <PlayStopButton  text = "Reset" onButtonClick= {this.handleReset}/> </div>
-               
+                </div>
+
+                <div className = "row mt-4 " >
+                    <div className = "col-12 text-center" ><InstructionsButton instructions = {this.instructions}/> </div>
+                    <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay} /> 
                 </div>
              </div>
 

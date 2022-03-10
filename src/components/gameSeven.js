@@ -4,6 +4,9 @@ import './gameSeven.css';
 import { ArrowRepeat } from 'react-bootstrap-icons';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { ArrowLeftSquare } from 'react-bootstrap-icons';
+import Instructions from './Instructions'
+import InstructionsButton from './InstructionsButton';
+
 
 var  result2 = ""
 var score2 = 0
@@ -118,12 +121,25 @@ function GameSeven() {
     const [score, updateScore] = useState(0);
     const [result, updateResult] = useState("");
     const [speed, updateSpeed] = useState(100)
+    const [show, updateShow] = useState(false)
    
     var square = JSON.parse(JSON.stringify(cells2))
     square[2][8] = 1
     square[2][9] = 1
     square[3][8] = 1
     square[3][9] = 1
+
+function instructions(){
+
+    var showTemp = show
+    if(showTemp === false){
+        showTemp = true
+    } else if (showTemp === true){
+        showTemp = false
+    }
+    updateShow(showTemp)
+} 
+
 
 function playClick()  {
     console.log(speed)
@@ -147,6 +163,15 @@ function playClick()  {
           clearInterval(test);
         };
       }, []);
+
+      var howtoplay =    
+   
+      <ol className= "font-face-zkgam">   
+      <li>Usar las flechas "izquierda" y "derecha" para mover las piezas a los costados</li>     
+      <li>Usar la flecha "arriba" para rotarlas</li>
+      <li>En dispositivos sin teclado, usar los botones en pantalla</li>
+      </ol>
+
 
     return (
 
@@ -173,8 +198,13 @@ function playClick()  {
         <div className = "col-4 text-center" > <ArrowRightSquare  width="28" height="28" onClick={() => handleRightButton()}/> </div>
         </div>
         <div className = "row mt-4 align-items-center"> 
-            <div className = "col-12 text-center" > <PlayStopButton  size="sm" text= "PLAY"  onButtonClick= {playClick}/> </div>
-            
+            <div className = "col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center" > 
+              <PlayStopButton  size="sm" text= "PLAY"  onButtonClick= {playClick}/> 
+            </div>
+            <div className = "col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center" >
+              <InstructionsButton instructions = {instructions}/>
+              <Instructions instructions = {instructions} show= {show} instructDetails= {howtoplay} /> 
+            </div>
         </div>
     </div>
     );

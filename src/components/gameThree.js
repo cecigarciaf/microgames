@@ -28,7 +28,7 @@ class GameThree extends React.Component {
       cells2.push("empty")
       } 
     
-    this.state = {show:true, subject: "", picSelected: "", leftCellsState: cells2, result: "", currentResult:["a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a"], playingState: "false", selectedCell: "no", assignedId: [0, 1, 2, 3, 4, 5,6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]}
+    this.state = {show:false, subject: "", picSelected: "", leftCellsState: cells2, result: "", currentResult:["a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a"], playingState: "false", selectedCell: "no", assignedId: [0, 1, 2, 3, 4, 5,6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]}
   }
 
   correctOrder = ["col1 row1", "col2 row1", "col3 row1", "col4 row1", "col5 row1", "col1 row2", "col2 row2", "col3 row2", "col4 row2", "col5 row2", "col1 row3", "col2 row3", "col3 row3", "col4 row3", "col5 row3", "col1 row4", "col2 row4", "col3 row4", "col4 row4", "col5 row4"]
@@ -205,7 +205,7 @@ class GameThree extends React.Component {
 }
   render() {
     var color = "white"
-    var border = "1px solid grey"
+    var border = "0.5px solid grey"
     if (this.state.result === "Completed") {
       border = "1px solid white"
     }
@@ -224,8 +224,6 @@ class GameThree extends React.Component {
     <li>O elegir primero un tema en el menu "Themes"</li>
     <li>Al hacer click en "PLAY" se mezcla el rompecabezas </li>
     <li>Arrastrar las piezas con el mouse para re-armar la foto</li>
-    
-
     </ol>
 
     return (

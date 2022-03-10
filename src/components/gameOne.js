@@ -9,7 +9,7 @@ import GameOneRandom from './gameOneRandom';
 class GameOne extends React.Component {
     constructor(props) {
       super(props);
-      this.state = {game: "gameOneRandom"}
+      this.state = {game: ""}
     }
   
     renderGame(){
@@ -35,7 +35,7 @@ class GameOne extends React.Component {
            
             <Container >
               <Nav  onSelect={(selectedKey) => this.setState({game: selectedKey})} className="me-auto mx-auto">
-                <Nav.Link   eventKey= "gameOneRandom">Random</Nav.Link>
+                <Nav.Link  eventKey= "gameOneRandom">Random</Nav.Link>
                 <Nav.Link  eventKey= "gameOneMelodies"> Famous Melodies</Nav.Link>
                 
               </Nav>

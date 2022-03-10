@@ -121,7 +121,7 @@ constructor(props){
     cells.push(new Array(10).fill(0))
 }
 
-    this.state = {show: true, level: 0, playingState: false, bombsleft:"", cells:cells, correctCells: [], result:result, userBombs: userBombs}
+    this.state = {show: false, level: 0, playingState: false, bombsleft:"", cells:cells, correctCells: [], result:result, userBombs: userBombs}
     this.playClick = this.playClick.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleRClick = this.handleRClick.bind(this)

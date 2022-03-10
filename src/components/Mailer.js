@@ -6,9 +6,12 @@ import './Mailer.css'
 function sendEmail(e){
     e.preventDefault();
     var email = document.querySelector("#userEmail").value
+    var sent = document.querySelector("#sent")
 
 if(validateEmail(email)){
     emailjs.sendForm("service_2riujad", "template_bpu8waa", e.target, "sVSo00CIm-Pv41BYQ").then(res=>{ console.log(res)}).catch(err=> console.log(err));
+    sent.innerHTML = "email sent!"
+   
 } }
 
 function validateEmail(mail) {
@@ -34,7 +37,14 @@ function Mailer (props) {
         >
             <Modal.Header  closeButton onClick= {props.close}>
             <Modal.Title className = "font-face-zkgam" id="example-custom-modal-styling-title">
+                <div className= "row">
+                <div className= "col-6">
                 <tx style={{color: "rgb(211, 177, 250)"}}> <b>CONTACT: </b></tx>
+                </div>
+                <div className= "col-6 text-end">
+                    <p style={{fontSize:"20px", color: "rgb(167, 156, 173)"}} id= "sent"></p>
+                </div>
+                </div>
             </Modal.Title>
             </Modal.Header>
             <Modal.Body>
