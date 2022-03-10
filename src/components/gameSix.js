@@ -4,7 +4,7 @@ import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
 
 
-
+var playingState = false
 
 function Shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -114,7 +114,7 @@ function Results(props)  {
   )
 
 }
-var playingState = false
+
 function GameSix(){
   const [correct, generateCorrect] = useState()
   const [guess, updateGuess] = useState()
@@ -187,7 +187,7 @@ function GameSix(){
   return (
   <div className ="col-9">
     <div className = "row" >
-          <div>{final}</div>
+    <div className = "mt-1 font-face-zkgam col-sm-12 col-md-12 col-lg-6 text-center"><b>{final}</b></div>
     </div>
     <div className = "row  mt-5" >
         <div className = "text-center col-sm-4 col-md-4 col-lg-2"> 
