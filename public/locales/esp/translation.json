@@ -157,7 +157,9 @@
 
     "CONTACT": "CONTACTO",
 
-    "email sent!" : "Mensaje enviado"
+    "email sent!" : "Mensaje enviado",
+
+    "check": "VERIFICAR"
 
 
 }

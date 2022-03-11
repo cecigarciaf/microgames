@@ -181,3 +181,7 @@
 .topBarText:focus {
   color: rgb(235, 128, 128)
 }
+
+.dropdown-menu{
+  min-width: 5rem;
+}

@@ -9,7 +9,7 @@
 
     "Español": "Spanish",
 
-    "Instrucciones": "Instruccions",
+    "Instrucciones": "Instructions",
 
     "InstruccionesBombs": {
         "1": "Choose a level",
@@ -149,7 +149,9 @@
 
     "CONTACT": "CONTACT",
 
-    "email sent!" : "Message sent!"
+    "email sent!" : "Message sent!",
+
+    "check": "CHECK"
 
 
 }

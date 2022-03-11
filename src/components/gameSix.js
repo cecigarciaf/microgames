@@ -156,9 +156,11 @@ function GameSix(){
       var regularTemp = submit(guess)[1]
       var errorsTemp = validate(guess)
       var resultTemp = JSON.parse(JSON.stringify(result))
-    
+      var guessField = document. getElementById('guessField')
+
     event.preventDefault();
     displayErrors(errorsTemp)
+    guessField.value = null
 
     if((errorsTemp.length < 2)){
       updateGood(goodTemp)
@@ -169,7 +171,8 @@ function GameSix(){
       resultTemp.push(currentResult)
       updateResult(resultTemp)
       showFinal(submit(guess, guessesLeft)[2])
-      console.log("result " + currentResult.length)
+    
+      
     }
   }
   
@@ -192,23 +195,25 @@ function GameSix(){
     <div className = "mt-1 font-face-zkgam col-sm-12 col-md-12 col-lg-6 text-center"><b>{t(final)}</b></div>
     </div>
     <div className = "row  mt-5" >
-        <div className = "text-center col-sm-4 col-md-4 col-lg-2"> 
+        <div className = "text-center col-sm-6 col-md-6 col-lg-3"> 
             <PlayStopButton onButtonClick= {play}  text= {playingState? "QUIT" : "PLAY"}/>
         </div>
-        <div className = "text-center col-sm-4 col-md-4 col-lg-2"> 
-            <div className = "font-face-zkgam" > {t('intentos')}  {guessesLeft}</div>
-        </div>
-        <div className = "text-center col-sm-4 col-md-4 col-lg-2"> 
+
+        <div className = "text-center col-sm-6 col-md-6 col-lg-3"> 
             <InstructionsButton instructions = {instructions}/>
             <Instructions instructions = {instructions} show= {show} instructDetails= {howtoplay()} /> 
         </div>
     </div>
-
+    <div className = "row  mt-5" >
+    <div className = "col-sm-12 col-md-12 col-lg-6 text-center"> 
+            <div className = "font-face-zkgam" > {t('intentos')}  {guessesLeft}</div>
+    </div>
+    </div>
     <div className = "row  mt-4" >
       <div className = "col-sm-12 col-md-12 col-lg-6"> 
         <form onSubmit={checkNumber}>
-            <input onChange={(e) => updateGuess(e.target.value)} className = "font-face-zkgam form-control" type="number" name="guess"></input>
-            <input  id= "sendGuess" style= {{margin: "1px", color: "white", backgroundColor: "rgb(235, 229, 241)"}} className = " mt-4 row font-face-zkgam form-control"  type="submit" value="CHECK"></input>
+            <input id = "guessField" onChange={(e) => updateGuess(e.target.value)} className = "font-face-zkgam form-control" type="number" name="guess"></input>
+            <input  id= "sendGuess" style= {{margin: "1px", color: "white", backgroundColor: "rgb(235, 229, 241)"}} className = " mt-4 row font-face-zkgam form-control"  type="submit" value={t("check")}></input>
         </form>
       </div>
     </div>
