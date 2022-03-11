@@ -1,0 +1,79 @@
+{
+
+    "Contact" : "Contacto",
+
+    "idioma":  "Idioma",
+
+    "Inglés": "Inglés",
+
+    "Español": "Español",
+
+    "Instrucciones": "Instrucciones",
+
+    "InstruccionesBombs": {
+        "1": "Seleccionar un nivel",
+        "2": "Pulsar PLAY",
+        "3": "Comenzá haciendo un disparo pulsando sobre la celda que quieras",
+        "4": "Podés ubicar o remover bombas con botón derecho en una casilla",
+        "5": "Un recuadro mostrará la cantidad de bombas que falta ubicar"
+    },
+
+    "InstruccionesSenku": {
+        "1": "El objetivo es eliminar la mayor cantidad de fichas (negras)",
+        "2": "Pulsar en una ficha",
+        "3": "Pulsar en una casilla vacía (blanca) salteando una casilla que contenga una ficha",
+        "4": "La ficha salteada es eliminada",
+        "5": "No está permitido mover fichas diagonalmente"
+    },
+
+    "InstruccionesBattle": {
+        "1": "Para ubicar tus barcos en el 2do tablero, pulsa en uno y luego en la primera y última celda donde lo quieras poner",
+        "2": "Para cambiar la ubicación, doble clic (o, en celulares, presionar y mantener) sobre un barco ya ubicado",
+        "3": "Una vez ubicados, pulsar CONFIRMAR y luego JUGAR para comenzar",
+        "4": "Podés hacer botón derecho (o, en celulares, presionar y mantener) en el 1er tablero para indicar que ahí no crees que hay un barco enemigo",
+        "5": "No puede haber dos barcos que se toquen entre sí"
+    },
+
+    "InstruccionesGuess": {
+        "1": "Hacer clic en PLAY",
+        "2": "El objetivo es descubrir el número de 4 dígitos distintos",
+        "3": "En cada intento, ingresar un número y pulsar CHECK",
+        "4": "El juego indicará cuántos dígitos están en el número a descubrir, indicando como BIEN los que están en la misma posición y REGULAR los que están en el número pero en otra posición",
+        "5": "Tienes 10 intentos"
+    },
+
+    "InstruccionesPiczle": {
+        "1": "Mover las piezas que caen a la izquierda/derecha con las flechas",
+        "2": "Rotar la posición de una pieza con la flecha ARRIBA o el botón de rotar de la pantalla",
+        "3": "Intentar no dejar huecos vacíos",
+        "4": "Si una fila se completa sin huecos esa fila desaparece",
+        "5": "Cada fila completada equivale a un punto"
+    },
+
+    "InstruccionesTetris": {
+        "1": "Buscar una foto aleatoria con el botón SELECT A PIC",
+        "2": "O elegir primero un tema en el menu THEMES",
+        "3": "Hacer click en PLAY",
+        "4": "La foto se va a mezclar en pequeñas partes",
+        "5": "Arrastrar las piezas con el mouse para re-armar la foto"
+    },
+
+    "InstruccionesMelodies": {
+        "1": "Pulsar PLAY",
+        "2": "Escuchar y ver la/s nota/s reproducidas",
+        "3": "Repetir el patrón de notas reproducidas pulsando cada botón correspondiente",
+        "4": "Las notas se van acumulando reproduciendo una famosa melodía",
+        "5": "Si te equivocas el juego se termina"
+    },
+
+    "InstruccionesRandom": {
+        "1": "Pulsar PLAY",
+        "2": "Escuchar y ver la/s nota/s reproducidas",
+        "3": "Repetir el patrón de notas reproducidas pulsando cada botón correspondiente",
+        "4": "Las notas se van acumulando indefinidamente",
+        "5": "Si te equivocas el juego se termina"
+    }
+
+
+
+}

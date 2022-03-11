@@ -2,7 +2,15 @@ import React, { useState, useEffect } from 'react';
 import PlayStopButton from './playButton';
 import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
+import HowToPlay from './HowToPlay'
 
+
+
+const howtoplay = () => {
+    return (
+        <HowToPlay gameInstructions= "InstruccionesGuess"/>
+    )
+}
 
 var playingState = false
 
@@ -175,14 +183,7 @@ function GameSix(){
     console.log(playingState)
   }
 
-  var howtoplay =    
-   
-  <ol className= "font-face-zkgam">   
-  <li>Hacer clic en PLAY</li>     
-  <li>Se debe descubrir el número de 4 dígitos distintos en menos de 10 intentos</li>
-  <li>En cada intento, ingresar un número y pulsar CHECK</li>
-  <li>El juego indicará cuántos dígitos están en el número a descubrir, indicando como "bien" los que están en la misma posición y "regular" los que están en el número pero en otra posición</li>
-  </ol>
+
 
   return (
   <div className ="col-9">
@@ -198,7 +199,7 @@ function GameSix(){
         </div>
         <div className = "text-center col-sm-4 col-md-4 col-lg-2"> 
             <InstructionsButton instructions = {instructions}/>
-            <Instructions instructions = {instructions} show= {show} instructDetails= {howtoplay} /> 
+            <Instructions instructions = {instructions} show= {show} instructDetails= {howtoplay()} /> 
         </div>
     </div>
 

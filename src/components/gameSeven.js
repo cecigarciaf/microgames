@@ -6,7 +6,15 @@ import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { ArrowLeftSquare } from 'react-bootstrap-icons';
 import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
+import HowToPlay from './HowToPlay'
 
+
+
+const howtoplay = () => {
+    return (
+        <HowToPlay gameInstructions= "InstruccionesTetris"/>
+    )
+}
 
 var  result2 = ""
 var score2 = 0
@@ -164,13 +172,6 @@ function playClick()  {
         };
       }, []);
 
-      var howtoplay =    
-   
-      <ol className= "font-face-zkgam">   
-      <li>Usar las flechas "izquierda" y "derecha" para mover las piezas a los costados</li>     
-      <li>Usar la flecha "arriba" para rotarlas</li>
-      <li>En dispositivos sin teclado, usar los botones en pantalla</li>
-      </ol>
 
 
     return (
@@ -203,7 +204,7 @@ function playClick()  {
             </div>
             <div className = "col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center" >
               <InstructionsButton instructions = {instructions}/>
-              <Instructions instructions = {instructions} show= {show} instructDetails= {howtoplay} /> 
+              <Instructions instructions = {instructions} show= {show} instructDetails= {howtoplay()} /> 
             </div>
         </div>
     </div>

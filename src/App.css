@@ -158,3 +158,9 @@
 .content-wrap{
   flex: 1;
 }
+
+
+
+.nav-link #topBarText{
+  color: grey
+}

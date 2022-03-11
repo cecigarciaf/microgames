@@ -9,6 +9,15 @@ import PlayStopButton from './playButton'
 import Button from 'react-bootstrap/Button';
 import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
+import HowToPlay from './HowToPlay'
+
+
+
+const howtoplay = () => {
+    return (
+        <HowToPlay gameInstructions= "InstruccionesPiczle"/>
+    )
+}
 
 class GameThree extends React.Component {
   constructor(props) {
@@ -217,14 +226,7 @@ class GameThree extends React.Component {
         backgroundColor: color
 
     }
-    var howtoplay =    
-   
-    <ol className= "font-face-zkgam">   
-    <li>Buscar una foto aleatoria con el botón "Select a pic"</li>     
-    <li>O elegir primero un tema en el menu "Themes"</li>
-    <li>Al hacer click en "PLAY" se mezcla el rompecabezas </li>
-    <li>Arrastrar las piezas con el mouse para re-armar la foto</li>
-    </ol>
+    
 
     return (
       <div className ="col-9">
@@ -300,7 +302,7 @@ class GameThree extends React.Component {
 
           <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" >
             <InstructionsButton instructions = {this.instructions}/>
-            <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay} /> 
+            <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay()} /> 
           </div>  
             
       </div>

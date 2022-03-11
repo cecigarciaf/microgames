@@ -45,8 +45,7 @@ render(){
                             <Navbar.Collapse id="responsive-navbar-nav">
                             
                             <Nav onSelect={this.closeNav} defaultActiveKey="/home" className="flex-column">
-                            
-                               
+        
                                 <Nav.Link className= "mt-4 text-secondary sideButton" as={Link} to="/senku" eventKey="link-2"><tx className = "sideText font-face-zkgam">SENKU</tx></Nav.Link>   
                                 <Nav.Link className= "text-secondary sideButton" as={Link} to="/bombs"  eventKey="link-4" ><tx className = "sideText font-face-zkgam">BOMBS</tx></Nav.Link>
                                 <Nav.Link className= "text-secondary sideButton" as={Link} to="/battle"  eventKey="link-5"><tx className = "sideText font-face-zkgam">BATTLE</tx></Nav.Link>

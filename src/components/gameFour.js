@@ -7,6 +7,16 @@ import Nav  from 'react-bootstrap/Nav';
 import NavDropdown  from 'react-bootstrap/NavDropdown';
 import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
+import HowToPlay from './HowToPlay'
+
+
+
+const howtoplay = () => {
+    return (
+        <HowToPlay gameInstructions= "InstruccionesBombs"/>
+    )
+}
+
 
 
 //cuadro con cantidad de bombas:
@@ -100,6 +110,7 @@ var board = []
         </div>
     )
 }
+
 
 
 class GameFour extends React.Component{
@@ -389,17 +400,7 @@ instructions(){
 
 render(){  
 
-    var howtoplay =    
-   
-        <ol className= "font-face-zkgam">   
-        <li> Seleccionar un nivel (level)</li>     
-        <li>Hacer clic en PLAY</li>
-        <li>Comenzá haciendo un disparo pulsando sobre la celda que quieras</li>
-        
-        <li>Podés ubicar o remover bombas con botón derecho en una casilla</li>
-        <li>Un recuadro mostrará la cantidad de bombas que falta ubicar</li>
 
-        </ol>
 
 
     return (
@@ -437,7 +438,7 @@ render(){
 
                 <InstructionsButton instructions = {this.instructions}/>
                             
-                <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay} /> 
+                <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay()} /> 
 
 
             </div>

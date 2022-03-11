@@ -6,6 +6,15 @@ import Button from 'react-bootstrap/Button';
 import './gameTwo.css';
 import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
+import HowToPlay from './HowToPlay'
+
+
+
+const howtoplay = () => {
+    return (
+        <HowToPlay gameInstructions= "InstruccionesSenku"/>
+    )
+}
 
 class PlayStopButton extends React.Component {
     constructor(props) {
@@ -249,14 +258,7 @@ class GameTwo extends React.Component{
     }
 
     render(){
-        var howtoplay =    
-   
-        <ol className= "font-face-zkgam">   
-        <li> El objetivo es eliminar la mayor cantidad de fichas (negras)</li>     
-        <li>Al hacer clic en una ficha negra y luego en un casillero vacío (blanco) salteando una ficha, la ficha salteada es eliminada</li>
-     
 
-        </ol>
 
         return (
        
@@ -284,7 +286,7 @@ class GameTwo extends React.Component{
 
                 <div className = "row mt-4 " >
                     <div className = "col-12 text-center" ><InstructionsButton instructions = {this.instructions}/> </div>
-                    <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay} /> 
+                    <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay()} /> 
                 </div>
              </div>
 

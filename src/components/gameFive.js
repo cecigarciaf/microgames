@@ -6,6 +6,15 @@ import Nav  from 'react-bootstrap/Nav';
 import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
 import './gameFive.css';
+import HowToPlay from './HowToPlay'
+
+
+
+const howtoplay = () => {
+    return (
+        <HowToPlay gameInstructions= "InstruccionesBattle"/>
+    )
+}
 
 function UserClicks(props){
     var style = {
@@ -1097,18 +1106,7 @@ text(systemshoots){
 
 
     render(){  
-        var howtoplay =    
-   
-        <ol className= "font-face-zkgam">   
-        <li> Seleccionar un barco</li>     
-        <li>Hacer clic en la primer y última celda del tablero derecho donde quieras ubicarlo</li>
-        <li>Para cambiar la ubicación de un barco, pulsar botón derecho sobre el mismo</li>
-        <li>Una vez ubicados todos los barcos pulsar "Confirm" y luego "Play" para comenzar a jugar</li>
-        <li>Comenzá haciendo un disparo pulsando sobre la celda que quieras del tablero izquierdo</li>
-        <li>Podés hacer botón derecho sobre una celda del tablero izquierdo si pensás que ahí no hay un barco</li>
-        <li>No puede haber dos barcos que se toquén entre sí</li>
-        <li>Al acertar un disparo, el turno se mantiene</li>
-        </ol>
+
 
         return (
             <div className ="col-9">
@@ -1161,7 +1159,7 @@ text(systemshoots){
 
                                 <InstructionsButton instructions = {this.instructions}/>
                            
-                                <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay} /> 
+                                <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay()} /> 
 
 
                             </div>

@@ -1,0 +1,71 @@
+{
+
+
+    "Contact" : "Contact",
+
+    "idioma":  "Languaje",
+
+    "Inglés": "English",
+
+    "Español": "Spanish",
+
+    "Instrucciones": "Instruccions",
+
+    "InstruccionesBombs": {
+        "1": "Choose a level",
+        "2": "Click on PLAY",
+        "3": "Click on a cell to shoot",
+        "4": "You can place and remove bombs by right clicking (or press and hold)",
+        "5": "The left square indicator will show how many bombs are left to place"
+    },
+
+    "InstruccionesSenku": {
+        "1": "The objective is to eliminate as much black pieces as possible",
+        "2": "Click on a black piece to select it",
+        "3": "Click on an empty cell (white) skipping one full cell",
+        "4": "The skipped piece is eliminated",
+        "5": "It is not allowed to move diagonally"
+    },
+
+    "InstruccionesBattle": {
+        "1": "To place your ships in the 2nd board, click on one, and then on the first and last cell you want to place it",
+        "2": "To change a ship position, double click (or press and hold on phones) over a placed ship",
+        "3": "Once all ships are placed click CONFIRM and then PLAY",
+        "4": "You can right click (or press and hold on phones) on a cell from the 1st board if you think there is no enemies’ ship there",
+        "5": "Two ships cannot be adjacent to one another"
+    },
+
+    "InstruccionesGuess": {
+        "1": "Click on Play",
+        "2": "The objective is to guess a 4 digit number",
+        "3": "On each try, enter a number and click on CHECK",
+        "4": "You will see how many digits are on the correct position (GOODs) and how many are in the correct number but on a different position (REGULARs)",
+        "5": "You have 10 tries"
+    },
+
+    "InstruccionesTetris": {
+        "1": "Move the falling pieces  left and right  with the arrow keys or screen buttons",
+        "2": "Rotate a piece with the arrow UP or the rounded middle button on the screen",
+        "3": "Try not to leave empty spaces",
+        "4": "If a row is full of piece pieces it is removed ",
+        "5": "Each removed row is a score point"
+    },
+
+    "InstruccionesMelodies": {
+        "1": "Click on PLAY",
+        "2": "Listen and watch each note that is played",
+        "3": "Repeat the played notes pattern pressing each button",
+        "4": "On each turn a new note is added to the pattern, playing a famous melody",
+        "5": "If you play the wrong note, game is over"
+    },
+
+    "InstruccionesRandom": {
+        "1": "Click on PLAY",
+        "2": "Listen and watch each note that is played",
+        "3": "Repeat the played notes pattern pressing each button",
+        "4": "On each turn a new note is added to the pattern indefinitely",
+        "5": "If you play the wrong note, game is over"
+    }
+
+
+}

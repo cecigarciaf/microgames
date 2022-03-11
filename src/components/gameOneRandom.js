@@ -4,6 +4,15 @@ import './gameOneMelodies';
 import PlayStopButton from './playButton';
 import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
+import HowToPlay from './HowToPlay'
+
+
+
+const howtoplay = () => {
+    return (
+        <HowToPlay gameInstructions= "InstruccionesRandom"/>
+    )
+}
 
 class GameOneRandom extends React.Component {
     constructor(props) {
@@ -131,15 +140,6 @@ this.setState({show: showTemp})
     render () { 
       var pL = this.state.playingNote
 
-      var howtoplay =    
-   
-      <ol className= "font-face-zkgam">   
-      <li>Pulsar PLAY</li>     
-      <li>Escuchar y ver la/s nota/s reproducidas</li>
-      <li>Repetir el patrón de notas reproducidas pulsando cada botón correspondiente</li>
-      <li>Las notas se van acumulando indefinidamente</li>
-
-      </ol>
 
       return (
       
@@ -180,7 +180,7 @@ this.setState({show: showTemp})
 
             <div className = "col-sm-4 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" >
               <InstructionsButton instructions = {this.instructions}/>             
-              <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay} /> 
+              <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay()} /> 
 
             </div>
 

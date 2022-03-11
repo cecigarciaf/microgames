@@ -1,9 +1,10 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal'
-
+import { useTranslation } from 'react-i18next';
 
 
 function Instructions (props) {
+    const { t, i18n } = useTranslation();
 
     return(
         
@@ -16,7 +17,7 @@ function Instructions (props) {
         >
             <Modal.Header closeButton>
             <Modal.Title id="example-custom-modal-styling-title">
-                Instrucciones:
+            {t('Instrucciones')}:
             </Modal.Title>
             </Modal.Header>
             <Modal.Body>
