@@ -50,7 +50,7 @@ function Shuffle(array) {
 
 
 function validate(num) {   
-  var errors = [];
+  var errors = [""];
      if (!(/^[0-9][0-9][0-9][0-9]$/.test(num))) {
      errors.push("SE DEBEN INGRESAR 4 DIGITOS");
    }
@@ -148,8 +148,10 @@ function GameSix(){
 
  
   const checkNumber = (event) => {
+    console.log("check")
     event.preventDefault();
     if (playingState){
+      console.log("check2")
       var goodTemp = submit(guess)[0]
       var regularTemp = submit(guess)[1]
       var errorsTemp = validate(guess)
@@ -158,7 +160,7 @@ function GameSix(){
     event.preventDefault();
     displayErrors(errorsTemp)
 
-    if((errorsTemp.length == 0)){
+    if((errorsTemp.length < 2)){
       updateGood(goodTemp)
       updateRegular(regularTemp)
       
@@ -174,17 +176,14 @@ function GameSix(){
   }
 
   const play = () => {
-    console.log(playingState)
+
     if(!(playingState)){
     playingState = true
     generateCorrect(number())
     } else if (playingState){
       playingState = false
     }
-
-    console.log(playingState)
   }
-
 
 
   return (
