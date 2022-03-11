@@ -72,8 +72,92 @@
         "3": "Repetir el patrón de notas reproducidas pulsando cada botón correspondiente",
         "4": "Las notas se van acumulando indefinidamente",
         "5": "Si te equivocas el juego se termina"
-    }
+    },
 
+    "Nivel": "Nivel",
+
+    "NivelesBombs":{
+        "1": "Chico",
+        "2": "Mediano",
+        "3": "Grande"
+    },
+
+    "PLAY": "JUGAR",
+
+    "QUIT": "SALIR",
+
+    "Confirm": "Confirmar",
+
+    "Confirmed": "Confirmado",
+
+    "GANASTE": "GANASTE",
+
+    "HUNDIDO": "HUNDIDO",
+
+    "TOCADO": "TOCADO",
+
+    "AGUA": "AGUA",
+
+    "PERDISTE": "PERDISTE",
+
+    "Te hundieron un barco": "Te hundieron un barco",
+
+    "Te dispararon un barco": "Te dispararon un barco",
+
+    "tiene": " tiene ",
+
+    "bien y": " BIEN y ",
+
+    "intentos": "Intentos: ",
+
+    
+    "SE DEBEN INGRESAR 4 DIGITOS": "SE DEBEN INGRESAR 4 DIGITOS",
+
+    "LOS DIGITOS DEBEN SER DIFERENTES": "LOS DIGITOS DEBEN SER DIFERENTES",
+
+    "CORRECT! YOU WON": "CORRECTO, GANASTE",
+
+    "YOU LOST": "PERDISTE", 
+
+    "SCORE": "PUNTAJE",
+
+    "Game Over": "Perdiste", 
+
+    "Your turn": "Tu turno",
+
+    "Now listen": "Escucha",
+
+    "You won!": "Ganaste",
+
+    "Correct": "Correcto",
+
+    "Random": "Aleatorio",
+
+    "Famous Melodies": "Melodías famosas",
+
+    "Select a Pic" : "Elegir una foto",
+
+    "Completed": "¡Resuelto!",
+
+    "Level" : "Nivel",
+
+    "Themes": "Temas",
+
+    "argentina": "Argentina",
+
+    "birds": "Aves",
+
+    "webInfo": "Creado con:",
+
+    "Name": "Nombre",
+
+    "Message": "Mensaje",
+
+    "SEND": "ENVIAR",
+
+    "CONTACT": "CONTACTO",
+
+    "email sent!" : "Mensaje enviado"
 
 
 }

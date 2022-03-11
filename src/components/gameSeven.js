@@ -7,7 +7,7 @@ import { ArrowLeftSquare } from 'react-bootstrap-icons';
 import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
 import HowToPlay from './HowToPlay'
-
+import { useTranslation } from 'react-i18next';
 
 
 const howtoplay = () => {
@@ -116,50 +116,50 @@ function Cell(props){
   }
 
 function GameSeven() {
-
-      var cells2 = []
-      for(let i = 0; i < 38; i++ ){
-      cells2.push(new Array(19).fill(0))
-      }
-      for(let i = 38; i < 40; i++ ){
-        cells2.push(new Array(19).fill("x"))
-        }
+    var cells2 = []
+    for(let i = 0; i < 38; i++ ){
+    cells2.push(new Array(19).fill(0))
+    }
+    for(let i = 38; i < 40; i++ ){
+    cells2.push(new Array(19).fill("x"))
+    }
 
     const [cells, addBlock] = useState(cells2);
     const [score, updateScore] = useState(0);
     const [result, updateResult] = useState("");
     const [speed, updateSpeed] = useState(100)
     const [show, updateShow] = useState(false)
-   
+    const { t, i18n } = useTranslation();
+
     var square = JSON.parse(JSON.stringify(cells2))
     square[2][8] = 1
     square[2][9] = 1
     square[3][8] = 1
     square[3][9] = 1
 
-function instructions(){
+  function instructions(){
 
-    var showTemp = show
-    if(showTemp === false){
-        showTemp = true
-    } else if (showTemp === true){
-        showTemp = false
+      var showTemp = show
+      if(showTemp === false){
+          showTemp = true
+      } else if (showTemp === true){
+          showTemp = false
+      }
+      updateShow(showTemp)
+  } 
+
+
+  function playClick()  {
+      console.log(speed)
+      if(playingState === false){
+      
+      playingState = true
+      addBlock(square)
+    } else if(playingState === true){
+      playingState = false
+      addBlock(cells2)
     }
-    updateShow(showTemp)
-} 
-
-
-function playClick()  {
-    console.log(speed)
-    if(playingState === false){
-    
-    playingState = true
-    addBlock(square)
-  } else if(playingState === true){
-    playingState = false
-    addBlock(cells2)
   }
-}
     useEffect(() => {
        
         const test =  setInterval(() => {
@@ -181,12 +181,12 @@ function playClick()  {
 
           <div className = "row mt-4 justify-content-center">
             <div className = "col-sm-4 col-md-3 col-lg-2 text-center justify-content-center " >  
-              <tx className = "font-face-zkgam" style={{fontSize: 13}} id = "scoreTitle"> SCORE:  </tx>  
+              <tx className = "font-face-zkgam" style={{fontSize: 13}} id = "scoreTitle"> {t('SCORE')}: </tx>  
               <tx style={{fontSize: 15}} id = "score" className = "font-face-zkga"> {score} </tx> 
             </div>
 
             <div className = "col-4 text-center justify-content-center " >  
-            <h1 className = "font-face-zkga" style={{fontSize: 15}} id = "result">{result}</h1> 
+            <h1 className = "font-face-zkga" style={{fontSize: 15}} id = "result">{t(result)}</h1> 
             </div>
           </div>
         <div className = "row  align-items-center justify-content-center"> 
@@ -558,7 +558,6 @@ if((key === 0) && (keyUp === 0)){
         } 
         
           if(count2 === 14){
-            console.log("14!!")
             for(let r2 = r; r2>1; r2--){
               for(let c = 2; c<16; c++){  
                 updateTemp2[r2][c] = update[r2-1][c]
@@ -573,7 +572,6 @@ if((key === 0) && (keyUp === 0)){
 
     for(let c = 2; c < 16 ; c++){
       if(updateTemp2[2][c] > 9){
-        console.log("Game Over")
         result2 = "Game Over"
         playingState = false
       }

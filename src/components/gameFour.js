@@ -1,14 +1,11 @@
 import React from 'react';
 import './gameFour.css';
 import PlayStopButton from './playButton';
-import Navbar from 'react-bootstrap/Navbar';
-import Container from 'react-bootstrap/Container';
-import Nav  from 'react-bootstrap/Nav';
-import NavDropdown  from 'react-bootstrap/NavDropdown';
 import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
 import HowToPlay from './HowToPlay'
-
+import Container from 'react-bootstrap/Container';
+import SecondarySelector from './SecondarySelector'
 
 
 const howtoplay = () => {
@@ -406,44 +403,34 @@ render(){
     return (
         <div className ="col-9">
             <div className = "row" > 
-            <Navbar bg="white" variant="light">
-                <Container >
-                <Nav className="me-auto mx-auto">
-                <NavDropdown  className = "font-face-zkgam " title="Level" id="basic-nav-dropdown">
-                    <NavDropdown.Item onClick={this.handleLevel} className = "select font-face-zkgam " id="4" > Small </NavDropdown.Item>
-                    <NavDropdown.Item onClick={this.handleLevel} className = "select font-face-zkgam " id="8" > Medium </NavDropdown.Item>
-                    <NavDropdown.Item onClick={this.handleLevel} className = "select font-face-zkgam " id="10"> Large </NavDropdown.Item>
-                </NavDropdown>
-                </Nav>
-                </Container>
-            </Navbar>
+            <SecondarySelector  menuTitle="Level" texts= {["NivelesBombs.1", "NivelesBombs.2", "NivelesBombs.3"]} ids={["4", "8", "10"]}handleLevel= {this.handleLevel}/>
         </div>
-    <Container>
-            <div className = "align-items-center justify-content-center row" > 
-                <div className ="col-6">
-                <Board  level= {this.state.level} userBombs = {this.state.userBombs} result = {this.state.result != "bomba" ? this.state.result : ""} cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>
-                </div>   
-            </div>
-
-            <div className = "row mt-4 align-items-center justify-content-center" >
-                <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" >
-                    <UserBomb  text = {this.state.bombsleft}/>
+            <Container>
+                <div className = "align-items-center justify-content-center row" > 
+                    <div className ="col-6">
+                    <Board  level= {this.state.level} userBombs = {this.state.userBombs} result = {this.state.result != "bomba" ? this.state.result : ""} cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>
+                    </div>   
                 </div>
 
-            <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" >
-                <PlayStopButton text= {this.state.playingState === false?  "PLAY" : "QUIT"} onButtonClick = {this.playClick}/>
-            </div>
+                <div className = "row mt-4 align-items-center justify-content-center" >
+                    <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" >
+                        <UserBomb  text = {this.state.bombsleft}/>
+                    </div>
 
-            <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" >
+                <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" >
+                    <PlayStopButton text= {this.state.playingState === false?  "PLAY" : "QUIT"} onButtonClick = {this.playClick}/>
+                </div>
 
-                <InstructionsButton instructions = {this.instructions}/>
-                            
-                <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay()} /> 
+                <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" >
+
+                    <InstructionsButton instructions = {this.instructions}/>
+                                
+                    <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay()} /> 
 
 
-            </div>
-            
-            </div> 
+                </div>
+                
+                </div> 
             </Container>
         </div> 
 

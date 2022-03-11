@@ -1,8 +1,10 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal'
 import './About.css'
+import { useTranslation } from 'react-i18next';
 
 function About (props) {
+    const { t, i18n } = useTranslation();
 
     return(
         
@@ -16,7 +18,7 @@ function About (props) {
             <Modal.Header  closeButton onClick= {props.close}>
                 
             <Modal.Title className = " aboutTitle font-face-zkgam" id="example-custom-modal-styling-title">
-               This website includes the following libraries:
+                {t('webInfo')}
             </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -30,7 +32,7 @@ function About (props) {
                     <li className="aboutLi"> <a target="_blank"  className= "aboutLink font-face-zkgam " href="https://getbootstrap.com/">Bootstrap</a></li>
                     <li className="aboutLi"> <a target="_blank"  className= "aboutLink font-face-zkgam " href="https://www.npmjs.com/package/react-bootstrap-icons/">React Bootstrap icons</a></li>
                     <li className="aboutLi"> <a target="_blank"  className= "aboutLink font-face-zkgam " href="https://howlerjs.com/">Howler.JS</a></li>
-                    
+                    <li className="aboutLi"> <a target="_blank"  className= "aboutLink font-face-zkgam " href="https://react.i18next.com/">React-i18next</a></li>
                 </ul>
             </div>
 

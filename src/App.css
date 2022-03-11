@@ -145,10 +145,6 @@
   background-color: rgb(235, 229, 241);
  }
 
- .topBarText {
-  color: rgb(190, 189, 189);
- }
-
  .page-container{
    display: flex;
    flex-direction: column;
@@ -161,6 +157,27 @@
 
 
 
-.nav-link #topBarText{
-  color: grey
+.nav-link {
+  color: rgb(233, 167, 167)
+}
+
+.nav-link:focus {
+  color: rgb(235, 128, 128)
+}
+
+.nav-link:hover{
+  color: rgb(235, 128, 128)
+}
+
+
+.topBarText {
+  color: rgb(233, 167, 167);
+ }
+
+ .topBarText:hover{
+  color: rgb(235, 128, 128)
+}
+
+.topBarText:focus {
+  color: rgb(235, 128, 128)
 }

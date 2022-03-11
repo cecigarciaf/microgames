@@ -5,6 +5,7 @@ import PlayStopButton from './playButton';
 import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
 import HowToPlay from './HowToPlay'
+import Result from './Result'
 
 
 
@@ -148,7 +149,7 @@ this.setState({show: showTemp})
        <div className ="col-9">
          
          <div className = "row mt-4 align-items-center" > 
-            <div className = "col-sm-8 col-md-8 col-lg-4 col-xl-4 text-center justify-content-center" > <h1 className = "font-face-zkga" style={{fontSize: 18, height: "20px"}} id = "result">{this.state.resultText}</h1> </div>
+         <Result resultText= {this.state.resultText} />
           </div>
 
           <div className = "row mt-4 align-items-center" >  

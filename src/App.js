@@ -27,7 +27,7 @@ const handleClick = (lang)=> {
     <div className = "page-container">
       <div className= "content-wrap" >
           <div class="row">
-          <Navbar bg="light">
+          <Navbar bg="light" variant="light">
 
         <Container>
 
@@ -41,12 +41,12 @@ const handleClick = (lang)=> {
             </Navbar.Brand>  
 
             <Navbar.Collapse className="justify-content-end">
-                <NavDropdown className= "font-face-zkgam " id="topBarText" title={t('idioma')} >
-                    <NavDropdown.Item className= "text-dark font-face-zkgam " onClick={() => handleClick('en')} ><tx className="topBarText">{t('Inglés')}</tx></NavDropdown.Item>
-                    <NavDropdown.Item className= "text-dark font-face-zkgam " onClick={() => handleClick('esp')} ><tx className="topBarText">{t('Español')}</tx></NavDropdown.Item>
+                <NavDropdown className= "font-face-zkgam " id="basic-nav-dropdown" title={t('idioma')} >
+                    <NavDropdown.Item className= "select  font-face-zkgam " onClick={() => handleClick('en')} ><tx className="topBarText">{t('Inglés')}</tx></NavDropdown.Item>
+                    <NavDropdown.Item className= "select  font-face-zkgam " onClick={() => handleClick('esp')} ><tx className="topBarText">{t('Español')}</tx></NavDropdown.Item>
                 </NavDropdown>   
-                <Nav.Link className= "text-dark font-face-zkgam " onClick={() => setShowAbout(true)} ><tx className="topBarText">About</tx></Nav.Link>
-                <Nav.Link className= "text-dark font-face-zkgam " onClick={() => setShow(true)} ><tx className="topBarText">{t('Contact')}</tx></Nav.Link>
+                <Nav.Link className= "font-face-zkgam " onClick={() => setShowAbout(true)} ><tx className="topBarText">Info</tx></Nav.Link>
+                <Nav.Link className= "font-face-zkgam " onClick={() => setShow(true)} ><tx className="topBarText">{t('Contact')}</tx></Nav.Link>
             </Navbar.Collapse>
 
         </Container>

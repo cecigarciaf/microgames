@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PlayStopButton from './playButton';
 import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
 import HowToPlay from './HowToPlay'
-
+import { useTranslation } from 'react-i18next';
 
 
 const howtoplay = () => {
@@ -57,19 +57,19 @@ function validate(num) {
     
 
  // valida ausencia de dígitos repetidos
- else{
-   var duplicated = false;
-   var num = (""+num).split("");
-   
-   for(var i = 0; i < 4; i++) { 
-     if (!((num.filter(x => x == num[i]).length) == 1)) {
-       duplicated = true;
-     }
+  else{
+    var duplicated = false;
+    var num = (""+num).split("");
+    
+    for(var i = 0; i < 4; i++) { 
+      if (!((num.filter(x => x == num[i]).length) == 1)) {
+        duplicated = true;
+      }
     }
-     if (duplicated)  {
-       errors.push("LOS DIGITOS DEBEN SER DIFERENTES");
-     } 
-  }
+      if (duplicated)  {
+        errors.push("LOS DIGITOS DEBEN SER DIFERENTES");
+      } 
+    }
 
      return errors;
 }
@@ -98,7 +98,7 @@ function validate(num) {
       }  else if (guessesLeft === 1){
     message = "YOU LOST";
   }
-console.log("acaaa " + [good, regular, message])
+
 return [good, regular, message];
  } 
 
@@ -113,7 +113,7 @@ function Results(props)  {
 
   for(let i = 0; i < amount; i++){
     
-    allResults.push(<Result result= {props.allresults[i]}/>)
+    allResults.push(<Result key= {i} result= {props.allresults[i]}/>)
   }
   return (
   <div className = "row text-center">
@@ -133,6 +133,7 @@ function GameSix(){
   const [result, updateResult] = useState([""])
   const [final, showFinal] = useState("")
   const [show, updateShow] = useState(false)
+  const { t, i18n } = useTranslation();
 
   function instructions(){
 
@@ -154,7 +155,6 @@ function GameSix(){
       var errorsTemp = validate(guess)
       var resultTemp = JSON.parse(JSON.stringify(result))
     
-    console.log("result   " + result)
     event.preventDefault();
     displayErrors(errorsTemp)
 
@@ -163,12 +163,14 @@ function GameSix(){
       updateRegular(regularTemp)
       
       updateGuessesLeft(guessesLeft - 1)
-      const currentResult = `${guess}  tiene  ${goodTemp}   bien y  ${regularTemp}   regular`
+      const currentResult = `${guess}  ${t('tiene')}  ${goodTemp}   ${t('bien y')}  ${regularTemp}    REGULAR`
       resultTemp.push(currentResult)
       updateResult(resultTemp)
       showFinal(submit(guess, guessesLeft)[2])
+      console.log("result " + currentResult.length)
     }
   }
+  
   }
 
   const play = () => {
@@ -188,14 +190,14 @@ function GameSix(){
   return (
   <div className ="col-9">
     <div className = "row" >
-    <div className = "mt-1 font-face-zkgam col-sm-12 col-md-12 col-lg-6 text-center"><b>{final}</b></div>
+    <div className = "mt-1 font-face-zkgam col-sm-12 col-md-12 col-lg-6 text-center"><b>{t(final)}</b></div>
     </div>
     <div className = "row  mt-5" >
         <div className = "text-center col-sm-4 col-md-4 col-lg-2"> 
             <PlayStopButton onButtonClick= {play}  text= {playingState? "QUIT" : "PLAY"}/>
         </div>
         <div className = "text-center col-sm-4 col-md-4 col-lg-2"> 
-            <div className = "font-face-zkgam" >Intentos:  {guessesLeft}</div>
+            <div className = "font-face-zkgam" > {t('intentos')}  {guessesLeft}</div>
         </div>
         <div className = "text-center col-sm-4 col-md-4 col-lg-2"> 
             <InstructionsButton instructions = {instructions}/>
@@ -214,7 +216,7 @@ function GameSix(){
 
     <div className = "row" >
       <div className = "font-face-zkgam col-sm-12 col-md-12 col-lg-6 text-center">
-         <b>{errors} </b> 
+         <b> {t(errors)} </b> 
       </div>
 
       <div className= "row"> 

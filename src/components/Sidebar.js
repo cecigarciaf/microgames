@@ -3,12 +3,12 @@ import Nav  from 'react-bootstrap/Nav';
 import Navbar  from 'react-bootstrap/Navbar';
 import Container  from 'react-bootstrap/Container';
 import "../App.css";
+import { useTranslation } from 'react-i18next';
 import {
     BrowserRouter,
     Routes,
     Route,Link
   } from "react-router-dom";
-
 import GameOne from './gameOne';
 import GameTwo from './gameTwo';
 import GameThree from './gameThree';
@@ -16,6 +16,8 @@ import GameFour from './gameFour';
 import GameFive from './gameFive';
 import GameSix from './gameSix';
 import GameSeven from './gameSeven';
+
+
 
 class Sidebar extends React.Component{
     constructor(props){

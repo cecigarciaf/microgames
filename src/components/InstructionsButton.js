@@ -6,7 +6,7 @@ function InstructionsButton(props){
     const { t, i18n } = useTranslation();
 
 return(
-    <Button className= "font-face-zkgam mt-1 mb-1 btn btn-light" size="sm"  onClick={props.instructions}>
+    <Button style={{ color: "grey"}} className= "font-face-zkgam mt-1 mb-1 btn btn-light" size="sm"  onClick={props.instructions}>
          {t('Instrucciones')}
     </Button>
     )

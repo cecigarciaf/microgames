@@ -5,7 +5,7 @@ import './gameOneRandom';
 import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
 import HowToPlay from './HowToPlay'
-
+import Result from './Result'
 
 
 const howtoplay = () => {
@@ -17,11 +17,11 @@ const howtoplay = () => {
 class GameOneMelodies extends React.Component {
     constructor(props) {
       super(props);
-      this.state = {show: false, correctOrder : [], guess : [], resultText : "", i: 0, round: 0, parcialCorrectOrder: [], gameStatus: "false", turn: "computer", playingNote: "", score: 0}
+      this.state = {show: false, correctOrder : [], guess : [], resultText : "", i: 0, round: 0, parcialCorrectOrder: [], gameStatus: false, turn: "computer", playingNote: "", score: 0}
       this.handlePlay = this.handlePlay.bind(this);
       this.handleQuit = this.handleQuit.bind(this);
       this.instructions = this.instructions.bind(this)
-
+      this.handleColorClick = this.handleColorClick.bind(this)
     }
 
 instructions(){
@@ -50,7 +50,7 @@ this.setState({show: showTemp})
       if (newGuess === this.state.correctOrder[this.state.i]) {
         this.setState({resultText: "Correct"}) }
       else  {
-          this.setState({resultText: "Game Over", gameStatus: "false", correctOrder : [], guess : [], i: 0})
+          this.setState({resultText: "Game Over", gameStatus: false, correctOrder : [], guess : [], i: 0})
       }
     }
 
@@ -66,9 +66,9 @@ this.setState({show: showTemp})
       var options = Object.keys(songs)
      
       var newCorrectOrder = (songs[options[Math.floor(Math.random() * options.length)]])
-      this.setState({correctOrder: newCorrectOrder, gameStatus: "true"})
+      this.setState({correctOrder: newCorrectOrder, gameStatus: true})
 
-     console.log("newCorrectOrder" + newCorrectOrder)
+
     }
   
   
@@ -81,7 +81,7 @@ this.setState({show: showTemp})
       var options = Object.keys(songs)
      
       var newCorrectOrder = (songs[options[Math.floor(Math.random() * options.length)]])
-      this.setState({correctOrder: newCorrectOrder, gameStatus: "true", score: 0})
+      this.setState({correctOrder: newCorrectOrder, gameStatus: true, score: 0})
 
       var noteToPlay = newCorrectOrder[0]
 
@@ -114,7 +114,7 @@ this.setState({show: showTemp})
   
     handleColorClick(event) {
       //reproduce guess
-      if (this.state.gameStatus === "true") {
+      if (this.state.gameStatus == true) {
   
       this.setState({turn: "player"})
   
@@ -139,7 +139,7 @@ this.setState({show: showTemp})
       //si se toca la ultima nota total:
       if ( newGuessArray.length === this.state.correctOrder.length) { 
         scoreCopy++
-        this.setState({resultText: "You won!", correctOrder : [], parcialCorrectOrder: [], guess : [], i: 0, round: 0, gameStatus: "false", score: scoreCopy,})
+        this.setState({resultText: "You won!", correctOrder : [], parcialCorrectOrder: [], guess : [], i: 0, round: 0, gameStatus: false, score: scoreCopy,})
 
       }
      // si se toca la ultima nota parcial ok:
@@ -173,7 +173,7 @@ this.setState({show: showTemp})
       
        <div className ="col-9">
           <div className = "row mt-4 align-items-center" > 
-            <div className = "col-sm-8 col-md-8 col-lg-4 col-xl-4 text-center justify-content-center" > <h1 className = "font-face-zkga" style={{fontSize: 18, height: "20px"}} id = "result">{this.state.resultText}</h1> </div>
+            <Result resultText= {this.state.resultText} />
           </div>
           
           <div className = "row mt-4 align-items-center" >  
@@ -198,7 +198,7 @@ this.setState({show: showTemp})
               
 
           <div className = "row mt-4 align-items-center" >
-            <div className = "col-sm-4 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" > <PlayStopButton   text = {this.state.gameStatus === "false"?  "PLAY" : "QUIT"} onButtonClick={this.state.gameStatus === "false"? this.handlePlay : this.handleQuit}/> </div>
+            <div className = "col-sm-4 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" > <PlayStopButton   text = {this.state.gameStatus === false?  "PLAY" : "QUIT"} onButtonClick={this.state.gameStatus === false? this.handlePlay : this.handleQuit}/> </div>
             
             <div className = "col-sm-4 col-md-4 col-lg-2 col-xl-2 text-center justify-content-center " >  
               <tx className = "font-face-zkgam" style={{fontSize: 13}} id = "scoreTitle"> SCORE:  </tx>  

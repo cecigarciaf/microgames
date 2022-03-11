@@ -7,7 +7,8 @@ import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
 import './gameFive.css';
 import HowToPlay from './HowToPlay'
-
+import GameText from './gameText'
+import SecondaryButton from './SecondaryButton'
 
 
 const howtoplay = () => {
@@ -16,20 +17,7 @@ const howtoplay = () => {
     )
 }
 
-function UserClicks(props){
-    var style = {
-        color: "grey",
-        fontSize: "60",
-        textAlign: "center",
-        backgroundColor: "white",
-        border:"1px solid #212529",
-        height: "3rem",
-        width: "3rem"
-    }
-    return (
-        <div className = "mx-auto rounded" id= "clicks" style = {style}>{props.text}</div>
-    )
-}
+
 
 function UserSub(props){
     var color
@@ -71,9 +59,9 @@ var containerStyle = {
 }
 return (
     <div style= {containerStyle }>
-    <div  systemshoots = {props.systemshoots} shoots = {props.shoots} className= {cN}  style = {props.style(props.shoots, props.systemshoots)} cell = {props.cell} onContextMenu = {(e) => props.handleRightClick(props.row,props.col, e)} onClick = {() => props.handleClick(props.row,props.col)}>
-        <tx >{props.text} </tx>
-    </div>
+        <div  systemshoots = {props.systemshoots} shoots = {props.shoots} className= {cN}  style = {props.style(props.shoots, props.systemshoots)} cell = {props.cell} onContextMenu = {(e) => props.handleRightClick(props.row,props.col, e)} onClick = {() => props.handleClick(props.row,props.col)}>
+            <tx >{props.text} </tx>
+        </div>
     </div>
     )
 }
@@ -102,7 +90,7 @@ function Board(props) {
         }
         return (
             <div  className = "testMargin align-items-center justify-content-center row m-1" > 
-            {board}
+             {board}
             </div>
         )
 }
@@ -115,7 +103,7 @@ class UserSubs extends React.Component{
     }
     render(){  
         return (
-            <div className ="col-sm-12 col-md-4 d-md-block text-center mt-4">
+            <div className ="col-sm-12 col-md-4 d-md-block text-center mt-1">
                 
                 <UserSub id = "9" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[9]}/>  
                 <UserSub id = "8" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[8]}/>
@@ -1017,34 +1005,34 @@ if(statusTemp === "completed") {
         for(let i = 0; i < 14; i++ ){
         tempuserShoots.push(new Array(14).fill("empty"));  
     }
-            //tablero izquierda
-            var cells = []
-            for(let i = 0; i < 14; i++ ){
-            cells.push(new Array(14).fill(0))
-            }
-            var userShoots = []
-            for(let i = 0; i < 14; i++ ){
-            userShoots.push(new Array(14).fill("empty"));
-            }
+    //tablero izquierda
+    var cells = []
+    for(let i = 0; i < 14; i++ ){
+    cells.push(new Array(14).fill(0))
+    }
+    var userShoots = []
+    for(let i = 0; i < 14; i++ ){
+    userShoots.push(new Array(14).fill("empty"));
+    }
+
+    //tablero derecha
+    var userCells = []
+    for(let i = 0; i < 16; i++ ){
+    userCells.push(new Array(16).fill("x"))
+    }
+    var systemShoots = []
+    for(let i = 0; i < 14; i++ ){
+    systemShoots.push(new Array(14).fill("empty"));
+    }    
     
-            //tablero derecha
-            var userCells = []
-            for(let i = 0; i < 14; i++ ){
-            userCells.push(new Array(14).fill("x"))
-            }
-            var systemShoots = []
-            for(let i = 0; i < 14; i++ ){
-            systemShoots.push(new Array(14).fill("empty"));
-            }    
-            
-            var shipsLocations = []
-            for(let i = 0; i < 10; i++ ){
-            shipsLocations.push(new Array(1).fill(0));
-            }    
-            var leftShipLocations = []
-            for(let i = 0; i < 10; i++ ){
-            shipsLocations.push(new Array(1).fill(0));
-            } 
+    var shipsLocations = []
+    for(let i = 0; i < 10; i++ ){
+    shipsLocations.push(new Array(1).fill(0));
+    }   
+    var leftShipLocations = []
+    for(let i = 0; i < 10; i++ ){
+    shipsLocations.push(new Array(1).fill(0));
+    } 
             this.setState({lastSystemTocado: [0, 0, 0, 0], hundidosSystem: 0, hundidos: 0, show: false, text: "", textSystem: "", leftShipLocations: leftShipLocations, lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations})
     for(let i=0; i<10; i++){
     document.getElementById(i).style.display = "block"
@@ -1139,7 +1127,7 @@ text(systemshoots){
                 </div>
                 <div className = "row " >
                     <div className ="col-10  d-md-block text-center"> 
-                        <div className = "font-face-zkgam" style={{fontSize: 20, height: "20px"}}><strong>{this.state.text}</strong></div>
+                        <GameText text= {this.state.text}/>
                     </div> 
                 </div> 
 
@@ -1152,7 +1140,7 @@ text(systemshoots){
                             </div> 
 
                             <div className ="col-sm-12 col-md-4  d-md-block text-center">
-                                <PlayStopButton text= {this.state.status === "pending"?  "Confirm" : "Confirmed"} onButtonClick = {this.confirmClick}/>
+                                <SecondaryButton text= {this.state.status === "pending"?  "Confirm" : "Confirmed"} handleClick = {this.confirmClick}/>
                             </div>
 
                             <div className ="col-sm-12 col-md-4  d-md-block text-center">

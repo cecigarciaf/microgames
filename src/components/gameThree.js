@@ -1,17 +1,13 @@
 import React from 'react';
-import Navbar from 'react-bootstrap/Navbar';
-import Container from 'react-bootstrap/Container';
-import Nav  from 'react-bootstrap/Nav';
-import NavDropdown  from 'react-bootstrap/NavDropdown';
 import PICS from "./pics/index.js";
 import './gameThree.css';
 import PlayStopButton from './playButton'
-import Button from 'react-bootstrap/Button';
 import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
-import HowToPlay from './HowToPlay'
-
-
+import HowToPlay from './HowToPlay';
+import SecondaryButton from './SecondaryButton';
+import Result from './Result'
+import SecondarySelector from './SecondarySelector'
 
 const howtoplay = () => {
     return (
@@ -46,7 +42,6 @@ class GameThree extends React.Component {
 
   handleSubject(event) {
     var subject = event.target.id
-    console.log("subject" + subject)
     this.setState({subject: subject})
   }
 
@@ -102,7 +97,6 @@ class GameThree extends React.Component {
   }
 
   handlePlay() {
-  console.log(this.state.leftCellsState)
   if (this.state.playingState === "false") {
     var assignedIdCopy = this.state.assignedId
     this.shuffleArray(assignedIdCopy)
@@ -131,7 +125,7 @@ class GameThree extends React.Component {
     var movedPiece = assignedIdCopy[data]
     var leftCellsMovedPieceIndex = leftCellsStateCopy.indexOf(leftCellsMovedPiece)
 
-    console.log(leftCellsStateCopy )
+
       if ((this.state.playingState === "true") & (leftCellsStateCopy[(event.target.id - 100)] === "empty")) {
       var leftCellsMovedPiece = leftCellsStateCopy.find(element => element === movedPiece)
       var leftCellsMovedPieceIndex = leftCellsStateCopy.indexOf(leftCellsMovedPiece)
@@ -158,7 +152,6 @@ class GameThree extends React.Component {
           }
           
           if (ok == 20){
-            console.log("You won")
             resultCopy = "Completed"
         } 
     this.setState({result: resultCopy, currentResult: currentResultCopy, leftCellsState: leftCellsStateCopy})
@@ -231,18 +224,7 @@ class GameThree extends React.Component {
     return (
       <div className ="col-9">
         <div className = "row" > 
-          <Navbar bg="white" variant="light">
-            <Container >
-              <Nav className="me-auto mx-auto">
-              
-              <NavDropdown   title="Themes" id="basic-nav-dropdown">
-                <NavDropdown.Item className = "select font-face-zkgam " onClick={this.handleSubject} id="argentina">Argentina</NavDropdown.Item>
-                <NavDropdown.Item className = "select font-face-zkgam " onClick={this.handleSubject} id="birds" >Birds</NavDropdown.Item>
-                 
-              </NavDropdown>
-              </Nav>
-            </Container>
-          </Navbar>
+          <SecondarySelector menuTitle="Themes" handleLevel={this.handleSubject} ids={["argentina", "birds"]} texts={["argentina", "birds"]}/>
         </div>
         
         <div className = "align-items-center  row" > 
@@ -293,7 +275,7 @@ class GameThree extends React.Component {
       
       <div className = "row mt-4 align-items-center justify-content-center " >
           <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" >
-            <Button  className = "font-face-zkga select" id="selectbutton" size="sm" variant="outline-dark"  onClick={this.handlePicChange}>Select a Pic</Button>
+            <SecondaryButton text= "Select a Pic" handleClick = {this.handlePicChange}/>
           </div>
 
           <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" > 
@@ -309,7 +291,7 @@ class GameThree extends React.Component {
 
 
       <div className = "row mt-4 align-items-center text-center" >
-        <h1 className = "font-face-zkga" id = "result">{this.state.result}</h1> 
+        <Result resultText={this.state.result}/> 
       </div>
     </div>
     )

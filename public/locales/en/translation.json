@@ -65,7 +65,91 @@
         "3": "Repeat the played notes pattern pressing each button",
         "4": "On each turn a new note is added to the pattern indefinitely",
         "5": "If you play the wrong note, game is over"
-    }
+    },
+
+    "Nivel": "Level",
+
+    "NivelesBombs":{
+        "1": "Small",
+        "2": "Medium",
+        "3": "Large"
+    },
+
+    "PLAY": "PLAY",
+
+    "QUIT": "QUIT",
+
+    "Confirm": "Confirm",
+
+    "Confirmed": "Confirmed",
+
+    "GANASTE": "YOU WON",
+
+    "HUNDIDO": "SHIP DESTROYED",
+
+    "TOCADO": "HIT",
+
+    "AGUA": "NO SHIPS THERE",
+
+    "PERDISTE": "YOU LOST",
+
+    "Te hundieron un barco": "Your ship was destroyed",
+
+    "Te dispararon un barco": "Your ship was hit",
+
+    "tiene": " has ",
+
+    "bien y": " GOOD and ",
+
+    "intentos": "Tries left: ",
+
+    "SE DEBEN INGRESAR 4 DIGITOS": "YOU MUST ENTER 4 DIGITS",
+
+    "LOS DIGITOS DEBEN SER DIFERENTES": "DIGITS MUST BE DIFFERENT",
+
+    "CORRECT! YOU WON": "CORRECT, YOU WON",
+
+    "YOU LOST": "YOU LOST",
+
+    "SCORE":  "SCORE",
+
+    "Game Over": "Game Over",
+
+    "Your turn": "Your turn",
+
+    "Now listen": "Now listen",
+
+    "You won!": "You won!",
+
+    "Correct": "Correct",
+
+    "Random": "Random",
+
+    "Famous Melodies": "Famous Melodies",
+
+    "Select a Pic": "Select a Pic",
+
+    "Completed": "Completed!",
+
+    "Level": "Level",
+
+    "Themes": "Themes",
+
+    "argentina": "Argentina",
+
+    "birds": "Birds",
+
+    "webInfo": "Created with:",
+
+    "Name": "Name",
+
+    "Message": "Message",
+
+    "SEND": "SEND",
+
+    "CONTACT": "CONTACT",
+
+    "email sent!" : "Message sent!"
 
 
 }
