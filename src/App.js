@@ -61,8 +61,8 @@ const handleClick = (lang)=> {
 
             <Navbar.Collapse className="justify-content-end">
                 <NavDropdown className= "font-face-zkgam " id="basic-nav-dropdown" title={languaje} >
-                    <NavDropdown.Item style= { Style("English")} id= "English" className= "select  font-face-zkgam " onClick={() => handleClick('en')} ><tx className="topBarText">{t('Inglés')}</tx></NavDropdown.Item>
-                    <NavDropdown.Item style= { Style("Español")} id= "Español" className= "select  font-face-zkgam " onClick={() => handleClick('esp')} ><tx className="topBarText">{t('Español')}</tx></NavDropdown.Item>
+                    <NavDropdown.Item style= { Style("English")} id= "English" className= "select  font-face-zkgam " onClick={() => handleClick('en')} ><tx className="topBarText">English</tx></NavDropdown.Item>
+                    <NavDropdown.Item style= { Style("Español")} id= "Español" className= "select  font-face-zkgam " onClick={() => handleClick('esp')} ><tx className="topBarText">Español</tx></NavDropdown.Item>
                 </NavDropdown>   
                 <Nav.Link className= "font-face-zkgam " onClick={() => setShowAbout(true)} ><tx className="topBarText">Info</tx></Nav.Link>
                 <Nav.Link className= "font-face-zkgam " onClick={() => setShow(true)} ><tx className="topBarText">{t('Contact')}</tx></Nav.Link>
