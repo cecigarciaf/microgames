@@ -178,7 +178,12 @@ function GameSeven() {
 
     <div  onKeyDown={(e) => handleKeyDown(e)} className ="col-9 justify-content-center">
 
-
+        <div className = "row mt-4 " >
+          <div className = "col-10 text-end " >
+              <InstructionsButton instructions = {instructions}/>
+              <Instructions instructions = {instructions} show= {show} instructDetails= {howtoplay()} /> 
+          </div>
+        </div>
           <div className = "row mt-4 justify-content-center">
             <div className = "col-sm-4 col-md-3 col-lg-2 text-center justify-content-center " >  
               <tx className = "font-face-zkgam" style={{fontSize: 13}} id = "scoreTitle"> {t('SCORE')}: </tx>  
@@ -199,13 +204,10 @@ function GameSeven() {
         <div className = "col-4 text-center" > <ArrowRightSquare  width="28" height="28" onClick={() => handleRightButton()}/> </div>
         </div>
         <div className = "row mt-4 align-items-center"> 
-            <div className = "col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center" > 
+            <div className = "col-12 text-center" > 
               <PlayStopButton  size="sm" text= "PLAY"  onButtonClick= {playClick}/> 
             </div>
-            <div className = "col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center" >
-              <InstructionsButton instructions = {instructions}/>
-              <Instructions instructions = {instructions} show= {show} instructDetails= {howtoplay()} /> 
-            </div>
+
         </div>
     </div>
     );

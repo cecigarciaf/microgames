@@ -44,7 +44,7 @@
     },
 
     "InstruccionesTetris": {
-        "1": "Move the falling pieces  left and right  with the arrow keys or screen buttons",
+        "1": "Move the falling pieces left and right  with the arrow keys or screen buttons",
         "2": "Rotate a piece with the arrow UP or the rounded middle button on the screen",
         "3": "Try not to leave empty spaces",
         "4": "If a row is full of piece pieces it is removed ",
@@ -65,6 +65,14 @@
         "3": "Repeat the played notes pattern pressing each button",
         "4": "On each turn a new note is added to the pattern indefinitely",
         "5": "If you play the wrong note, game is over"
+    },
+
+    "InstruccionesPiczle": {
+        "1": "Select a picture clicking on SELECT A PIC",
+        "2": "Firstly you can also select a level under the THEMES menu",
+        "3": "Click PLAY",
+        "4": "The picture will be mixed in small pieces",
+        "5": "Drag and drop the pieces to put the picture back together"
     },
 
     "Nivel": "Level",

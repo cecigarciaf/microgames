@@ -147,6 +147,13 @@ this.setState({show: showTemp})
 
       
        <div className ="col-9">
+
+          <div className = "row mt-4 " >
+            <div className = "col-10 text-end " >
+              <InstructionsButton instructions = {this.instructions}/>             
+              <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay()} /> 
+            </div>
+          </div>
          
          <div className = "row mt-4 align-items-center" > 
          <Result resultText= {this.state.resultText} />
@@ -179,11 +186,6 @@ this.setState({show: showTemp})
               <tx style={{fontSize: 15}} id = "score" className = "font-face-zkga"> {this.state.score} </tx> 
             </div>
 
-            <div className = "col-sm-4 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" >
-              <InstructionsButton instructions = {this.instructions}/>             
-              <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay()} /> 
-
-            </div>
 
           </div>
           </div>

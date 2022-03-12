@@ -191,18 +191,21 @@ function GameSix(){
 
   return (
   <div className ="col-9">
+      <div className = "row mt-4 " >
+        <div className = "col-10 text-end " >
+            <InstructionsButton instructions = {instructions}/>
+            <Instructions instructions = {instructions} show= {show} instructDetails= {howtoplay()} />     
+        </div>
+      </div>
     <div className = "row" >
     <div className = "mt-1 font-face-zkgam col-sm-12 col-md-12 col-lg-6 text-center"><b>{t(final)}</b></div>
     </div>
     <div className = "row  mt-5" >
-        <div className = "text-center col-sm-6 col-md-6 col-lg-3"> 
+        <div className = "text-center col-sm-6 col-md-6 col-lg-6"> 
             <PlayStopButton onButtonClick= {play}  text= {playingState? "QUIT" : "PLAY"}/>
         </div>
 
-        <div className = "text-center col-sm-6 col-md-6 col-lg-3"> 
-            <InstructionsButton instructions = {instructions}/>
-            <Instructions instructions = {instructions} show= {show} instructDetails= {howtoplay()} /> 
-        </div>
+
     </div>
     <div className = "row  mt-5" >
     <div className = "col-sm-12 col-md-12 col-lg-6 text-center"> 

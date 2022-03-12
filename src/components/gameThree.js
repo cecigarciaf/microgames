@@ -223,9 +223,17 @@ class GameThree extends React.Component {
 
     return (
       <div className ="col-9">
+        <div className = "row mt-4 " >
+          <div className = "col-10 text-end " >
+            <InstructionsButton instructions = {this.instructions}/>
+            <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay()} /> 
+          </div>
+        </div>
         <div className = "row" > 
           <SecondarySelector menuTitle="Themes" handleLevel={this.handleSubject} ids={["argentina", "birds"]} texts={["argentina", "birds"]}/>
         </div>
+
+
         
         <div className = "align-items-center  row" > 
           <div className ="col-6">
@@ -280,13 +288,7 @@ class GameThree extends React.Component {
 
           <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" > 
             <PlayStopButton   text = {this.state.playingState === "false"?  "PLAY" : "QUIT"}  onButtonClick= {this.handlePlay}/> 
-          </div>
-
-          <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" >
-            <InstructionsButton instructions = {this.instructions}/>
-            <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay()} /> 
-          </div>  
-            
+          </div>            
       </div>
 
 

@@ -263,6 +263,10 @@ class GameTwo extends React.Component{
         return (
        
             <div className ="col-9">
+                <div className = "row mt-4 " >
+                    <div className = "col-10 text-end " ><InstructionsButton instructions = {this.instructions}/> </div>
+                    <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay()} /> 
+                </div>
                 <div className = "row" > 
                     <Navbar bg="white" variant="light">
                         <Container >
@@ -284,10 +288,7 @@ class GameTwo extends React.Component{
                     <div className = "col-12 text-center" > <PlayStopButton  text = "Reset" onButtonClick= {this.handleReset}/> </div>
                 </div>
 
-                <div className = "row mt-4 " >
-                    <div className = "col-12 text-center" ><InstructionsButton instructions = {this.instructions}/> </div>
-                    <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay()} /> 
-                </div>
+                
              </div>
 
         )

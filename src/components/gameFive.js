@@ -1098,6 +1098,13 @@ text(systemshoots){
 
         return (
             <div className ="col-9">
+
+                <div className = "row mt-4 " >
+                    <div className = "col-10 text-end " >
+                        <InstructionsButton instructions = {this.instructions}/>
+                        <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay()} /> 
+                    </div>
+                </div>
                 <div className = "row" > 
                 
                     <Navbar bg="white" variant="light">
@@ -1135,22 +1142,14 @@ text(systemshoots){
       
                     <div className = "col-6  d-md-block text-center" >
                         <div className= "row"> 
-                            <div className = "col-sm-12 col-md-4  d-md-block " >
+                            <div className = "col-sm-12 col-md-6  d-md-block " >
                                 <PlayStopButton text= {this.state.playingState === false?  "PLAY" : "QUIT"} onButtonClick = {this.playClick}/>
                             </div> 
 
-                            <div className ="col-sm-12 col-md-4  d-md-block text-center">
+                            <div className ="col-sm-12 col-md-6  d-md-block text-center">
                                 <SecondaryButton text= {this.state.status === "pending"?  "Confirm" : "Confirmed"} handleClick = {this.confirmClick}/>
                             </div>
 
-                            <div className ="col-sm-12 col-md-4  d-md-block text-center">
-
-                                <InstructionsButton instructions = {this.instructions}/>
-                           
-                                <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay()} /> 
-
-
-                            </div>
                         </div>
                     </div>
                 </div> 

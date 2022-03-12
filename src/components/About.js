@@ -33,6 +33,7 @@ function About (props) {
                     <li className="aboutLi"> <a target="_blank"  className= "aboutLink font-face-zkgam " href="https://www.npmjs.com/package/react-bootstrap-icons/">React Bootstrap icons</a></li>
                     <li className="aboutLi"> <a target="_blank"  className= "aboutLink font-face-zkgam " href="https://howlerjs.com/">Howler.JS</a></li>
                     <li className="aboutLi"> <a target="_blank"  className= "aboutLink font-face-zkgam " href="https://react.i18next.com/">React-i18next</a></li>
+                    <li className="aboutLi"> <a target="_blank"  className= "aboutLink font-face-zkgam " href="https://www.npmjs.com/package/react-share/">React-share social media share buttons</a></li>
                 </ul>
             </div>
 

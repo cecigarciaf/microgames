@@ -12,7 +12,7 @@
 
     "InstruccionesBombs": {
         "1": "Seleccionar un nivel",
-        "2": "Pulsar PLAY",
+        "2": "Pulsar JUGAR",
         "3": "Comenzá haciendo un disparo pulsando sobre la celda que quieras",
         "4": "Podés ubicar o remover bombas con botón derecho en una casilla",
         "5": "Un recuadro mostrará la cantidad de bombas que falta ubicar"
@@ -37,12 +37,12 @@
     "InstruccionesGuess": {
         "1": "Hacer clic en PLAY",
         "2": "El objetivo es descubrir el número de 4 dígitos distintos",
-        "3": "En cada intento, ingresar un número y pulsar CHECK",
+        "3": "En cada intento, ingresar un número y pulsar VERIFICAR",
         "4": "El juego indicará cuántos dígitos están en el número a descubrir, indicando como BIEN los que están en la misma posición y REGULAR los que están en el número pero en otra posición",
         "5": "Tienes 10 intentos"
     },
 
-    "InstruccionesPiczle": {
+    "InstruccionesTetris": {
         "1": "Mover las piezas que caen a la izquierda/derecha con las flechas",
         "2": "Rotar la posición de una pieza con la flecha ARRIBA o el botón de rotar de la pantalla",
         "3": "Intentar no dejar huecos vacíos",
@@ -50,16 +50,16 @@
         "5": "Cada fila completada equivale a un punto"
     },
 
-    "InstruccionesTetris": {
+    "InstruccionesPiczle": {
         "1": "Buscar una foto aleatoria con el botón SELECT A PIC",
-        "2": "O elegir primero un tema en el menu THEMES",
-        "3": "Hacer click en PLAY",
+        "2": "O elegir primero un tema en el menu TEMAS",
+        "3": "Hacer click en JUGAR",
         "4": "La foto se va a mezclar en pequeñas partes",
         "5": "Arrastrar las piezas con el mouse para re-armar la foto"
     },
 
     "InstruccionesMelodies": {
-        "1": "Pulsar PLAY",
+        "1": "Pulsar JUGAR",
         "2": "Escuchar y ver la/s nota/s reproducidas",
         "3": "Repetir el patrón de notas reproducidas pulsando cada botón correspondiente",
         "4": "Las notas se van acumulando reproduciendo una famosa melodía",
@@ -67,7 +67,7 @@
     },
 
     "InstruccionesRandom": {
-        "1": "Pulsar PLAY",
+        "1": "Pulsar JUGAR",
         "2": "Escuchar y ver la/s nota/s reproducidas",
         "3": "Repetir el patrón de notas reproducidas pulsando cada botón correspondiente",
         "4": "Las notas se van acumulando indefinidamente",

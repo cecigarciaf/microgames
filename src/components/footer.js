@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import './footer.css'
-import Mailer from './Mailer'
+import {
+    EmailShareButton,
+    WhatsappShareButton,
+    WhatsappIcon,
+    EmailIcon,
+  } from "react-share";
+
 
 
 function Footer() {
@@ -15,15 +21,17 @@ return(
                     <p style={{color: "white"}}>   &copy;{new Date().getFullYear()} </p> 
                 </div>
                     
-                    
-                <div className= "col-6 ">
-                    <div className= "text-end justify-content-end text-dark font-face-zkgam " onClick={() => setShow(true)} ><tx className="topBarText">Contact</tx></div>
+                
+                <div className= "col-6 text-end ">
+                    <div className= "text-end justify-content-end text-dark font-face-zkgam " />
+                        <WhatsappShareButton url= "https://mypageapp.herokuapp.com/"><WhatsappIcon bgStyle= {{fill: "rgb(53, 52, 52)"}} round= "true" size= "2rem" ></WhatsappIcon></WhatsappShareButton>
+                        <EmailShareButton url= "https://mypageapp.herokuapp.com/"><EmailIcon bgStyle= {{fill: "rgb(53, 52, 52)"}} round= "true" size= "3rem" ></EmailIcon></EmailShareButton>
+                    </div>
                 </div>
-            </div>
-        <Mailer close = {() => setShow(false)} show = {show} />
+        </div>
+        
     </div>
-  </div>
+
 )};
 
 export default Footer;
-
