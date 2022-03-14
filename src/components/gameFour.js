@@ -48,8 +48,8 @@ else if(props.cell === "c"){
 } else if(props.userBombs === "bomba") {
     color = "black";
     cN = "text-center justify-content-center rounded-circle ";
-    
 }
+
 
 var style = {
     width: "1.8rem",
@@ -71,9 +71,9 @@ var fontStyle = {
 
 return (
     <div style= {containerStyle }>
-    <div className= {cN} level = {props.level} userBombs = {props.userBombs} style = {style} cell = {props.cell} row = {props.row} col = {props.col} onContextMenu = {(e) =>props.handleRightClick(props.row,props.col, e)} onClick = {() => props.handleClick(props.row,props.col)}>
-        <tx style = {fontStyle}> {props.result} </tx>
-    </div>
+        <div className= {cN} level = {props.level} userBombs = {props.userBombs} style = {style} cell = {props.cell} row = {props.row} col = {props.col} onContextMenu = {(e) =>props.handleRightClick(props.row,props.col, e)} onClick = {() => props.handleClick(props.row,props.col)}>
+            <tx style = {fontStyle}> {props.result} </tx>
+        </div>
     </div>
     )
 }

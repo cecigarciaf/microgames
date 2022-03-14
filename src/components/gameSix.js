@@ -12,19 +12,23 @@ const howtoplay = () => {
     )
 }
 
-var playingState = false
+
+
+
+
+// var playingState = false
+
+
+
 
 function Shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
   
-    // Mientras queden elementos a mezclar...
     while (0 !== currentIndex) {
   
-      // Seleccionar un elemento sin mezclar...
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
   
-      // E intercambiarlo con el elemento actual
       temporaryValue = array[currentIndex];
       array[currentIndex] = array[randomIndex];
       array[randomIndex] = temporaryValue;
@@ -32,7 +36,9 @@ function Shuffle(array) {
   
     return array;
   }
- // generar numero para adivinar
+
+
+ // generar número para adivinar:
  var guessThisNumber;
  var guesses;
  
@@ -41,14 +47,11 @@ function Shuffle(array) {
    guesses = 10;
    Shuffle(allDigits);
    guessThisNumber = allDigits.splice(0, 4);
-   console.log("number" + guessThisNumber);
-    return guessThisNumber
-   
+    return guessThisNumber 
  }
 
+
  // Se fija que el numero ingresado es de 4 digitos numéricos y agregar el mensaje de error al array de errores
-
-
 function validate(num) {   
   var errors = [""];
      if (!(/^[0-9][0-9][0-9][0-9]$/.test(num))) {
@@ -56,7 +59,7 @@ function validate(num) {
    }
     
 
- // valida ausencia de dígitos repetidos
+ // valida ausencia de dígitos repetidos:
   else{
     var duplicated = false;
     var num = (""+num).split("");
@@ -75,10 +78,7 @@ function validate(num) {
 }
  
  
-  // ejecuta validaciones (se agregaran mas), muestra errores o ejecuta el juego si el valor ingresado es validado
- 
-
- 
+  // ejecuta validaciones, muestra errores o ejecuta el juego si el valor ingresado es validado
  function submit(guessValidated, guessesLeft) { 
    var message
    var good = 0;
@@ -92,7 +92,6 @@ function validate(num) {
            regular++;
        }
     }
-
       if (good === 4) {
         message = "CORRECT! YOU WON";
       }  else if (guessesLeft === 1){
@@ -102,7 +101,6 @@ function validate(num) {
 return [good, regular, message];
  } 
 
-
 function Result(props){
  return <p  className = "font-face-zkgam">{props.result}</p>
 }
@@ -110,9 +108,7 @@ function Result(props){
 function Results(props)  {
   var amount = props.allresults.length
   var allResults = []
-
   for(let i = 0; i < amount; i++){
-    
     allResults.push(<Result key= {i} result= {props.allresults[i]}/>)
   }
   return (
@@ -120,23 +116,25 @@ function Results(props)  {
     {allResults}
   </div>
   )
-
 }
 
 function GameSix(){
+  const [playingState, switchPlay] = useState(false)
+
   const [correct, generateCorrect] = useState()
   const [guess, updateGuess] = useState()
   const [good, updateGood] = useState(0)
   const [regular, updateRegular] = useState(0)
-  const [guessesLeft, updateGuessesLeft] = useState(10)
+  const [guessesLeft, updateGuessesLeft] = useState(0)
   const [errors, displayErrors] = useState("")
   const [result, updateResult] = useState([""])
   const [final, showFinal] = useState("")
   const [show, updateShow] = useState(false)
   const { t, i18n } = useTranslation();
+  
+  var playingStateTemp = playingState
 
   function instructions(){
-
     var showTemp = show
     if(showTemp === false){
         showTemp = true
@@ -146,11 +144,12 @@ function GameSix(){
     updateShow(showTemp)
 } 
 
+  
  
   const checkNumber = (event) => {
-    console.log("check")
+    
     event.preventDefault();
-    if (playingState){
+    if (playingStateTemp){
       console.log("check2")
       var goodTemp = submit(guess)[0]
       var regularTemp = submit(guess)[1]
@@ -179,13 +178,19 @@ function GameSix(){
   }
 
   const play = () => {
-
-    if(!(playingState)){
-    playingState = true
+    console.log("playtingStateTemp" + playingStateTemp)
+    if(!(playingStateTemp)){
+    playingStateTemp = true
     generateCorrect(number())
-    } else if (playingState){
-      playingState = false
+    updateGuessesLeft(10)
+    } else if (playingStateTemp){
+
+      playingStateTemp = false
+      updateGuessesLeft(0)
+      displayErrors("")
+      updateResult("")
     }
+    switchPlay(playingStateTemp)
   }
 
 

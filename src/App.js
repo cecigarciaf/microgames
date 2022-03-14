@@ -15,31 +15,26 @@ function App () {
   const { t, i18n } = useTranslation();
   const [show, setShow] = useState(false)
   const [showAbout, setShowAbout] = useState(false)
-  const [languaje, showLanguaje] = useState("Español")
+ 
   
-const handleClick = (lang)=> {
-  var languajeTemp = languaje
-  if(lang === "en"){
-    languajeTemp = "English"
-  } else{
-    languajeTemp = "Español"
-  }
-
-      i18n.changeLanguage(lang);
-      showLanguaje(languajeTemp)
-
-  }
 
   const Style = (lenguaje) => {
     
     var style
-    if(lenguaje===languaje){
+    if(i18n.resolvedLanguage === lenguaje){
       style= { display : "none"}
     } else {
       style= { display : "unset"}
     }
     return style
   }
+
+
+  const lngs = {
+    en: { nativeName: 'English' },
+    esp: { nativeName: 'Español' }
+  };
+
 
     return(
       
@@ -60,9 +55,9 @@ const handleClick = (lang)=> {
             </Navbar.Brand>  
 
             <Navbar.Collapse className="justify-content-end">
-                <NavDropdown className= "font-face-zkgam " id="basic-nav-dropdown" title={languaje} >
-                    <NavDropdown.Item style= { Style("English")} id= "English" className= "select  font-face-zkgam " onClick={() => handleClick('en')} ><tx className="topBarText">English</tx></NavDropdown.Item>
-                    <NavDropdown.Item style= { Style("Español")} id= "Español" className= "select  font-face-zkgam " onClick={() => handleClick('esp')} ><tx className="topBarText">Español</tx></NavDropdown.Item>
+                <NavDropdown className= "font-face-zkgam " id="basic-nav-dropdown" title={ lngs[i18n.resolvedLanguage].nativeName} >
+                    <NavDropdown.Item style= { Style("en")} id= "English" className= "select  font-face-zkgam " onClick={() => i18n.changeLanguage("en")} ><tx className="topBarText">{lngs["en"].nativeName}</tx></NavDropdown.Item>
+                    <NavDropdown.Item style= { Style("esp")} id= "Español" className= "select  font-face-zkgam " onClick={() => i18n.changeLanguage("esp")} ><tx className="topBarText">{lngs["esp"].nativeName}</tx></NavDropdown.Item>
                 </NavDropdown>   
                 <Nav.Link className= "font-face-zkgam " onClick={() => setShowAbout(true)} ><tx className="topBarText">Info</tx></Nav.Link>
                 <Nav.Link className= "font-face-zkgam " onClick={() => setShow(true)} ><tx className="topBarText">{t('Contact')}</tx></Nav.Link>
