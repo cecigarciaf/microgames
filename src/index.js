@@ -9,7 +9,7 @@ import { Spinner } from 'react-bootstrap';
 
 
 ReactDOM.render(
-  <Suspense fallback={(<div><Spinner animation="border" role="status"></Spinner></div>)}>
+  <Suspense fallback={(<div className= "loaderContainer"><Spinner id= "spinner" animation="border" role="status"></Spinner></div>)}>
   <App/>
   </Suspense>,
   document.getElementById('root')

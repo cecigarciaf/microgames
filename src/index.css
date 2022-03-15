@@ -27,3 +27,15 @@ code {
     src: local("ZenKakuGothicAntiqueMedium"), url("./fonts/ZenKakuGothicAntique/ZenKakuGothicAntiqueMedium.ttf") format("truetype");
     font-weight: "500"
     }
+
+#spinner {
+  color: rgb(235, 128, 128);
+}
+
+.loaderContainer{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100;
+  height: 100;
+}
