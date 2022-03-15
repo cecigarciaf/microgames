@@ -5,11 +5,11 @@ import App from './App';
 import './fonts/ZenKakuGothicAntique/ZenKakuGothicAntiqueLight.ttf';
 import './fonts/ZenKakuGothicAntique/ZenKakuGothicAntiqueMedium.ttf';
 import './i18n';
-
+import { Spinner } from 'react-bootstrap';
 
 
 ReactDOM.render(
-  <Suspense fallback={(<div>Loading....</div>)}>
+  <Suspense fallback={(<div><Spinner animation="border" role="status"></Spinner></div>)}>
   <App/>
   </Suspense>,
   document.getElementById('root')
