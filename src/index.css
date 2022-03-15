@@ -30,6 +30,10 @@ code {
 
 #spinner {
   color: rgb(235, 128, 128);
+  left: 50%;
+  top: 30%;
+  z-index: 1000;
+  position: absolute;
 }
 
 .loaderContainer{
