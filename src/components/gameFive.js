@@ -9,15 +9,13 @@ import './gameFive.css';
 import HowToPlay from './HowToPlay'
 import GameText from './gameText'
 import SecondaryButton from './SecondaryButton'
-
+import Board from './Board'
 
 const howtoplay = () => {
     return (
         <HowToPlay gameInstructions= "InstruccionesBattle"/>
     )
 }
-
-
 
 function UserSub(props){
     var color
@@ -49,72 +47,24 @@ function UserSub(props){
     )
 }
 
-function Cell(props){
-
-var cN = "text-center justify-content-center test"
-
-
-var containerStyle = {
-    backgroundColor: "rgb(207, 203, 203)"
-}
-return (
-    <div style= {containerStyle }>
-        <div  systemshoots = {props.systemshoots} shoots = {props.shoots} className= {cN}  style = {props.style(props.shoots, props.systemshoots)} cell = {props.cell} onContextMenu = {(e) => props.handleRightClick(props.row,props.col, e)} onClick = {() => props.handleClick(props.row,props.col)}>
-            <tx >{props.text} </tx>
-        </div>
-    </div>
-    )
-}
-
-function Row(props) {
-    var style = {
-        display: "flex",
-    }
-    var row = []
-        for (let i=2; i < 12; i++) {
-            row.push(<Cell style= {props.style} color = {props.color} systemshoots = {props.systemshoots[props.row][i]}  shoots  = {props.shoots[props.row][i]} text = {props.text[props.row][i]} key = {i} cell = {props.cells[i]} row = {props.row} col = {i} handleRightClick={props.handleRClick} handleClick = {props.handleClick}/>)
-        }
-
-    return (
-        <div className= "text-center justify-content-center" style = {style}>
-        {row }
-        </div>
-
-    )
-}
-
-function Board(props) {
-    var board = []
-        for (let i=2; i<12; i++) {
-            board.push(<Row style= {props.style} color = {props.color} systemshoots = {props.systemshoots} shoots = {props.shoots} text = {props.text} key = {i} row = {i} cells = {props.cells[i]} handleRClick = {props.handleRClick} handleClick = {props.handleClick}/>)
-        }
-        return (
-            <div  className = "testMargin align-items-center justify-content-center row m-1" > 
-             {board}
-            </div>
-        )
-}
-
-
 //barcos para poner:
 class UserSubs extends React.Component{
     constructor(props){
         super(props)
     }
     render(){  
+
+        var userSubs = []
+        for(let i=9; i>-1; i--){
+            userSubs.push(
+
+                <UserSub id = {i.toString()} key = {i} handleClick = {this.props.handleClick} size={this.props.shipsToPlace[i]}/>
+            )
+        }
+
         return (
             <div className ="col-sm-12 col-md-4 d-md-block text-center mt-1">
-                
-                <UserSub id = "9" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[9]}/>  
-                <UserSub id = "8" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[8]}/>
-                <UserSub id = "7" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[7]}/>
-                <UserSub id = "6" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[6]}/>
-                <UserSub id = "5" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[5]}/>
-                <UserSub id = "4" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[4]}/>
-                <UserSub id = "3" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[3]}/>
-                <UserSub id = "2" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[2]}/>
-                <UserSub id = "1" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[1]}/>
-                <UserSub id = "0" handleClick = {this.props.handleClick} size={this.props.shipsToPlace[0]}/>
+                {userSubs}
             </div>
         )
     }
@@ -180,7 +130,6 @@ this.setState({show: showTemp})
 //click en barco para poner:
 handleSubSelectClick(size, id){
     var subSelectedTemp = [size, id]
-    console.log("subSelectedTemp  " + subSelectedTemp )
     this.setState({subSelected:subSelectedTemp})
 }    
 
@@ -597,7 +546,6 @@ handleRBoardClick(row, col){
     // click 1:
     if((click1Temp === 0) && (userCellsTemp[row][col] === "x")) {
         click1Temp = [row,col]
-        console.log("click1Temp" + click1Temp)
     } 
     // click 2:
     else if (click1Temp !== 0) {
@@ -1040,7 +988,7 @@ if(statusTemp === "completed") {
     }
 }
     
-leftstyle(shoots){
+leftstyle(statusarray1, shoots){
     var color = "rgb(199, 196, 196)"
 
      if(shoots > 0){
@@ -1061,20 +1009,26 @@ leftstyle(shoots){
     return style;
 }
 
-rightstyle(shoots, systemshoots){
+x
+
+cN(statusarray1, statusarray2){
+    var cN = "text-center justify-content-center test"
+    return cN
+}
+rightstyle(statusarray1, statusarray2){
     var color = "rgb(207, 203, 203)"
-    if(systemshoots === "x") {
+    if(statusarray2 === "x") {
         color =  "rgb(159, 159, 219)"
-    }else if(parseInt(systemshoots) > -1) {
+    }else if(parseInt(statusarray2) > -1) {
         color = "rgb(192, 81, 81)"
     }
-    else if(shoots=== "0")    {
+    else if(statusarray1=== "0")    {
         color = "rgb(248, 183, 183)"
-    } else if((shoots=== "1") || (shoots=== "2")){
+    } else if((statusarray1=== "1") || (statusarray1=== "2")){
         color = "rgb(223, 158, 111)"
-    } else if((shoots=== "3") || (shoots=== "4") || (shoots=== "5") ) {
+    } else if((statusarray1=== "3") || (statusarray1=== "4") || (statusarray1=== "5") ) {
         color = "rgb(255, 184, 158)"
-    } else if((shoots=== "6") || (shoots=== "7") || (shoots=== "8") || (shoots=== "9")){
+    } else if((statusarray1=== "6") || (statusarray1=== "7") || (statusarray1=== "8") || (statusarray1=== "9")){
         color =  "rgb(206, 186, 160)"
     } 
 
@@ -1091,7 +1045,12 @@ text(systemshoots){
     return systemshoots;
 }
 
-
+containerStyle(){
+    var containerStyle = {
+        backgroundColor: "rgb(207, 203, 203)"
+    }     
+        return containerStyle
+}
 
     render(){  
 
@@ -1118,14 +1077,12 @@ text(systemshoots){
 
                 <div className = "row" > 
                     <div className ="col-sm-12 col-md-5  d-md-block text-center mr-4">
-                        <Board style= {this.leftstyle} systemshoots = "{this.state.systemShoots}"  shoots = {this.state.userShoots} text = "{this.state.cells}" cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>                     
+                        <Board initCell = {2}  lastCell = {12} boardclass = "testMargin align-items-center justify-content-center row m-1"  cN = {this.cN} containerStyle = {this.containerStyle} statusarray2 = {this.state.userShoots} cellStyle= {this.leftstyle}  statusarray1 = {this.state.cells} result = "{this.state.cells}" cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>
                      </div>
                      
-
                     <div className ="col-sm-12 col-md-5  d-md-block text-center mr-4">
-                         <Board style = {this.rightstyle} systemshoots = {this.state.systemShoots} shoots = {this.state.userCells} text = "{this.state.systemShoots}" cells = {this.state.userCells} handleRClick = {this.handleROnRightBoardClick} handleClick = {this.handleRBoardClick }/>
+                        <Board initCell = {2}  lastCell = {12} boardclass = "testMargin align-items-center justify-content-center row m-1"  cN = {this.cN} containerStyle = {this.containerStyle} statusarray1 = {this.state.userCells} cellStyle= {this.rightstyle}  statusarray2 = {this.state.systemShoots}  result = "{this.state.cells}" cells = {this.state.userCells} handleRClick = {this.handleROnRightBoardClick} handleClick = {this.handleRBoardClick}/>
                 
-                    
                     </div>
 
                     <div className ="col-sm-12 col-md-2  d-md-block text-center">   

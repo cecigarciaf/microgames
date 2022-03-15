@@ -6,15 +6,13 @@ import InstructionsButton from './InstructionsButton';
 import HowToPlay from './HowToPlay'
 import Container from 'react-bootstrap/Container';
 import SecondarySelector from './SecondarySelector'
-
+import Board from './Board'
 
 const howtoplay = () => {
     return (
         <HowToPlay gameInstructions= "InstruccionesBombs"/>
     )
 }
-
-
 
 //cuadro con cantidad de bombas:
 function UserBomb(props){
@@ -34,79 +32,6 @@ function UserBomb(props){
     )
 }
 
-
-
-function Cell(props){
-var color = "rgb(199, 196, 196)"
-var cN = "text-center justify-content-center"
-var backgroundColor = "rgb(199, 196, 196)"
-if(props.cell === "b"){
-    color = "rgb(223, 164, 176)"
-}
-else if(props.cell === "c"){
-    color = "white"
-} else if(props.userBombs === "bomba") {
-    color = "black";
-    cN = "text-center justify-content-center rounded-circle ";
-}
-
-
-var style = {
-    width: "1.8rem",
-    height: "1.8rem",
-    backgroundColor: color,
-    lineHeight: "1.8",
-    fontSize: "30"
-}
-
-var containerStyle = {
-    border:"0.5px solid rgb(230, 212, 247)",
-    backgroundColor: {backgroundColor }
-}
-
-var fontStyle = {
-    fontWeight: "bold"
-
-}
-
-return (
-    <div style= {containerStyle }>
-        <div className= {cN} level = {props.level} userBombs = {props.userBombs} style = {style} cell = {props.cell} row = {props.row} col = {props.col} onContextMenu = {(e) =>props.handleRightClick(props.row,props.col, e)} onClick = {() => props.handleClick(props.row,props.col)}>
-            <tx style = {fontStyle}> {props.result} </tx>
-        </div>
-    </div>
-    )
-}
-
-function Row(props) {
-    var style = {
-        display: "flex",
-    }
-
-    var row = []
-        for (let i=0; i < props.level; i++) {
-            row.push(<Cell  userBombs = {props.userBombs[props.row][i]} result = {props.result[props.row][i]} key = {i} cell = {props.cells[i]} row = {props.row} col = {i} handleRightClick = {props.handleRClick} handleClick = {props.handleClick}/>)
-        }
-
-    return (
-        <div className= "text-center justify-content-center" style = {style}>
-        {row }
-        </div>
-
-    )
-}
-
-function Board(props) {
-var board = []
-    for (let i=0; i<props.level; i++) {
-        board.push(<Row  level = {props.level} userBombs = {props.userBombs} result = {props.result} key = {i} row = {i} cells = {props.cells[i]} handleRClick = {props.handleRClick} handleClick = {props.handleClick}/>)
-    }
-    return (
-        <div  className = "align-items-center justify-content-center row m-5" > 
-        {board}
-        </div>
-    )
-}
 
 
 
@@ -395,11 +320,58 @@ instructions(){
     this.setState({show: showTemp})
 }   
 
+cellsStyle(cells, statusarray){
+
+var color = "rgb(199, 196, 196)"
+var cN = "text-center justify-content-center"
+var backgroundColor = "rgb(199, 196, 196)"
+
+
+var containerStyle = {
+    border:"0.5px solid rgb(230, 212, 247)",
+    backgroundColor: {backgroundColor }
+}
+if(cells === "b"){
+    color = "rgb(223, 164, 176)"
+}
+else if(cells === "c"){
+    color = "white"
+} else if(statusarray === "bomba") {
+    color = "black";
+    cN = "text-center justify-content-center rounded-circle ";
+}
+var style = {
+    width: "1.8rem",
+    height: "1.8rem",
+    backgroundColor: color,
+    lineHeight: "1.8",
+    fontSize: "30"
+}
+
+
+return style
+}
+
+
+cN(statusarray1, statusarray2){
+    var cN = "text-center justify-content-center"
+
+        if(statusarray2 === "bomba") {
+            cN = "text-center justify-content-center rounded-circle ";
+        }
+        return cN
+        }
+
+containerStyle(){
+    var backgroundColor = "rgb(199, 196, 196)"  
+    var containerStyle = {
+        border:"0.5px solid rgb(230, 212, 247)",
+        backgroundColor: {backgroundColor}
+    }       
+        return containerStyle
+}
+
 render(){  
-
-
-
-
     return (
         <div className ="col-9">
             <div className = "row mt-4 " >
@@ -414,7 +386,7 @@ render(){
             <Container>
                 <div className = "align-items-center justify-content-center row" > 
                     <div className ="col-6">
-                    <Board  level= {this.state.level} userBombs = {this.state.userBombs} result = {this.state.result != "bomba" ? this.state.result : ""} cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>
+                        <Board boardclass = "align-items-center justify-content-center row m-5" cellStyle={this.cellsStyle} statusarray1 = {this.state.cells} statusarray2 = {this.state.userBombs} containerStyle = {this.containerStyle} cN = {this.cN} initCell = {0} lastCell= {this.state.level}  result = {this.state.result != "bomba" ? this.state.result : ""} cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>
                     </div>   
                 </div>
 

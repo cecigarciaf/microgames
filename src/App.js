@@ -45,7 +45,7 @@ function App () {
 
         <Container>
 
-            <Navbar.Brand href="#home">
+            <Navbar.Brand >
             <img
                 src="./logo.png"
                 width="60"
