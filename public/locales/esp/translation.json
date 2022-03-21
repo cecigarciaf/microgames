@@ -29,7 +29,7 @@
     "InstruccionesBattle": {
         "1": "Para ubicar tus barcos en el 2do tablero, pulsa en uno y luego en la primera y última celda donde lo quieras poner",
         "2": "Para cambiar la ubicación, doble clic (o, en celulares, presionar y mantener) sobre un barco ya ubicado",
-        "3": "Una vez ubicados, pulsar CONFIRMAR y luego JUGAR para comenzar",
+        "3": "Una vez ubicados, pulsar Confirmar barcos y luego JUGAR para comenzar",
         "4": "Podés hacer botón derecho (o, en celulares, presionar y mantener) en el 1er tablero para indicar que ahí no crees que hay un barco enemigo",
         "5": "No puede haber dos barcos que se toquen entre sí"
     },
@@ -89,6 +89,8 @@
     "Confirm": "Confirmar",
 
     "Confirmed": "Confirmado",
+
+    "Confirm ships": "Confirmar barcos",
 
     "GANASTE": "GANASTE",
 

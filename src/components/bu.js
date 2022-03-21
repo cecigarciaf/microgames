@@ -8,6 +8,7 @@ import InstructionsButton from './InstructionsButton';
 import './gameFive.css';
 import HowToPlay from './HowToPlay'
 import GameText from './gameText'
+import SecondaryButton from './SecondaryButton'
 import Board from './Board'
 import {Howl} from 'howler';
 
@@ -170,7 +171,7 @@ handleRClick(row, col, e) {
 
 
 handleClick(row, col) {
-    var sound
+
     var turnTemp = this.state.turn
     var leftShipLocationsTemp = this.state.leftShipLocations
     var textTemp
@@ -183,8 +184,7 @@ handleClick(row, col) {
 
     
         if (tempUserShoots[row][col] === "empty") {
-            var tironum = Math.floor(Math.random() * (7 - 1)) + 1;
-            this.playSound(`systemtiro${tironum}`)
+
             tempUserShoots[row][col] = tempcells[row][col]
         }
 
@@ -223,29 +223,22 @@ handleClick(row, col) {
             else if((count === sizeTemp) && (hundidosTemp < 9)){
                 textTemp = "HUNDIDO"
                 hundidosTemp++
-                sound = "systemhundido01"
             }
 
              else {
         
                 textTemp = "TOCADO"
-                var tocadonum = Math.floor(Math.random() * (5 - 1)) + 1;
-                sound = `systemtocado0${tocadonum}`
             }
-            setTimeout(() => this.playSound(sound), 1000)
-            setTimeout(() => this.setState({hundidos: hundidosTemp, text: textTemp, userShoots:tempUserShoots, leftClics:tempClics, turn: "user" }) , 1000)
+
+            this.setState({hundidos: hundidosTemp, text: textTemp, userShoots:tempUserShoots, leftClics:tempClics, turn: "user" }) 
         } else if (!(tempcells[row][col] > 0)) {
             textTemp = "AGUA"
-            var aguanum = Math.floor(Math.random() * (4 - 1)) + 1;
-            sound = `systemagua0${aguanum}`
-            setTimeout(() => this.playSound(sound), 1000)
-            setTimeout(() =>this.setState({text: textTemp, userShoots:tempUserShoots, leftClics:tempClics, turn: "system" }) , 1000)
-        setTimeout(() => this.systemTurn(), 1200)
+        this.setState({text: textTemp, userShoots:tempUserShoots, leftClics:tempClics, turn: "system" }) 
+        setTimeout(() => this.systemTurn(), 1000)
         }
     }
 
 }
-
 
 playSound(status){
       
@@ -269,8 +262,7 @@ systemTurn(){
     var lastSystemTocadoTempTemp = 0
 
     do{
-        var tironum = Math.floor(Math.random() * (7 - 1)) + 1;
-        setTimeout(() => this.playSound(`systemtiro${tironum}`), 1200)
+
     var sound
     //Busca nueva row/col para disparar, que no haya disparado:
 
@@ -512,16 +504,14 @@ systemTurn(){
                         systemShootsTemp[localrow - 1][localcol - 1] = userCellsTemp[localrow - 1][localcol - 1]
                         systemShootsTemp[localrow + 1][localcol + 1] = userCellsTemp[localrow + 1][localcol + 1]
                      }
-            
-                     setTimeout(() => this.playSound("systemhundido01")   , 2500) 
+                     this.playSound("systemhundido01") 
 
                  }
 
                   else if (count < sizeTemp) {
              
                      textTemp = "Te dispararon un barco"
-             
-                     setTimeout(() => this.playSound("systemtocado01")   , 2500) 
+                     this.playSound("systemtocado01") 
 
                      if(orient === "v"){
                         systemShootsTemp[systemRow][systemCol+ 1] = userCellsTemp[systemRow][systemCol + 1]
@@ -554,16 +544,15 @@ systemTurn(){
 
                   else if (thisShootStatus === "no shoot") {
                     turnTemp = "user"  
-                    setTimeout(() => this.playSound("systemagua01")   , 2500) 
+                    this.playSound("systemagua01") 
                 }
                 
                 
-                setTimeout(() => this.setState({playingState: playingStateTemp, lastSystemTocado: lastSystemTocadoTemp, hundidosSystem: hundidosSystemTemp, text: textTemp, turn:turnTemp,  systemShoots: systemShootsTemp})         
-                , 2500) 
-                
             } while(turnTemp === "system")
             
-
+            setTimeout(() =>
+            this.setState({playingState: playingStateTemp, lastSystemTocado: lastSystemTocadoTemp, hundidosSystem: hundidosSystemTemp, text: textTemp, turn:turnTemp,  systemShoots: systemShootsTemp})         
+            , 1000) 
              
              
             }
@@ -1089,20 +1078,6 @@ containerStyle(){
         return containerStyle
 }
 
-buttonText(){
-    var text
-    if ((this.state.playingState === false) && (this.state.status === "pending")){ 
-    text = "Confirm ships"} 
-
-    else if ((this.state.playingState === false) && (this.state.status === "completed")){
-    text =  "PLAY"}
-
-    else if (this.state.playingState === true){
-    text = "QUIT"}
-
-    return text
-    }
-
     render(){  
 
 
@@ -1110,7 +1085,7 @@ buttonText(){
             <div className ="col-9">
 
                 <div className = "row mt-4 " >
-                    <div className = "col-10 text-end" >
+                    <div className = "col-10 text-end " >
                         <InstructionsButton instructions = {this.instructions}/>
                         <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay()} /> 
                     </div>
@@ -1146,15 +1121,20 @@ buttonText(){
                     </div> 
                 </div> 
 
-                <div className = "row mt-4  "> 
+                <div className = "row mt-4 justify-content-center "> 
       
-       
-                        <div className= "row "> 
-                            <div className = "col-10 text-center d-md-block " >
-                                <PlayStopButton text= {this.buttonText()} onButtonClick = {this.state.status === "pending"? this.confirmClick : this.playClick}/>
+                    <div className = "col-6  d-md-block text-center" >
+                        <div className= "row"> 
+                            <div className = "col-sm-12 col-md-6  d-md-block " >
+                                <PlayStopButton text= {this.state.playingState === false?  "PLAY" : "QUIT"} onButtonClick = {this.playClick}/>
                             </div> 
-                        </div>
 
+                            <div className ="col-sm-12 col-md-6  d-md-block text-center">
+                                <SecondaryButton text= {this.state.status === "pending"?  "Confirm" : "Confirmed"} handleClick = {this.confirmClick}/>
+                            </div>
+
+                        </div>
+                    </div>
                 </div> 
             </div> 
                 )

@@ -30,7 +30,7 @@
     "InstruccionesBattle": {
         "1": "To place your ships in the 2nd board, click on one, and then on the first and last cell you want to place it",
         "2": "To change a ship position, double click (or press and hold on phones) over a placed ship",
-        "3": "Once all ships are placed click CONFIRM and then PLAY",
+        "3": "Once all ships are placed click Confirm Ships and then PLAY",
         "4": "You can right click (or press and hold on phones) on a cell from the 1st board if you think there is no enemies’ ship there",
         "5": "Two ships cannot be adjacent to one another"
     },
@@ -90,6 +90,8 @@
     "Confirm": "Confirm",
 
     "Confirmed": "Confirmed",
+
+    "Confirm ships": "Confirm ships",
 
     "GANASTE": "YOU WON",
 
