@@ -6,7 +6,7 @@ function SecondaryButton(props){
     const { t, i18n } = useTranslation();
 
     return(
-        <Button className = "font-face-zkga select mt-1" id="selectbutton" size="sm" variant="outline-secondary"  onClick={props.handleClick}>{t(props.text)}</Button>
+        <Button  className = "font-face-zkga select mt-1" id="selectbutton" size="sm" variant="outline-secondary"  onClick={props.handleClick}>{t(props.text)}</Button>
     )
 }
 

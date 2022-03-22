@@ -1,5 +1,6 @@
 import React from 'react';
 import PlayStopButton from './playButton';
+import SecondaryButton from './SecondaryButton';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Nav  from 'react-bootstrap/Nav';
@@ -8,7 +9,6 @@ import InstructionsButton from './InstructionsButton';
 import './gameFive.css';
 import HowToPlay from './HowToPlay'
 import GameText from './gameText'
-import SecondaryButton from './SecondaryButton'
 import Board from './Board'
 import {Howl} from 'howler';
 
@@ -112,7 +112,7 @@ class GameFive extends React.Component{
         shipsLocations.push(new Array(1).fill(0));
         } 
 
-        this.state = {lastSystemTocado: [0, 0, 0, 0], hundidosSystem: 0, hundidos: 0, show: false, text: "", textSystem: "", leftShipLocations: leftShipLocations, lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations}
+        this.state = {audio: false, lastSystemTocado: [0, 0, 0, 0], hundidosSystem: 0, hundidos: 0, show: false, text: "", textSystem: "", leftShipLocations: leftShipLocations, lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations}
         this.playClick = this.playClick.bind(this)
         //en tablero izquierda:
         this.handleClick = this.handleClick.bind(this)
@@ -124,6 +124,7 @@ class GameFive extends React.Component{
         this.handleRBoardClick = this.handleRBoardClick.bind(this)
         this.confirmClick = this.confirmClick.bind(this)
         this.instructions = this.instructions.bind(this)
+        this.manageAudio = this.manageAudio.bind(this)
     }
 
 instructions(){
@@ -171,7 +172,7 @@ handleRClick(row, col, e) {
 
 
 handleClick(row, col) {
-
+    var sound
     var turnTemp = this.state.turn
     var leftShipLocationsTemp = this.state.leftShipLocations
     var textTemp
@@ -184,7 +185,8 @@ handleClick(row, col) {
 
     
         if (tempUserShoots[row][col] === "empty") {
-
+            var tironum = Math.floor(Math.random() * (7 - 1)) + 1;
+            this.playSound(`systemtiro${tironum}.wav`)
             tempUserShoots[row][col] = tempcells[row][col]
         }
 
@@ -223,31 +225,39 @@ handleClick(row, col) {
             else if((count === sizeTemp) && (hundidosTemp < 9)){
                 textTemp = "HUNDIDO"
                 hundidosTemp++
+                sound = "systemhundido01.wav"
             }
 
              else {
         
                 textTemp = "TOCADO"
+                var tocadonum = Math.floor(Math.random() * (5 - 1)) + 1;
+                sound = `systemtocado0${tocadonum}.wav`
             }
-
-            this.setState({hundidos: hundidosTemp, text: textTemp, userShoots:tempUserShoots, leftClics:tempClics, turn: "user" }) 
+            setTimeout(() => this.playSound(sound), 1000)
+            setTimeout(() => this.setState({hundidos: hundidosTemp, text: textTemp, userShoots:tempUserShoots, leftClics:tempClics, turn: "user" }) , 1000)
         } else if (!(tempcells[row][col] > 0)) {
             textTemp = "AGUA"
-        this.setState({text: textTemp, userShoots:tempUserShoots, leftClics:tempClics, turn: "system" }) 
-        setTimeout(() => this.systemTurn(), 1000)
+            var aguanum = Math.floor(Math.random() * (4 - 1)) + 1;
+           
+            setTimeout(() => this.playSound(`systemagua0${aguanum}.wav`), 1000)
+            setTimeout(() =>this.setState({text: textTemp, userShoots:tempUserShoots, leftClics:tempClics, turn: "system" }) , 1000)
+        setTimeout(() => this.systemTurn(), 1200)
         }
     }
 
 }
 
+
 playSound(status){
-      
+
+if(this.state.audio){
     new Howl({
-      src: ["/audios_battle/"+status+".wav"],
+      src: ["/audios_battle/"+status],
       loop: false
     }).play()
     console.log("played note ")
-  }
+  }}
 
 systemTurn(){
     var turnTemp = "system"
@@ -262,8 +272,9 @@ systemTurn(){
     var lastSystemTocadoTempTemp = 0
 
     do{
+        var tironum = Math.floor(Math.random() * (3 - 1)) + 1;
+        setTimeout(() => this.playSound(`new/systemtiro${tironum}.mp3`), 1200)
 
-    var sound
     //Busca nueva row/col para disparar, que no haya disparado:
 
     //si hay un barco ya tocado:
@@ -504,14 +515,17 @@ systemTurn(){
                         systemShootsTemp[localrow - 1][localcol - 1] = userCellsTemp[localrow - 1][localcol - 1]
                         systemShootsTemp[localrow + 1][localcol + 1] = userCellsTemp[localrow + 1][localcol + 1]
                      }
-                     this.playSound("systemhundido01") 
+            
+                     setTimeout(() => this.playSound(`new/systemhundido.mp3`)   , 2500) 
+                     
 
                  }
 
                   else if (count < sizeTemp) {
              
                      textTemp = "Te dispararon un barco"
-                     this.playSound("systemtocado01") 
+                     var tironum = Math.floor(Math.random() * (3 - 1)) + 1;
+                     setTimeout(() => this.playSound(`new/systemtocado${tironum}.mp3`)   , 2500) 
 
                      if(orient === "v"){
                         systemShootsTemp[systemRow][systemCol+ 1] = userCellsTemp[systemRow][systemCol + 1]
@@ -544,15 +558,16 @@ systemTurn(){
 
                   else if (thisShootStatus === "no shoot") {
                     turnTemp = "user"  
-                    this.playSound("systemagua01") 
+                  //audio agua
                 }
                 
                 
+                setTimeout(() => this.setState({playingState: playingStateTemp, lastSystemTocado: lastSystemTocadoTemp, hundidosSystem: hundidosSystemTemp, text: textTemp, turn:turnTemp,  systemShoots: systemShootsTemp})         
+                , 2500) 
+                
             } while(turnTemp === "system")
             
-            setTimeout(() =>
-            this.setState({playingState: playingStateTemp, lastSystemTocado: lastSystemTocadoTemp, hundidosSystem: hundidosSystemTemp, text: textTemp, turn:turnTemp,  systemShoots: systemShootsTemp})         
-            , 1000) 
+
              
              
             }
@@ -1007,7 +1022,7 @@ if(statusTemp === "completed") {
     for(let i = 0; i < 10; i++ ){
     shipsLocations.push(new Array(1).fill(0));
     } 
-            this.setState({lastSystemTocado: [0, 0, 0, 0], hundidosSystem: 0, hundidos: 0, show: false, text: "", textSystem: "", leftShipLocations: leftShipLocations, lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations})
+            this.setState({audio: false, astSystemTocado: [0, 0, 0, 0], hundidosSystem: 0, hundidos: 0, show: false, text: "", textSystem: "", leftShipLocations: leftShipLocations, lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations})
     for(let i=0; i<10; i++){
     document.getElementById(i).style.display = "block"
         }
@@ -1078,6 +1093,30 @@ containerStyle(){
         return containerStyle
 }
 
+buttonText(){
+    var text
+    if ((this.state.playingState === false) && (this.state.status === "pending")){ 
+    text = "Confirm ships"} 
+
+    else if ((this.state.playingState === false) && (this.state.status === "completed")){
+    text =  "PLAY"}
+
+    else if (this.state.playingState === true){
+    text = "QUIT"}
+
+    return text
+    }
+
+    manageAudio() {
+    var audioTemp = this.state.audio
+    if(audioTemp){
+        audioTemp = false
+    } else if(!(audioTemp)){
+        audioTemp = true
+    }
+    this.setState({audio:audioTemp})
+    }
+
     render(){  
 
 
@@ -1085,7 +1124,10 @@ containerStyle(){
             <div className ="col-9">
 
                 <div className = "row mt-4 " >
-                    <div className = "col-10 text-end " >
+                    <div className = "col-5 " >
+                        <SecondaryButton id= "audioButton" text = {this.state.audio? "Audio: ON" : "Audio: OFF"} handleClick= {this.manageAudio}/>
+                    </div>
+                    <div className = "col-5 text-end" >
                         <InstructionsButton instructions = {this.instructions}/>
                         <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay()} /> 
                     </div>
@@ -1121,20 +1163,15 @@ containerStyle(){
                     </div> 
                 </div> 
 
-                <div className = "row mt-4 justify-content-center "> 
+                <div className = "row mt-4  "> 
       
-                    <div className = "col-6  d-md-block text-center" >
-                        <div className= "row"> 
-                            <div className = "col-sm-12 col-md-6  d-md-block " >
-                                <PlayStopButton text= {this.state.playingState === false?  "PLAY" : "QUIT"} onButtonClick = {this.playClick}/>
+       
+                        <div className= "row "> 
+                            <div className = "col-10 text-center d-md-block " >
+                                <PlayStopButton text= {this.buttonText()} onButtonClick = {this.state.status === "pending"? this.confirmClick : this.playClick}/>
                             </div> 
-
-                            <div className ="col-sm-12 col-md-6  d-md-block text-center">
-                                <SecondaryButton text= {this.state.status === "pending"?  "Confirm" : "Confirmed"} handleClick = {this.confirmClick}/>
-                            </div>
-
                         </div>
-                    </div>
+
                 </div> 
             </div> 
                 )

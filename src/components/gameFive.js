@@ -1,5 +1,6 @@
 import React from 'react';
 import PlayStopButton from './playButton';
+import SecondaryButton from './SecondaryButton';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Nav  from 'react-bootstrap/Nav';
@@ -111,7 +112,7 @@ class GameFive extends React.Component{
         shipsLocations.push(new Array(1).fill(0));
         } 
 
-        this.state = {lastSystemTocado: [0, 0, 0, 0], hundidosSystem: 0, hundidos: 0, show: false, text: "", textSystem: "", leftShipLocations: leftShipLocations, lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations}
+        this.state = {audio: false, lastSystemTocado: [0, 0, 0, 0], hundidosSystem: 0, hundidos: 0, show: false, text: "", textSystem: "", leftShipLocations: leftShipLocations, lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations}
         this.playClick = this.playClick.bind(this)
         //en tablero izquierda:
         this.handleClick = this.handleClick.bind(this)
@@ -123,6 +124,7 @@ class GameFive extends React.Component{
         this.handleRBoardClick = this.handleRBoardClick.bind(this)
         this.confirmClick = this.confirmClick.bind(this)
         this.instructions = this.instructions.bind(this)
+        this.manageAudio = this.manageAudio.bind(this)
     }
 
 instructions(){
@@ -184,7 +186,7 @@ handleClick(row, col) {
     
         if (tempUserShoots[row][col] === "empty") {
             var tironum = Math.floor(Math.random() * (7 - 1)) + 1;
-            this.playSound(`systemtiro${tironum}`)
+            this.playSound(`systemtiro${tironum}.wav`)
             tempUserShoots[row][col] = tempcells[row][col]
         }
 
@@ -223,22 +225,22 @@ handleClick(row, col) {
             else if((count === sizeTemp) && (hundidosTemp < 9)){
                 textTemp = "HUNDIDO"
                 hundidosTemp++
-                sound = "systemhundido01"
+                sound = "systemhundido01.wav"
             }
 
              else {
         
                 textTemp = "TOCADO"
                 var tocadonum = Math.floor(Math.random() * (5 - 1)) + 1;
-                sound = `systemtocado0${tocadonum}`
+                sound = `systemtocado0${tocadonum}.wav`
             }
             setTimeout(() => this.playSound(sound), 1000)
             setTimeout(() => this.setState({hundidos: hundidosTemp, text: textTemp, userShoots:tempUserShoots, leftClics:tempClics, turn: "user" }) , 1000)
         } else if (!(tempcells[row][col] > 0)) {
             textTemp = "AGUA"
             var aguanum = Math.floor(Math.random() * (4 - 1)) + 1;
-            sound = `systemagua0${aguanum}`
-            setTimeout(() => this.playSound(sound), 1000)
+           
+            setTimeout(() => this.playSound(`systemagua0${aguanum}.wav`), 1000)
             setTimeout(() =>this.setState({text: textTemp, userShoots:tempUserShoots, leftClics:tempClics, turn: "system" }) , 1000)
         setTimeout(() => this.systemTurn(), 1200)
         }
@@ -248,13 +250,14 @@ handleClick(row, col) {
 
 
 playSound(status){
-      
+
+if(this.state.audio){
     new Howl({
-      src: ["/audios_battle/"+status+".wav"],
+      src: ["/audios_battle/"+status],
       loop: false
     }).play()
     console.log("played note ")
-  }
+  }}
 
 systemTurn(){
     var turnTemp = "system"
@@ -269,9 +272,9 @@ systemTurn(){
     var lastSystemTocadoTempTemp = 0
 
     do{
-        var tironum = Math.floor(Math.random() * (7 - 1)) + 1;
-        setTimeout(() => this.playSound(`systemtiro${tironum}`), 1200)
-    var sound
+        var tironum = Math.floor(Math.random() * (3 - 1)) + 1;
+        setTimeout(() => this.playSound(`new/systemtiro${tironum}.mp3`), 1200)
+
     //Busca nueva row/col para disparar, que no haya disparado:
 
     //si hay un barco ya tocado:
@@ -474,76 +477,79 @@ systemTurn(){
                      lastSystemTocadoTemp[2] = "hundido"
                      lastSystemTocadoTemp[3] = 0
 
+                    //marca como agua todo alrededor de los hundidos: (creo)(decidiendo si eso el usuario lo ve como agua o queda gris)
+
                      if(orient === "v"){
-                        systemShootsTemp[localrow - 1][localcol] = userCellsTemp[localrow - 1][localcol]
-                        systemShootsTemp[localrow - 1][localcol - 1] = userCellsTemp[localrow - 1][localcol - 1]
-                        systemShootsTemp[localrow - 1][localcol + 1] = userCellsTemp[localrow - 1][localcol + 1]
-                        systemShootsTemp[localrow + sizeTemp][localcol] = userCellsTemp[localrow + sizeTemp][localcol]
-                        systemShootsTemp[localrow + sizeTemp][localcol - 1] = userCellsTemp[localrow + sizeTemp][localcol - 1]
-                        systemShootsTemp[localrow + sizeTemp][localcol + 1] = userCellsTemp[localrow + sizeTemp][localcol + 1]
+                        systemShootsTemp[localrow - 1][localcol] = "water"
+                        systemShootsTemp[localrow - 1][localcol - 1] = "water"
+                        systemShootsTemp[localrow - 1][localcol + 1] = "water"
+                        systemShootsTemp[localrow + sizeTemp][localcol] = "water"
+                        systemShootsTemp[localrow + sizeTemp][localcol - 1] = "water"
+                        systemShootsTemp[localrow + sizeTemp][localcol + 1] = "water"
 
                         for(let i = -1; i < (sizeTemp + 1); i++){
-                            systemShootsTemp[localrow + i][localcol - 1] = userCellsTemp[localrow + i][localcol - 1] 
-                            systemShootsTemp[localrow + i][localcol + 1] = userCellsTemp[localrow + i][localcol + 1]
+                            systemShootsTemp[localrow + i][localcol - 1] = "water"
+                            systemShootsTemp[localrow + i][localcol + 1] = "water"
                         }
                      }
 
                      else if(orient === "h"){
-                        systemShootsTemp[localrow][localcol - 1] = userCellsTemp[localrow][localcol - 1]
-                        systemShootsTemp[localrow ][localcol + sizeTemp] = userCellsTemp[localrow ][localcol + sizeTemp]
-                        systemShootsTemp[localrow - 1][localcol - 1] = userCellsTemp[localrow - 1][localcol - 1]
-                        systemShootsTemp[localrow - 1][localcol + sizeTemp] = userCellsTemp[localrow - 1][localcol + sizeTemp]
-                        systemShootsTemp[localrow - 1][localcol - 1] = userCellsTemp[localrow - 1][localcol - 1]
-                        systemShootsTemp[localrow + 1][localcol + sizeTemp] = userCellsTemp[localrow + 1][localcol + sizeTemp]
+                        systemShootsTemp[localrow][localcol - 1] = "water"
+                        systemShootsTemp[localrow ][localcol + sizeTemp] = "water"
+                        systemShootsTemp[localrow - 1][localcol - 1] = "water"
+                        systemShootsTemp[localrow - 1][localcol + sizeTemp] = "water"
+                        systemShootsTemp[localrow - 1][localcol - 1] = "water"
+                        systemShootsTemp[localrow + 1][localcol + sizeTemp] = "water"
 
                         for(let i = -1; i < (sizeTemp + 1); i++){
-                            systemShootsTemp[localrow - 1][localcol + i] = userCellsTemp[localrow - 1][localcol + i]
-                            systemShootsTemp[localrow + 1][localcol + i] = userCellsTemp[localrow + 1][localcol + i]
+                            systemShootsTemp[localrow - 1][localcol + i] = "water"
+                            systemShootsTemp[localrow + 1][localcol + i] = "water"
                         }
                      } 
                      
                      if(sizeTemp === 1){
-                        systemShootsTemp[localrow - 1][localcol] = userCellsTemp[localrow - 1][localcol]
-                        systemShootsTemp[localrow + 1][localcol] = userCellsTemp[localrow + 1][localcol]
-                        systemShootsTemp[localrow][localcol + 1] = userCellsTemp[localrow][localcol + 1]
-                        systemShootsTemp[localrow][localcol - 1] = userCellsTemp[localrow][localcol - 1]
-                        systemShootsTemp[localrow - 1][localcol + 1] = userCellsTemp[localrow - 1][localcol + 1]
-                        systemShootsTemp[localrow + 1][localcol - 1] = userCellsTemp[localrow + 1][localcol - 1]
-                        systemShootsTemp[localrow - 1][localcol - 1] = userCellsTemp[localrow - 1][localcol - 1]
-                        systemShootsTemp[localrow + 1][localcol + 1] = userCellsTemp[localrow + 1][localcol + 1]
+                        systemShootsTemp[localrow - 1][localcol] = "water"
+                        systemShootsTemp[localrow + 1][localcol] = "water"
+                        systemShootsTemp[localrow][localcol + 1] = "water"
+                        systemShootsTemp[localrow][localcol - 1] = "water"
+                        systemShootsTemp[localrow - 1][localcol + 1] = "water"
+                        systemShootsTemp[localrow + 1][localcol - 1] = "water"
+                        systemShootsTemp[localrow - 1][localcol - 1] = "water"
+                        systemShootsTemp[localrow + 1][localcol + 1] = "water"
                      }
             
-                     setTimeout(() => this.playSound("systemhundido01")   , 2500) 
+                     setTimeout(() => this.playSound(`new/systemhundido.mp3`)   , 2500) 
+                     
 
                  }
 
                   else if (count < sizeTemp) {
              
                      textTemp = "Te dispararon un barco"
-             
-                     setTimeout(() => this.playSound("systemtocado01")   , 2500) 
+                     var tironum = Math.floor(Math.random() * (3 - 1)) + 1;
+                     setTimeout(() => this.playSound(`new/systemtocado${tironum}.mp3`)   , 2500) 
 
                      if(orient === "v"){
-                        systemShootsTemp[systemRow][systemCol+ 1] = userCellsTemp[systemRow][systemCol + 1]
-                        systemShootsTemp[systemRow][localcol - 1] = userCellsTemp[systemRow][systemCol - 1]
+                        systemShootsTemp[systemRow][systemCol+ 1] = "water"
+                        systemShootsTemp[systemRow][localcol - 1] = "water"
 
-                        systemShootsTemp[systemRow - 1][systemCol+ 1] = userCellsTemp[systemRow - 1][systemCol + 1]
-                        systemShootsTemp[systemRow + 1][systemCol - 1] = userCellsTemp[systemRow + 1][systemCol - 1]
+                        systemShootsTemp[systemRow - 1][systemCol+ 1] = "water"
+                        systemShootsTemp[systemRow + 1][systemCol - 1] = "water"
 
-                        systemShootsTemp[systemRow - 1][systemCol - 1] = userCellsTemp[systemRow - 1][systemCol - 1]
-                        systemShootsTemp[systemRow + 1][systemCol + 1] = userCellsTemp[systemRow + 1][systemCol + 1]
+                        systemShootsTemp[systemRow - 1][systemCol - 1] = "water"
+                        systemShootsTemp[systemRow + 1][systemCol + 1] = "water"
 
                      }
                      if(orient === "h"){
 
-                        systemShootsTemp[systemRow - 1][systemCol + 1] = userCellsTemp[systemRow - 1][systemCol + 1]
-                        systemShootsTemp[systemRow + 1][systemCol - 1] = userCellsTemp[systemRow + 1][systemCol - 1]
+                        systemShootsTemp[systemRow - 1][systemCol + 1] = "water"
+                        systemShootsTemp[systemRow + 1][systemCol - 1] = "water"
 
-                        systemShootsTemp[systemRow - 1][systemCol - 1] = userCellsTemp[systemRow - 1][systemCol- 1]
-                        systemShootsTemp[systemRow + 1][systemCol + 1] = userCellsTemp[systemRow + 1][systemCol + 1]
+                        systemShootsTemp[systemRow - 1][systemCol - 1] = "water"
+                        systemShootsTemp[systemRow + 1][systemCol + 1] = "water"
 
-                        systemShootsTemp[systemRow - 1][systemCol] = userCellsTemp[systemRow - 1][systemCol]
-                        systemShootsTemp[systemRow + 1][systemCol] = userCellsTemp[systemRow + 1][systemCol]
+                        systemShootsTemp[systemRow - 1][systemCol] = "water"
+                        systemShootsTemp[systemRow + 1][systemCol] = "water"
 
                      }
 
@@ -554,7 +560,7 @@ systemTurn(){
 
                   else if (thisShootStatus === "no shoot") {
                     turnTemp = "user"  
-                    setTimeout(() => this.playSound("systemagua01")   , 2500) 
+                  //audio agua
                 }
                 
                 
@@ -1018,7 +1024,7 @@ if(statusTemp === "completed") {
     for(let i = 0; i < 10; i++ ){
     shipsLocations.push(new Array(1).fill(0));
     } 
-            this.setState({lastSystemTocado: [0, 0, 0, 0], hundidosSystem: 0, hundidos: 0, show: false, text: "", textSystem: "", leftShipLocations: leftShipLocations, lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations})
+            this.setState({audio: false, astSystemTocado: [0, 0, 0, 0], hundidosSystem: 0, hundidos: 0, show: false, text: "", textSystem: "", leftShipLocations: leftShipLocations, lastSystemShoot: [], status: "pending" ,click1: 0, turn: "user", cells:cells, playingState:false, userShoots:userShoots, leftClics: 0, subSelected: 0, shipsToPlace:["4", "3", "3", "2", "2", "2", "1", "1", "1", "1"], userCells:userCells, systemShoots:systemShoots, shipsLocations:shipsLocations})
     for(let i=0; i<10; i++){
     document.getElementById(i).style.display = "block"
         }
@@ -1103,6 +1109,16 @@ buttonText(){
     return text
     }
 
+    manageAudio() {
+    var audioTemp = this.state.audio
+    if(audioTemp){
+        audioTemp = false
+    } else if(!(audioTemp)){
+        audioTemp = true
+    }
+    this.setState({audio:audioTemp})
+    }
+
     render(){  
 
 
@@ -1110,7 +1126,10 @@ buttonText(){
             <div className ="col-9">
 
                 <div className = "row mt-4 " >
-                    <div className = "col-10 text-end" >
+                    <div className = "col-5 " >
+                        <SecondaryButton id= "audioButton" text = {this.state.audio? "Audio: ON" : "Audio: OFF"} handleClick= {this.manageAudio}/>
+                    </div>
+                    <div className = "col-5 text-end" >
                         <InstructionsButton instructions = {this.instructions}/>
                         <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay()} /> 
                     </div>

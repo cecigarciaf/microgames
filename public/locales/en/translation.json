@@ -161,7 +161,11 @@
 
     "email sent!" : "Message sent!",
 
-    "check": "CHECK"
+    "check": "CHECK",
+
+    "Audio: OFF": "Audio: OFF",
+
+    "Audio: ON": "Audio: ON"
 
 
 }
