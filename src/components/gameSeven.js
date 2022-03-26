@@ -7,8 +7,9 @@ import { ArrowLeftSquare } from 'react-bootstrap-icons';
 import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
 import HowToPlay from './HowToPlay'
+import MusicPlayer from './MusicPlayer'
 import { useTranslation } from 'react-i18next';
-
+import {Howl, Howler} from 'howler';
 
 const howtoplay = () => {
     return (
@@ -115,6 +116,13 @@ function Cell(props){
           )
   }
 
+
+
+
+
+
+
+  
 function GameSeven() {
     var cells2 = []
     for(let i = 0; i < 38; i++ ){
@@ -130,12 +138,14 @@ function GameSeven() {
     const [speed, updateSpeed] = useState(100)
     const [show, updateShow] = useState(false)
     const { t, i18n } = useTranslation();
+    const [music, updateMusic] = useState(true)
 
     var square = JSON.parse(JSON.stringify(cells2))
     square[2][8] = 1
     square[2][9] = 1
     square[3][8] = 1
     square[3][9] = 1
+   
 
   function instructions(){
 
@@ -147,7 +157,7 @@ function GameSeven() {
       }
       updateShow(showTemp)
   } 
-
+  
 
   function playClick()  {
       console.log(speed)
@@ -155,6 +165,7 @@ function GameSeven() {
       
       playingState = true
       addBlock(square)
+    
     } else if(playingState === true){
       playingState = false
       addBlock(cells2)
@@ -173,13 +184,18 @@ function GameSeven() {
       }, []);
 
 
-
+    const  playlist = [{title:"song1", source:"/audios_tetris/Tetris_música_01.mp3", howl: null},{title:"song2", source:"/audios_tetris/Tetris_música_02.mp3", howl: null}, ]
+    
     return (
 
     <div  onKeyDown={(e) => handleKeyDown(e)} className ="col-9 justify-content-center">
 
         <div className = "row mt-4 " >
-          <div className = "col-10 text-end " >
+        <div className = "col-5" >
+          <MusicPlayer />
+        </div>
+          <div className = "col-5 text-end " >
+              
               <InstructionsButton instructions = {instructions}/>
               <Instructions instructions = {instructions} show= {show} instructDetails= {howtoplay()} /> 
           </div>

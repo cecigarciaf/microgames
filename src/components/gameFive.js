@@ -1,6 +1,6 @@
 import React from 'react';
 import PlayStopButton from './playButton';
-import SecondaryButton from './SecondaryButton';
+import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Nav  from 'react-bootstrap/Nav';
@@ -10,9 +10,15 @@ import './gameFive.css';
 import HowToPlay from './HowToPlay'
 import GameText from './gameText'
 import Board from './Board'
-import {Howl} from 'howler';
+import {Howl, Howler} from 'howler';
 
 // BATALLA NAVAL //
+
+var ambiente =  new Howl({
+                src: ["/audios_battle/ambientebattle.mp3"],
+                loop: true
+                })   
+
 
 const howtoplay = () => {
     return (
@@ -186,7 +192,7 @@ handleClick(row, col) {
     
         if (tempUserShoots[row][col] === "empty") {
             var tironum = Math.floor(Math.random() * (7 - 1)) + 1;
-            this.playSound(`systemtiro${tironum}.wav`)
+            this.playSound(`usertiro-00${tironum}.mp3`)
             tempUserShoots[row][col] = tempcells[row][col]
         }
 
@@ -220,19 +226,19 @@ handleClick(row, col) {
 
             if((count === sizeTemp) && (hundidosTemp === 9)){
                 textTemp = "GANASTE"
-           
+                sound = "userhundido.mp3"
             }
             else if((count === sizeTemp) && (hundidosTemp < 9)){
                 textTemp = "HUNDIDO"
                 hundidosTemp++
-                sound = "systemhundido01.wav"
+                sound = "userhundido.mp3"
             }
 
              else {
         
                 textTemp = "TOCADO"
-                var tocadonum = Math.floor(Math.random() * (5 - 1)) + 1;
-                sound = `systemtocado0${tocadonum}.wav`
+                var tocadonum = Math.floor(Math.random() * (4 - 1)) + 1;
+                sound = `usertocado-00${tocadonum}.mp3`
             }
             setTimeout(() => this.playSound(sound), 1000)
             setTimeout(() => this.setState({hundidos: hundidosTemp, text: textTemp, userShoots:tempUserShoots, leftClics:tempClics, turn: "user" }) , 1000)
@@ -240,7 +246,7 @@ handleClick(row, col) {
             textTemp = "AGUA"
             var aguanum = Math.floor(Math.random() * (4 - 1)) + 1;
            
-            setTimeout(() => this.playSound(`systemagua0${aguanum}.wav`), 1000)
+            setTimeout(() => this.playSound(`useragua-00${aguanum}.mp3`), 1000)
             setTimeout(() =>this.setState({text: textTemp, userShoots:tempUserShoots, leftClics:tempClics, turn: "system" }) , 1000)
         setTimeout(() => this.systemTurn(), 1200)
         }
@@ -250,14 +256,19 @@ handleClick(row, col) {
 
 
 playSound(status){
+    Howler.volume(0.9)
+
 
 if(this.state.audio){
-    new Howl({
+
+    var fx = new Howl({
       src: ["/audios_battle/"+status],
-      loop: false
-    }).play()
-    console.log("played note ")
-  }}
+      loop: false,
+      volume: 0.6
+    })
+    fx.play()
+  }
+}
 
 systemTurn(){
     var turnTemp = "system"
@@ -270,10 +281,10 @@ systemTurn(){
     var lastSystemTocadoTemp = this.state.lastSystemTocado.slice()
     var playingStateTemp = this.state.playingState
     var lastSystemTocadoTempTemp = 0
-
+    var thisTurn = 0
     do{
-        var tironum = Math.floor(Math.random() * (3 - 1)) + 1;
-        setTimeout(() => this.playSound(`new/systemtiro${tironum}.mp3`), 1200)
+        //var tironum = Math.floor(Math.random() * (3 - 1)) + 1;
+        //setTimeout(() => this.playSound(`systemtiro-00${tironum}.mp3`), 1200)
 
     //Busca nueva row/col para disparar, que no haya disparado:
 
@@ -518,16 +529,16 @@ systemTurn(){
                         systemShootsTemp[localrow + 1][localcol + 1] = "water"
                      }
             
-                     setTimeout(() => this.playSound(`new/systemhundido.mp3`)   , 2500) 
-                     
+                     //setTimeout(() => this.playSound(`systemhundido.mp3`)   , 2500) 
+                     thisTurn = 2
 
                  }
 
                   else if (count < sizeTemp) {
-             
+                    thisTurn = 1
                      textTemp = "Te dispararon un barco"
-                     var tironum = Math.floor(Math.random() * (3 - 1)) + 1;
-                     setTimeout(() => this.playSound(`new/systemtocado${tironum}.mp3`)   , 2500) 
+                     //var tironum = Math.floor(Math.random() * (3 - 1)) + 1;
+                     //setTimeout(() => this.playSound(`systemtocado-00${tironum}.mp3`)   , 2500) 
 
                      if(orient === "v"){
                         systemShootsTemp[systemRow][systemCol+ 1] = "water"
@@ -563,13 +574,23 @@ systemTurn(){
                   //audio agua
                 }
                 
-                
+             
+
+
                 setTimeout(() => this.setState({playingState: playingStateTemp, lastSystemTocado: lastSystemTocadoTemp, hundidosSystem: hundidosSystemTemp, text: textTemp, turn:turnTemp,  systemShoots: systemShootsTemp})         
                 , 2500) 
                 
             } while(turnTemp === "system")
-            
 
+            
+                        var tironum = Math.floor(Math.random() * (3 - 1)) + 1;
+                        setTimeout(() => this.playSound(`systemtiro-00${tironum}.mp3`), 1200)
+                        if (thisTurn === 2){
+                        setTimeout(() => this.playSound(`systemhundido.mp3`)   , 2500) }
+                        else if (thisTurn === 1) {
+                        tironum = Math.floor(Math.random() * (3 - 1)) + 1;
+                        setTimeout(() => this.playSound(`systemtocado-00${tironum}.mp3`)   , 2500) 
+                        }
              
              
             }
@@ -984,10 +1005,14 @@ if(statusTemp === "completed") {
     }
      while (amount1 < 4);
      statusTemp = "playing"
-     this.setState({cells:tempCells, status: statusTemp, playingState:true})
+     if(this.state.audio){
+
+        ambiente.play()
+    }
+        this.setState({cells:tempCells, status: statusTemp, playingState:true})
 
 } else if((statusTemp = "playing")) {
- 
+        ambiente.stop()
         var tempcells = []
         for(let i = 0; i < 14; i++ ){
         tempcells.push(new Array(14).fill(0))
@@ -1052,7 +1077,7 @@ leftstyle(statusarray1, shoots){
     return style;
 }
 
-x
+
 
 cN(statusarray1, statusarray2){
     var cN = "text-center justify-content-center test"
@@ -1113,10 +1138,13 @@ buttonText(){
     var audioTemp = this.state.audio
     if(audioTemp){
         audioTemp = false
+        Howler.mute(true)
     } else if(!(audioTemp)){
         audioTemp = true
+        Howler.mute(false)
     }
     this.setState({audio:audioTemp})
+
     }
 
     render(){  
@@ -1125,9 +1153,14 @@ buttonText(){
         return (
             <div className ="col-9">
 
-                <div className = "row mt-4 " >
+                    <div className = "row mt-4 " >
                     <div className = "col-5 " >
-                        <SecondaryButton id= "audioButton" text = {this.state.audio? "Audio: ON" : "Audio: OFF"} handleClick= {this.manageAudio}/>
+                         <span  style = {{fontSize: "15px", color: "grey"}}>
+                             <span className = "font-face-zkgam" > FX: </span>
+                             <Button size="sm"  style={{backgroundColor: "rgb(211, 177, 250)", border: "1px solid rgb(212, 191, 236)", padding: "2px", fontSize: "10px"}} onClick={this.manageAudio}>{this.state.audio? "ON" : "OFF"} </Button>
+                         </span>
+                    
+                        
                     </div>
                     <div className = "col-5 text-end" >
                         <InstructionsButton instructions = {this.instructions}/>
