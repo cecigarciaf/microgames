@@ -16,7 +16,7 @@ import GameFour from './gameFour';
 import GameFive from './gameFive';
 import GameSix from './gameSix';
 import GameSeven from './gameSeven';
-
+import {Howl, Howler} from 'howler';
 
 
 class Sidebar extends React.Component{
@@ -31,9 +31,16 @@ setNavExpanded(expanded) {
     this.setState({ navExpanded: expanded });
   }
 
-  closeNav() {
+closeNav() {
     this.setState({ navExpanded: false });
   }
+
+manageAudio(){
+    Howler.stop();
+  
+}
+
+
 render(){    
     return (
         <BrowserRouter >  
@@ -48,13 +55,13 @@ render(){
                             
                             <Nav onSelect={this.closeNav} defaultActiveKey="/home" className="flex-column">
         
-                                <Nav.Link className= "mt-4 text-secondary sideButton" as={Link} to="/senku" eventKey="link-2"><tx className = "sideText font-face-zkgam">SENKU</tx></Nav.Link>   
-                                <Nav.Link className= "text-secondary sideButton" as={Link} to="/bombs"  eventKey="link-4" ><tx className = "sideText font-face-zkgam">BOMBS</tx></Nav.Link>
-                                <Nav.Link className= "text-secondary sideButton" as={Link} to="/battle"  eventKey="link-5"><tx className = "sideText font-face-zkgam">BATTLE</tx></Nav.Link>
-                                <Nav.Link className= "text-secondary sideButton" as={Link} to="/guess4"  eventKey="link-6"><tx className = "sideText font-face-zkgam">GUESS4</tx></Nav.Link>
-                                <Nav.Link className= "text-secondary sideButton" as={Link} to="/tetris"  eventKey="link-7"><tx className = "sideText font-face-zkgam">TETRIS</tx></Nav.Link>
-                                <Nav.Link className= "text-secondary sideButton" as={Link} to="./tones"  eventKey="link-1"><tx className = "sideText font-face-zkgam">TONES</tx></Nav.Link>
-                                <Nav.Link className= "hideOnPhone text-secondary sideButton" as={Link} to="/piczle"  eventKey="link-3"><tx className = "sideText font-face-zkgam">PICZLE</tx></Nav.Link>
+                                <Nav.Link onClick= {this.manageAudio} className= "mt-4 text-secondary sideButton" as={Link} to="/senku" eventKey="link-2"><tx className = "sideText font-face-zkgam">SENKU</tx></Nav.Link>   
+                                <Nav.Link onClick= {this.manageAudio} className= "text-secondary sideButton" as={Link} to="/bombs"  eventKey="link-4" ><tx className = "sideText font-face-zkgam">BOMBS</tx></Nav.Link>
+                                <Nav.Link onClick= {this.manageAudio} className= "text-secondary sideButton" as={Link} to="/battle"  eventKey="link-5"><tx className = "sideText font-face-zkgam">BATTLE</tx></Nav.Link>
+                                <Nav.Link onClick= {this.manageAudio} className= "text-secondary sideButton" as={Link} to="/guess4"  eventKey="link-6"><tx className = "sideText font-face-zkgam">GUESS4</tx></Nav.Link>
+                                <Nav.Link onClick= {this.manageAudio} className= "text-secondary sideButton" as={Link} to="/tetris"  eventKey="link-7"><tx className = "sideText font-face-zkgam">TETRIS</tx></Nav.Link>
+                                <Nav.Link onClick= {this.manageAudio} className= "text-secondary sideButton" as={Link} to="./tones"  eventKey="link-1"><tx className = "sideText font-face-zkgam">TONES</tx></Nav.Link>
+                                <Nav.Link onClick= {this.manageAudio} className= "hideOnPhone text-secondary sideButton" as={Link} to="/piczle"  eventKey="link-3"><tx className = "sideText font-face-zkgam">PICZLE</tx></Nav.Link>
                             
                             </Nav>
 

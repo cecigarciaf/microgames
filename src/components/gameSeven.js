@@ -9,7 +9,7 @@ import InstructionsButton from './InstructionsButton';
 import HowToPlay from './HowToPlay'
 import MusicPlayer from './MusicPlayer'
 import { useTranslation } from 'react-i18next';
-import {Howl, Howler} from 'howler';
+
 
 const howtoplay = () => {
     return (
@@ -17,7 +17,7 @@ const howtoplay = () => {
     )
 }
 
-var  result2 = ""
+var result2 = ""
 var score2 = 0
 var playingState = false
 
@@ -192,7 +192,7 @@ function GameSeven() {
 
         <div className = "row mt-4 " >
         <div className = "col-5" >
-          <MusicPlayer />
+          <MusicPlayer playlist={playlist} />
         </div>
           <div className = "col-5 text-end " >
               

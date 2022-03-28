@@ -256,8 +256,7 @@ handleClick(row, col) {
 
 
 playSound(status){
-    Howler.volume(0.9)
-
+Howler.volume(0.9)
 
 if(this.state.audio){
 
@@ -881,7 +880,12 @@ var statusTemp = this.state.status
 var leftShipLocationsTemp = this.state.leftShipLocations
 // leftShipLocations : init row, init col, v/h, size (index = id). Valor en tempcells= id + 1
 if(statusTemp === "completed") {
-  
+    if(this.state.audio) {
+        ambiente.play()
+    } else{
+        ambiente.play()
+        ambiente.mute(true)
+    }
     var tempCells = this.state.cells.slice()
 
     //orient 0=horizontal   1=vertical
@@ -1005,14 +1009,13 @@ if(statusTemp === "completed") {
     }
      while (amount1 < 4);
      statusTemp = "playing"
-     if(this.state.audio){
 
-        ambiente.play()
-    }
         this.setState({cells:tempCells, status: statusTemp, playingState:true})
 
 } else if((statusTemp = "playing")) {
+
         ambiente.stop()
+   
         var tempcells = []
         for(let i = 0; i < 14; i++ ){
         tempcells.push(new Array(14).fill(0))
@@ -1134,7 +1137,7 @@ buttonText(){
     return text
     }
 
-    manageAudio() {
+manageAudio() {
     var audioTemp = this.state.audio
     if(audioTemp){
         audioTemp = false
@@ -1142,10 +1145,11 @@ buttonText(){
     } else if(!(audioTemp)){
         audioTemp = true
         Howler.mute(false)
+        ambiente.mute(false)
     }
     this.setState({audio:audioTemp})
 
-    }
+}
 
     render(){  
 
