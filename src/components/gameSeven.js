@@ -7,9 +7,10 @@ import { ArrowLeftSquare } from 'react-bootstrap-icons';
 import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
 import HowToPlay from './HowToPlay'
-import MusicPlayer from './MusicPlayer'
 import { useTranslation } from 'react-i18next';
-
+import {Howl, Howler} from 'howler';
+import Button from 'react-bootstrap/Button';
+import FxButton from './FxButton'
 
 const howtoplay = () => {
     return (
@@ -121,7 +122,7 @@ function Cell(props){
 
 
 
-
+ 
   
 function GameSeven() {
     var cells2 = []
@@ -138,7 +139,10 @@ function GameSeven() {
     const [speed, updateSpeed] = useState(100)
     const [show, updateShow] = useState(false)
     const { t, i18n } = useTranslation();
-    const [music, updateMusic] = useState(true)
+    const [music, updateMusic] = useState(false)
+    const [isMusicOn, setIsMusicOn] = useState (false)
+    const [fx, setFx] = useState(true)
+    const [musicId, saveMusicId] = useState(0)
 
     var square = JSON.parse(JSON.stringify(cells2))
     square[2][8] = 1
@@ -146,7 +150,51 @@ function GameSeven() {
     square[3][8] = 1
     square[3][9] = 1
    
+  const  playlist = [{title:"song1", source:"/audios_tetris/Tetris_música_01.mp3", howl: null},{title:"song2", source:"/audios_tetris/Tetris_música_02.mp3", howl: null},{title:"song3", source:"/audios_tetris/tetris_musica_LF_02.mp3", howl: null} ]
+    
+  var musica =  new Howl({
+        src: ["/audios_tetris/tetris_musica_LF_02.mp3"],
+        loop: true,
+        volume: 0.6
+        }) 
 
+  
+
+  function manageMusic(){
+    var musicTemp = music
+    var isMusicOnTemp = isMusicOn
+    var musicIdTemp = musicId
+    
+    if (!(isMusicOn)){
+      isMusicOnTemp = true
+      musicTemp = true
+      musica.play()
+      musicIdTemp = musica.play()
+      console.log("musicTemp" + musica.play())
+    }
+    else if(music){
+        musicTemp = false
+        Howler.mute(true, musicId)
+        console.log("2" )
+    } else if(!(music)){
+        musicTemp = true
+        Howler.mute(false, musicId)
+        console.log("3" )
+    }
+ 
+
+    updateMusic(musicTemp)
+    setIsMusicOn(isMusicOnTemp )
+    saveMusicId(musicIdTemp)
+  }
+
+  function manageFx(){
+  if(fx){
+    setFx(false)
+  } else if (!(fx)){
+    setFx(true)
+    }
+  }
   function instructions(){
 
       var showTemp = show
@@ -172,9 +220,9 @@ function GameSeven() {
     }
   }
     useEffect(() => {
-       
+        
         const test =  setInterval(() => {
-          addBlock((cells) => updateBoard(cells));
+          addBlock((cells) => updateBoard(cells, fx));
           updateResult(result2)
           updateScore(score2)
         }, speed);
@@ -183,17 +231,22 @@ function GameSeven() {
         };
       }, []);
 
+      
 
-    const  playlist = [{title:"song1", source:"/audios_tetris/Tetris_música_01.mp3", howl: null},{title:"song2", source:"/audios_tetris/Tetris_música_02.mp3", howl: null}, ]
-    
     return (
 
     <div  onKeyDown={(e) => handleKeyDown(e)} className ="col-9 justify-content-center">
 
         <div className = "row mt-4 " >
-        <div className = "col-5" >
-          <MusicPlayer playlist={playlist} />
-        </div>
+          <div className = "col-5" >
+          <span   style = {{fontSize: "15px", color: "grey"}}>
+              <span className = "font-face-zkgam" >Music: </span>
+              <Button onClick= {manageMusic} size="sm"  style={{backgroundColor: "rgb(211, 177, 250)", border: "1px solid rgb(212, 191, 236)", padding: "2px", fontSize: "10px"}} >{music? "ON" : "OFF"}</Button>
+          </span>
+
+          <span><FxButton manageFx={manageFx} fxStatus={fx} /></span>
+          </div>
+
           <div className = "col-5 text-end " >
               
               <InstructionsButton instructions = {instructions}/>
@@ -323,8 +376,34 @@ function handleUpButton(){
   return keyUp
 }
 
+function shootFX(trigger, fx){
+var fxNum = Math.floor(Math.random() * (7 - 1)) + 1;
+var fxDrop = new Howl({
+    src: [`/audios_tetris/tetris_fx-00${fxNum}.wav`],
+    loop: false,
+    volume: 0.3
+    })
 
-function updateBoard(cells){
+var fxLine = new Howl({
+    src: [`/audios_tetris/tetris_fx_linea.mp3`],
+    loop: false,
+    volume: 0.3
+    })
+
+    if((fx ) & (trigger === "drop")){
+    fxDrop.play()
+    console.log("Aca FX drop !!!")
+
+    } else 
+    if((fx ) & (trigger === "line")){
+      fxLine.play()
+      console.log("Aca FX line!!!")
+
+      }
+}
+
+
+function updateBoard(cells, fx){
 
  console.log("pl" + playingState)
 
@@ -558,7 +637,7 @@ if((key === 0) && (keyUp === 0)){
           update[movingBlock[2][0]][movingBlock[2][1]] = update[movingBlock[2][0]][movingBlock[2][1]] * 10
           update[movingBlock[3][0]][movingBlock[3][1]] = update[movingBlock[3][0]][movingBlock[3][1]] * 10
           update = blocks(update)
-         
+          shootFX("drop", fx)
         }  
     }
   }
@@ -582,7 +661,7 @@ if((key === 0) && (keyUp === 0)){
               }
             }
             score2++
-            
+            shootFX("line", fx)
 
           }
      
