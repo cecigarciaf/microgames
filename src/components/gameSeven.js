@@ -8,9 +8,9 @@ import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
 import HowToPlay from './HowToPlay'
 import { useTranslation } from 'react-i18next';
-import {Howl, Howler} from 'howler';
 import Button from 'react-bootstrap/Button';
 import FxButton from './FxButton'
+import {Howl, Howler} from 'howler';
 
 const howtoplay = () => {
     return (
@@ -21,7 +21,7 @@ const howtoplay = () => {
 var result2 = ""
 var score2 = 0
 var playingState = false
-
+var fx = true
 
 
 
@@ -141,7 +141,7 @@ function GameSeven() {
     const { t, i18n } = useTranslation();
     const [music, updateMusic] = useState(false)
     const [isMusicOn, setIsMusicOn] = useState (false)
-    const [fx, setFx] = useState(true)
+    
     const [musicId, saveMusicId] = useState(0)
 
     var square = JSON.parse(JSON.stringify(cells2))
@@ -152,13 +152,16 @@ function GameSeven() {
    
   const  playlist = [{title:"song1", source:"/audios_tetris/Tetris_música_01.mp3", howl: null},{title:"song2", source:"/audios_tetris/Tetris_música_02.mp3", howl: null},{title:"song3", source:"/audios_tetris/tetris_musica_LF_02.mp3", howl: null} ]
     
-  var musica =  new Howl({
+  var musica = { 
+        tetris:new Howl({
+        id: "music",
         src: ["/audios_tetris/tetris_musica_LF_02.mp3"],
         loop: true,
-        volume: 0.6
+        volume: 0.6,
+
         }) 
 
-  
+      }
 
   function manageMusic(){
     var musicTemp = music
@@ -168,18 +171,16 @@ function GameSeven() {
     if (!(isMusicOn)){
       isMusicOnTemp = true
       musicTemp = true
-      musica.play()
-      musicIdTemp = musica.play()
-      console.log("musicTemp" + musica.play())
+      musicIdTemp = musica.tetris.play()
     }
     else if(music){
+  
         musicTemp = false
-        Howler.mute(true, musicId)
-        console.log("2" )
+        Howler.stop()
+
     } else if(!(music)){
         musicTemp = true
-        Howler.mute(false, musicId)
-        console.log("3" )
+        musicIdTemp = musica.tetris.play()
     }
  
 
@@ -188,11 +189,12 @@ function GameSeven() {
     saveMusicId(musicIdTemp)
   }
 
+
   function manageFx(){
   if(fx){
-    setFx(false)
+    fx = false
   } else if (!(fx)){
-    setFx(true)
+    fx = true
     }
   }
   function instructions(){
@@ -208,7 +210,7 @@ function GameSeven() {
   
 
   function playClick()  {
-      console.log(speed)
+   
       if(playingState === false){
       
       playingState = true
@@ -219,15 +221,17 @@ function GameSeven() {
       addBlock(cells2)
     }
   }
-    useEffect(() => {
+
+    
+    useEffect(() => { 
         
-        const test =  setInterval(() => {
-          addBlock((cells) => updateBoard(cells, fx));
+        const game =  setInterval(() => {
+          addBlock((cells) => updateBoard(cells));
           updateResult(result2)
           updateScore(score2)
         }, speed);
         return () => {
-          clearInterval(test);
+          clearInterval(game);
         };
       }, []);
 
@@ -235,17 +239,16 @@ function GameSeven() {
 
     return (
 
-    <div  onKeyDown={(e) => handleKeyDown(e)} className ="col-9 justify-content-center">
+    <div onKeyDown={(e) => handleKeyDown(e)} className ="col-9 justify-content-center">
 
         <div className = "row mt-4 " >
           <div className = "col-5" >
           <span   style = {{fontSize: "15px", color: "grey"}}>
               <span className = "font-face-zkgam" >Music: </span>
-              <Button onClick= {manageMusic} size="sm"  style={{backgroundColor: "rgb(211, 177, 250)", border: "1px solid rgb(212, 191, 236)", padding: "2px", fontSize: "10px"}} >{music? "ON" : "OFF"}</Button>
+              <Button onClick= {manageMusic} size="sm"  style={{backgroundColor: "rgb(211, 177, 250)", border: "1px solid rgb(212, 191, 236)", padding: "2px", fontSize: "10px", marginRight: "10px"}} >{music? "ON" : "OFF"}</Button>
           </span>
-
           <span><FxButton manageFx={manageFx} fxStatus={fx} /></span>
-          </div>
+        </div>
 
           <div className = "col-5 text-end " >
               
@@ -274,7 +277,7 @@ function GameSeven() {
         </div>
         <div className = "row mt-4 align-items-center"> 
             <div className = "col-12 text-center" > 
-              <PlayStopButton  size="sm" text= "PLAY"  onButtonClick= {playClick}/> 
+              <PlayStopButton  size="sm" text= {playingState? "STOP" : "PLAY"}  onButtonClick= {playClick}/> 
             </div>
 
         </div>
@@ -376,7 +379,7 @@ function handleUpButton(){
   return keyUp
 }
 
-function shootFX(trigger, fx){
+function shootFX(trigger){
 var fxNum = Math.floor(Math.random() * (7 - 1)) + 1;
 var fxDrop = new Howl({
     src: [`/audios_tetris/tetris_fx-00${fxNum}.wav`],
@@ -403,9 +406,8 @@ var fxLine = new Howl({
 }
 
 
-function updateBoard(cells, fx){
+function updateBoard(cells){
 
- console.log("pl" + playingState)
 
   //busca ubicacion de una pieza que se mueva y no toque nada abajo:
   var update = JSON.parse(JSON.stringify(cells))
@@ -637,7 +639,7 @@ if((key === 0) && (keyUp === 0)){
           update[movingBlock[2][0]][movingBlock[2][1]] = update[movingBlock[2][0]][movingBlock[2][1]] * 10
           update[movingBlock[3][0]][movingBlock[3][1]] = update[movingBlock[3][0]][movingBlock[3][1]] * 10
           update = blocks(update)
-          shootFX("drop", fx)
+          shootFX("drop")
         }  
     }
   }
@@ -661,7 +663,7 @@ if((key === 0) && (keyUp === 0)){
               }
             }
             score2++
-            shootFX("line", fx)
+            shootFX("line")
 
           }
      

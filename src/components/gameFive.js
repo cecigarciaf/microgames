@@ -490,42 +490,43 @@ systemTurn(){
                     //marca como agua todo alrededor de los hundidos: (creo)(decidiendo si eso el usuario lo ve como agua o queda gris)
 
                      if(orient === "v"){
-                        systemShootsTemp[localrow - 1][localcol] = "water"
-                        systemShootsTemp[localrow - 1][localcol - 1] = "water"
-                        systemShootsTemp[localrow - 1][localcol + 1] = "water"
-                        systemShootsTemp[localrow + sizeTemp][localcol] = "water"
-                        systemShootsTemp[localrow + sizeTemp][localcol - 1] = "water"
-                        systemShootsTemp[localrow + sizeTemp][localcol + 1] = "water"
+                        if (systemShootsTemp[localrow - 1][localcol] === "empty"){systemShootsTemp[localrow - 1][localcol] = "water"}
+                        if (systemShootsTemp[localrow - 1][localcol] === "empty"){systemShootsTemp[localrow - 1][localcol] = "water"}
+                        if (systemShootsTemp[localrow - 1][localcol - 1] === "empty"){systemShootsTemp[localrow - 1][localcol - 1] = "water"}
+                        if (systemShootsTemp[localrow - 1][localcol + 1] === "empty"){systemShootsTemp[localrow - 1][localcol + 1] = "water"}
+                        if (systemShootsTemp[localrow + sizeTemp][localcol] === "empty"){systemShootsTemp[localrow + sizeTemp][localcol] = "water"}
+                        if (systemShootsTemp[localrow + sizeTemp][localcol - 1] === "empty"){systemShootsTemp[localrow + sizeTemp][localcol - 1] = "water"}
+                        if (systemShootsTemp[localrow + sizeTemp][localcol + 1] === "empty"){systemShootsTemp[localrow + sizeTemp][localcol + 1] = "water"}
 
                         for(let i = -1; i < (sizeTemp + 1); i++){
-                            systemShootsTemp[localrow + i][localcol - 1] = "water"
-                            systemShootsTemp[localrow + i][localcol + 1] = "water"
+                            if (systemShootsTemp[localrow + i][localcol - 1]  === "empty"){systemShootsTemp[localrow + i][localcol - 1] = "water"}
+                            if (systemShootsTemp[localrow + i][localcol + 1] === "empty"){systemShootsTemp[localrow + i][localcol + 1] = "water"}
                         }
                      }
 
                      else if(orient === "h"){
-                        systemShootsTemp[localrow][localcol - 1] = "water"
-                        systemShootsTemp[localrow ][localcol + sizeTemp] = "water"
-                        systemShootsTemp[localrow - 1][localcol - 1] = "water"
-                        systemShootsTemp[localrow - 1][localcol + sizeTemp] = "water"
-                        systemShootsTemp[localrow - 1][localcol - 1] = "water"
-                        systemShootsTemp[localrow + 1][localcol + sizeTemp] = "water"
+                        if (systemShootsTemp[localrow][localcol - 1] === "empty"){systemShootsTemp[localrow][localcol - 1] = "water"}
+                        if (systemShootsTemp[localrow ][localcol + sizeTemp] === "empty"){systemShootsTemp[localrow ][localcol + sizeTemp] = "water"}
+                        if (systemShootsTemp[localrow - 1][localcol - 1] === "empty"){systemShootsTemp[localrow - 1][localcol - 1] = "water"}
+                        if (systemShootsTemp[localrow - 1][localcol + sizeTemp] === "empty"){systemShootsTemp[localrow - 1][localcol + sizeTemp] = "water"}
+                        if (systemShootsTemp[localrow - 1][localcol - 1] === "empty"){systemShootsTemp[localrow - 1][localcol - 1] = "water"}
+                        if (systemShootsTemp[localrow + 1][localcol + sizeTemp] === "empty"){systemShootsTemp[localrow + 1][localcol + sizeTemp] = "water"}
 
                         for(let i = -1; i < (sizeTemp + 1); i++){
-                            systemShootsTemp[localrow - 1][localcol + i] = "water"
-                            systemShootsTemp[localrow + 1][localcol + i] = "water"
+                            if (systemShootsTemp[localrow - 1][localcol + i] === "empty"){systemShootsTemp[localrow - 1][localcol + i] = "water"}
+                            if (systemShootsTemp[localrow + 1][localcol + i] === "empty"){systemShootsTemp[localrow + 1][localcol + i] = "water"}
                         }
                      } 
                      
                      if(sizeTemp === 1){
-                        systemShootsTemp[localrow - 1][localcol] = "water"
-                        systemShootsTemp[localrow + 1][localcol] = "water"
-                        systemShootsTemp[localrow][localcol + 1] = "water"
-                        systemShootsTemp[localrow][localcol - 1] = "water"
-                        systemShootsTemp[localrow - 1][localcol + 1] = "water"
-                        systemShootsTemp[localrow + 1][localcol - 1] = "water"
-                        systemShootsTemp[localrow - 1][localcol - 1] = "water"
-                        systemShootsTemp[localrow + 1][localcol + 1] = "water"
+                        if (systemShootsTemp[localrow - 1][localcol] === "empty"){systemShootsTemp[localrow - 1][localcol] = "water"}
+                        if (systemShootsTemp[localrow + 1][localcol] === "empty"){systemShootsTemp[localrow + 1][localcol] = "water"}
+                        if (systemShootsTemp[localrow][localcol + 1] === "empty"){systemShootsTemp[localrow][localcol + 1] = "water"}
+                        if (systemShootsTemp[localrow][localcol - 1] === "empty"){systemShootsTemp[localrow][localcol - 1] = "water"}
+                        if (systemShootsTemp[localrow - 1][localcol + 1] === "empty"){systemShootsTemp[localrow - 1][localcol + 1] = "water"}
+                        if (systemShootsTemp[localrow + 1][localcol - 1] === "empty"){systemShootsTemp[localrow + 1][localcol - 1] = "water"}
+                        if (systemShootsTemp[localrow - 1][localcol - 1] === "empty"){systemShootsTemp[localrow - 1][localcol - 1] = "water"}
+                        if (systemShootsTemp[localrow + 1][localcol + 1] === "empty"){systemShootsTemp[localrow + 1][localcol + 1] = "water"}
                      }
             
                      //setTimeout(() => this.playSound(`systemhundido.mp3`)   , 2500) 
@@ -540,26 +541,26 @@ systemTurn(){
                      //setTimeout(() => this.playSound(`systemtocado-00${tironum}.mp3`)   , 2500) 
 
                      if(orient === "v"){
-                        systemShootsTemp[systemRow][systemCol+ 1] = "water"
-                        systemShootsTemp[systemRow][localcol - 1] = "water"
+                        if (systemShootsTemp[systemRow][systemCol+ 1] === "empty"){systemShootsTemp[systemRow][systemCol+ 1]= "water"}
+                        if (systemShootsTemp[systemRow][localcol - 1] === "empty"){systemShootsTemp[systemRow][localcol - 1]= "water"}
 
-                        systemShootsTemp[systemRow - 1][systemCol+ 1] = "water"
-                        systemShootsTemp[systemRow + 1][systemCol - 1] = "water"
+                        if (systemShootsTemp[systemRow - 1][systemCol+ 1] === "empty"){systemShootsTemp[systemRow - 1][systemCol+ 1]= "water"}
+                        if (systemShootsTemp[systemRow + 1][systemCol - 1] === "empty"){systemShootsTemp[systemRow + 1][systemCol - 1]= "water"}
 
-                        systemShootsTemp[systemRow - 1][systemCol - 1] = "water"
-                        systemShootsTemp[systemRow + 1][systemCol + 1] = "water"
+                        if (systemShootsTemp[systemRow - 1][systemCol - 1] === "empty"){systemShootsTemp[systemRow - 1][systemCol - 1]= "water"}
+                        if (systemShootsTemp[systemRow + 1][systemCol + 1] === "empty"){systemShootsTemp[systemRow + 1][systemCol + 1]= "water"}
 
                      }
                      if(orient === "h"){
 
-                        systemShootsTemp[systemRow - 1][systemCol + 1] = "water"
-                        systemShootsTemp[systemRow + 1][systemCol - 1] = "water"
+                        if (systemShootsTemp[systemRow - 1][systemCol + 1] === "empty"){systemShootsTemp[systemRow - 1][systemCol + 1] = "water"}
+                        if (systemShootsTemp[systemRow + 1][systemCol - 1] === "empty"){systemShootsTemp[systemRow + 1][systemCol - 1] = "water"}
 
-                        systemShootsTemp[systemRow - 1][systemCol - 1] = "water"
-                        systemShootsTemp[systemRow + 1][systemCol + 1] = "water"
+                        if (systemShootsTemp[systemRow - 1][systemCol - 1] === "empty"){systemShootsTemp[systemRow - 1][systemCol - 1] = "water"}
+                        if (systemShootsTemp[systemRow + 1][systemCol + 1] === "empty"){systemShootsTemp[systemRow + 1][systemCol + 1] = "water"}
 
-                        systemShootsTemp[systemRow - 1][systemCol] = "water"
-                        systemShootsTemp[systemRow + 1][systemCol] = "water"
+                        if (systemShootsTemp[systemRow - 1][systemCol] === "empty"){systemShootsTemp[systemRow - 1][systemCol] = "water"}
+                        if (systemShootsTemp[systemRow + 1][systemCol] === "empty"){systemShootsTemp[systemRow + 1][systemCol] = "water"}
 
                      }
 

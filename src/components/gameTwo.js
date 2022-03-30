@@ -7,7 +7,8 @@ import './gameTwo.css';
 import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
 import HowToPlay from './HowToPlay'
-
+import {Howl, Howler} from 'howler';
+import FxButton from './FxButton'
 
 
 const howtoplay = () => {
@@ -58,6 +59,7 @@ function Cell(props){
         </div>
     )
 }
+
 function NoCell(props){
     var color = "white"
 
@@ -137,6 +139,29 @@ function Board(props) {
     )
 }
 
+var fxSound = { 
+    remove:new Howl({
+    src: ["/audios_senku/senku_01.mp3"],
+    loop: false,
+    volume: 0.6,
+    }), 
+    deselect:new Howl({
+        src: ["/audios_senku/senku_02.mp3"],
+        loop: false,
+        volume: 0.6,
+        }), 
+    select:new Howl({
+        src: ["/audios_senku/senku_03.mp3"],
+        loop: false,
+        volume: 0.4,
+        }),     
+    error:new Howl({
+        src: ["/audios_senku/senku_04.mp3"],
+        loop: false,
+        volume: 0.4,
+        }),       
+  }
+
 class GameTwo extends React.Component{
     constructor(props){
         super(props)
@@ -148,12 +173,16 @@ class GameTwo extends React.Component{
     cells2.push(new Array(12).fill("full"))
     }    
     cells2[5][5] = "empty"
-    this.state = {show: false, cells:cells2, selectedCell: "no", resultText: ""}
+    this.state = {fx: true, show: false, cells:cells2, selectedCell: "no", resultText: ""}
     this.handleClick = this.handleClick.bind(this)
     this.handleReset = this.handleReset.bind(this)
     this.instructions = this.instructions.bind(this)
+    this.manageFx = this.manageFx.bind(this)
+
 
     }
+
+
 
     instructions(){
     var showTemp = this.state.show
@@ -178,11 +207,16 @@ class GameTwo extends React.Component{
                 tempcells[row][col] = "clicked"
                 tempSelectedCell = "si"
                 resultTextCopy = ""
-                
+                if(this.state.fx){
+                    fxSound.select.play()
+                }
             } 
             //1er clic en casilla vacia da error
             else if (tempcells[row][col] === "empty" ) {
                 resultTextCopy = "That's not a valid cell"
+                if(this.state.fx){
+                    fxSound.error.play()
+                }
               }
 
                // Casos 2do click:  
@@ -193,12 +227,18 @@ class GameTwo extends React.Component{
         // 2 clic en casilla ocupada error:
         if (tempcells[row][col] === "full") {
             resultTextCopy = "That's not a valid cell"
+            if(this.state.fx){
+                fxSound.error.play()
+            }
         } 
 
         //2do clic en casilla seleccionada la desselecciona:
         else if (tempcells[row][col] === "clicked") {
             tempcells[row][col] = "full"
             tempSelectedCell = "no"
+            if(this.state.fx){
+                fxSound.deselect.play()
+            }
 
             }
         else if ((tempcells[row][col + 2] === "clicked") && (tempcells[row][col] === "empty" )) {
@@ -206,6 +246,9 @@ class GameTwo extends React.Component{
             tempcells[row][col + 2] = "empty";
             tempcells[row][col + 1] = "empty";
             tempSelectedCell = "no"
+            if(this.state.fx){
+                fxSound.remove.play()
+            }
         }     
 
 
@@ -215,6 +258,9 @@ class GameTwo extends React.Component{
                 tempcells[row][col - 2] = "empty";
                 tempcells[row][col - 1] = "empty";
                 tempSelectedCell = "no"
+                if(this.state.fx){
+                    fxSound.remove.play()
+                }
         }
         else if ((tempcells[row + 2][col] === "clicked") && (tempcells[row][col] === "empty" )) {
            
@@ -222,6 +268,9 @@ class GameTwo extends React.Component{
             tempcells[row + 2][col] = "empty";
             tempcells[row + 1][col] = "empty";
             tempSelectedCell = "no"
+            if(this.state.fx){
+                fxSound.remove.play()
+            }
     } 
 
     else if ((tempcells[row - 2][col] === "clicked") && (tempcells[row][col] === "empty" )) {
@@ -229,7 +278,10 @@ class GameTwo extends React.Component{
             tempcells[row][col] = "full";
             tempcells[row - 2][col] = "empty";
             tempcells[row - 1][col] = "empty";
-            tempSelectedCell = "no"         
+            tempSelectedCell = "no"    
+            if(this.state.fx){
+                fxSound.remove.play()
+            }    
         }
     
 
@@ -238,7 +290,15 @@ class GameTwo extends React.Component{
         this.setState({cells:tempcells, selectedCell: tempSelectedCell, resultText: resultTextCopy})
     }
 
-
+    manageFx(){
+        var fxTemp = this.state.fx
+        if(this.state.fx){
+            fxTemp = false
+        } else if (!(this.state.fx)){
+            fxTemp = true
+          }
+          this.setState({fx:fxTemp})
+    }
 
 
 
@@ -264,7 +324,10 @@ class GameTwo extends React.Component{
        
             <div className ="col-9">
                 <div className = "row mt-4 " >
-                    <div className = "col-10 text-end " ><InstructionsButton instructions = {this.instructions}/> </div>
+                    <div className = "col-5" >
+                        <FxButton manageFx={this.manageFx} fxStatus={this.state.fx} />
+                    </div>
+                    <div className = "col-5 text-end " ><InstructionsButton instructions = {this.instructions}/> </div>
                     <Instructions instructions = {this.instructions} show= {this.state.show} instructDetails= {howtoplay()} /> 
                 </div>
                 <div className = "row" > 

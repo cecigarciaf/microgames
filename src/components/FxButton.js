@@ -9,7 +9,7 @@ function FxButton(props){
 
         <span  style = {{fontSize: "15px", color: "grey"}}>
             <span className = "font-face-zkgam" > FX: </span>
-            <Button size="sm"  style={{backgroundColor: "rgb(211, 177, 250)", border: "1px solid rgb(212, 191, 236)", padding: "2px", fontSize: "10px"}} onClick={props.manageFx}>{props.fxStatus? "ON" : "OFF"} </Button>
+            <Button size="sm"  style={{backgroundColor: "rgb(211, 177, 250)", border: "1px solid rgb(212, 191, 236)", padding: "2px", fontSize: "10px", marginRight: "10px"}} onClick={props.manageFx}>{props.fxStatus? "ON" : "OFF"} </Button>
         </span>
 
 )}
