@@ -8,8 +8,8 @@ import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
 import HowToPlay from './HowToPlay'
 import { useTranslation } from 'react-i18next';
-import Button from 'react-bootstrap/Button';
 import FxButton from './FxButton'
+import MusicButton from './MusicButton'
 import {Howl, Howler} from 'howler';
 
 const howtoplay = () => {
@@ -18,7 +18,7 @@ const howtoplay = () => {
     )
 }
 
-var result2 = ""
+var result2
 var score2 = 0
 var playingState = false
 var fx = true
@@ -141,7 +141,6 @@ function GameSeven() {
     const { t, i18n } = useTranslation();
     const [music, updateMusic] = useState(false)
     const [isMusicOn, setIsMusicOn] = useState (false)
-    
     const [musicId, saveMusicId] = useState(0)
 
     var square = JSON.parse(JSON.stringify(cells2))
@@ -150,7 +149,6 @@ function GameSeven() {
     square[3][8] = 1
     square[3][9] = 1
    
-  const  playlist = [{title:"song1", source:"/audios_tetris/Tetris_música_01.mp3", howl: null},{title:"song2", source:"/audios_tetris/Tetris_música_02.mp3", howl: null},{title:"song3", source:"/audios_tetris/tetris_musica_LF_02.mp3", howl: null} ]
     
   var musica = { 
         tetris:new Howl({
@@ -158,10 +156,8 @@ function GameSeven() {
         src: ["/audios_tetris/tetris_musica_LF_02.mp3"],
         loop: true,
         volume: 0.6,
-
         }) 
-
-      }
+  }
 
   function manageMusic(){
     var musicTemp = music
@@ -243,11 +239,10 @@ function GameSeven() {
 
         <div className = "row mt-4 " >
           <div className = "col-5" >
-          <span   style = {{fontSize: "15px", color: "grey"}}>
-              <span className = "font-face-zkgam" >Music: </span>
-              <Button onClick= {manageMusic} size="sm"  style={{backgroundColor: "rgb(211, 177, 250)", border: "1px solid rgb(212, 191, 236)", padding: "2px", fontSize: "10px", marginRight: "10px"}} >{music? "ON" : "OFF"}</Button>
+            <MusicButton music={music} manageMusic={manageMusic} />
+          <span>
+            <FxButton manageFx={manageFx} fxStatus={fx} />
           </span>
-          <span><FxButton manageFx={manageFx} fxStatus={fx} /></span>
         </div>
 
           <div className = "col-5 text-end " >
@@ -263,7 +258,7 @@ function GameSeven() {
             </div>
 
             <div className = "col-4 text-center justify-content-center " >  
-            <h1 className = "font-face-zkga" style={{fontSize: 15}} id = "result">{t(result)}</h1> 
+              <h1 className = "font-face-zkga" style={{fontSize: 15}} id = "result">{t(result)}</h1> 
             </div>
           </div>
         <div className = "row  align-items-center justify-content-center"> 
@@ -277,7 +272,7 @@ function GameSeven() {
         </div>
         <div className = "row mt-4 align-items-center"> 
             <div className = "col-12 text-center" > 
-              <PlayStopButton  size="sm" text= {playingState? "STOP" : "PLAY"}  onButtonClick= {playClick}/> 
+              <PlayStopButton  size="sm" text= {playingState? "QUIT" : "PLAY"}  onButtonClick= {playClick}/> 
             </div>
 
         </div>

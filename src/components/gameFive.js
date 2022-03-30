@@ -11,6 +11,8 @@ import HowToPlay from './HowToPlay'
 import GameText from './gameText'
 import Board from './Board'
 import {Howl, Howler} from 'howler';
+import BoardTitle from './BoardTitle';
+
 
 // BATALLA NAVAL //
 
@@ -1185,12 +1187,21 @@ manageAudio() {
 
                 <div className = "row" > 
                     <div className ="col-sm-12 col-md-5  d-md-block text-center mr-4">
-                        <Board initCell = {2}  lastCell = {12} boardclass = "testMargin align-items-center justify-content-center row m-1"  cN = {this.cN} containerStyle = {this.containerStyle} statusarray2 = {this.state.userShoots} cellStyle= {this.leftstyle}  statusarray1 = {this.state.cells} result = "{this.state.cells}" cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>
+                        <div className="row">
+                            <BoardTitle text={"Enemys ships"}/>
+                        </div>
+                        <div className="row">
+                            <Board initCell = {2}  lastCell = {12} boardclass = "testMargin align-items-center justify-content-center row m-1"  cN = {this.cN} containerStyle = {this.containerStyle} statusarray2 = {this.state.userShoots} cellStyle= {this.leftstyle}  statusarray1 = {this.state.cells} result = "{this.state.cells}" cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>
+                        </div>
                      </div>
                      
                     <div className ="col-sm-12 col-md-5  d-md-block text-center mr-4">
-                        <Board initCell = {2}  lastCell = {12} boardclass = "testMargin align-items-center justify-content-center row m-1"  cN = {this.cN} containerStyle = {this.containerStyle} statusarray1 = {this.state.userCells} cellStyle= {this.rightstyle}  statusarray2 = {this.state.systemShoots}  result = "{this.state.cells}" cells = {this.state.userCells} handleRClick = {this.handleROnRightBoardClick} handleClick = {this.handleRBoardClick}/>
-                
+                        <div className="row">
+                            <BoardTitle text={"Your ships"} />
+                        </div>
+                        <div className="row">
+                            <Board initCell = {2}  lastCell = {12} boardclass = "testMargin align-items-center justify-content-center row m-1"  cN = {this.cN} containerStyle = {this.containerStyle} statusarray1 = {this.state.userCells} cellStyle= {this.rightstyle}  statusarray2 = {this.state.systemShoots}  result = "{this.state.cells}" cells = {this.state.userCells} handleRClick = {this.handleROnRightBoardClick} handleClick = {this.handleRBoardClick}/>
+                        </div>
                     </div>
 
                     <div className ="col-sm-12 col-md-2  d-md-block text-center">   

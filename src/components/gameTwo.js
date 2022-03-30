@@ -7,7 +7,7 @@ import './gameTwo.css';
 import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
 import HowToPlay from './HowToPlay'
-import {Howl, Howler} from 'howler';
+import {Howl} from 'howler';
 import FxButton from './FxButton'
 
 

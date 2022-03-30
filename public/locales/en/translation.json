@@ -165,7 +165,15 @@
 
     "Audio: OFF": "Audio: OFF",
 
-    "Audio: ON": "Audio: ON"
+    "Audio: ON": "Audio: ON",
+
+    "Enemys ships": "Enemy's ships",
+
+    "Your ships": "Your ships",
+
+    "Music": "Music",
+
+    "" : ""
 
 
 }
