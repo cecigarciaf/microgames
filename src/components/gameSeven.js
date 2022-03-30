@@ -239,10 +239,16 @@ function GameSeven() {
 
         <div className = "row mt-4 " >
           <div className = "col-5" >
-            <MusicButton music={music} manageMusic={manageMusic} />
-          <span>
-            <FxButton manageFx={manageFx} fxStatus={fx} />
-          </span>
+            <div className= "row">
+             <div className = "col-sm-12 col-md-5" >
+                  <MusicButton music={music} manageMusic={manageMusic} />
+             </div>
+                <div className = "col-sm-12 col-md-5" >
+                  <span>
+                    <FxButton manageFx={manageFx} fxStatus={fx} />
+                  </span>
+                </div>
+            </div>
         </div>
 
           <div className = "col-5 text-end " >

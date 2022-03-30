@@ -12,7 +12,7 @@ background-color: rgb(230, 212, 247)
   }
 
 .boardTitle{
-
+  
   color: #fff;
   text-transform: uppercase;
   animation: blur .75s ease-out infinite;
@@ -31,13 +31,8 @@ background-color: rgb(230, 212, 247)
       0px 0px 10px rgb(222, 192, 230),
       0px 0px 10px rgb(222, 192, 230),
       0px 0px 10px rgb(163, 163, 163),
-      0px 0px 30px #7B96B8,
-      0px 0px 50px #7B96B8,
-      0px 5px 40px #7B96B8,
-      0px 5px 40px #7B96B8,
-      0px 5px 40px #7B96B8,
-      0px 5px 40px #7B96B8,
-      0px -5px 40px #7B96B8,
-      0px -5px 40px #7B96B8;
+      0px 2px 5px #7B96B8,
+      0px -2px 5px #7B96B8,
+      0px -2px 5px #7B96B8;
   }
 }

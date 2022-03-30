@@ -47,7 +47,7 @@ function UserSub(props){
         border:"1px solid rgb(212, 202, 200)",
         backgroundColor: color,
         display: "flex",
-        margin: "4px"
+        margin: "2px"
     }
 
     return (
@@ -74,7 +74,7 @@ class UserSubs extends React.Component{
         }
 
         return (
-            <div className ="col-sm-12 col-md-4 d-md-block text-center mt-1">
+            <div className ="col-sm-12 col-md-4 d-md-block text-center mt-4">
                 {userSubs}
             </div>
         )
@@ -1187,7 +1187,7 @@ manageAudio() {
 
                 <div className = "row" > 
                     <div className ="col-sm-12 col-md-5  d-md-block text-center mr-4">
-                        <div className="row">
+                        <div className="row" style={{marginTop: "20px"}}>
                             <BoardTitle text={"Enemys ships"}/>
                         </div>
                         <div className="row">
@@ -1196,7 +1196,7 @@ manageAudio() {
                      </div>
                      
                     <div className ="col-sm-12 col-md-5  d-md-block text-center mr-4">
-                        <div className="row">
+                        <div className="row" style={{marginTop: "20px"}}>
                             <BoardTitle text={"Your ships"} />
                         </div>
                         <div className="row">

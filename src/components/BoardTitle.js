@@ -6,8 +6,8 @@ function BoardTitle(props){
 
     return(
 
-        <div>
-            <span style={{marginRight:"5px", color:"grey"}} > </span ><span className= "boardTitle">↓{t(props.text)}↓</span> <span style={{marginLeft:"5px", color:"grey"}} > </span >
+        <div >
+            <span style={{marginRight:"5px", color:"grey"}} > </span ><span className= "boardTitle ">↓{t(props.text)}↓</span> <span style={{marginLeft:"5px", color:"grey"}} > </span >
         </div>  
 
     )
