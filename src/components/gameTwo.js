@@ -223,7 +223,7 @@ class GameTwo extends React.Component{
             }
 
             }
-        else if ((tempcells[row][col + 2] === "clicked") && (tempcells[row][col] === "empty" )) {
+        else if ((tempcells[row][col + 2] === "clicked") && (tempcells[row][col] === "empty" ) && (tempcells[row][col + 1] === "full" )) {
             tempcells[row][col] = "full";
             tempcells[row][col + 2] = "empty";
             tempcells[row][col + 1] = "empty";
@@ -235,7 +235,7 @@ class GameTwo extends React.Component{
 
 
 
-        else if ((tempcells[row][col - 2] === "clicked") && (tempcells[row][col] === "empty" )) {
+        else if ((tempcells[row][col - 2] === "clicked") && (tempcells[row][col] === "empty" ) && (tempcells[row][col - 1] === "full" )) {
                 tempcells[row][col] = "full";
                 tempcells[row][col - 2] = "empty";
                 tempcells[row][col - 1] = "empty";
@@ -244,7 +244,7 @@ class GameTwo extends React.Component{
                     fxSound.remove.play()
                 }
         }
-        else if ((tempcells[row + 2][col] === "clicked") && (tempcells[row][col] === "empty" )) {
+        else if ((tempcells[row + 2][col] === "clicked") && (tempcells[row][col] === "empty" ) && (tempcells[row + 1][col] === "full" )) {
            
             tempcells[row][col] = "full";
             tempcells[row + 2][col] = "empty";
@@ -255,7 +255,7 @@ class GameTwo extends React.Component{
             }
     } 
 
-    else if ((tempcells[row - 2][col] === "clicked") && (tempcells[row][col] === "empty" )) {
+    else if ((tempcells[row - 2][col] === "clicked") && (tempcells[row][col] === "empty" ) && (tempcells[row - 1][col] === "full" )) {
         
             tempcells[row][col] = "full";
             tempcells[row - 2][col] = "empty";
