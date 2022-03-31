@@ -9,7 +9,7 @@ import InstructionsButton from './InstructionsButton';
 import HowToPlay from './HowToPlay'
 import {Howl} from 'howler';
 import FxButton from './FxButton'
-
+import PlayStopButton from './playButton'
 
 const howtoplay = () => {
     return (
@@ -17,24 +17,6 @@ const howtoplay = () => {
     )
 }
 
-class PlayStopButton extends React.Component {
-    constructor(props) {
-      super(props);
-      this.handleClick = this.handleClick.bind(this)
-    }
-  
-    handleClick (event){
-      this.props.onButtonClick(event)
-    }
-    render () { 
-    return (
-      
-       <Button className = "font-face-zkgam"  id="playbutton" size="md" variant="outline-dark"  onClick={this.handleClick}>{this.props.text}</Button>
-     
-  
-    )
-    }
-  }  
 
 function Cell(props){
     var color = "black"
@@ -348,7 +330,7 @@ class GameTwo extends React.Component{
                 </div>
                 
                 <div className = "row mt-4 " >
-                    <div className = "col-12 text-center" > <PlayStopButton  text = "Reset" onButtonClick= {this.handleReset}/> </div>
+                    <div className = "col-12 text-center" > <PlayStopButton  text = "RESET" onButtonClick= {this.handleReset}/> </div>
                 </div>
 
                 

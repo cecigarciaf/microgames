@@ -8,6 +8,7 @@ import Container from 'react-bootstrap/Container';
 import SecondarySelector from './SecondarySelector'
 import Board from './Board'
 
+
 const howtoplay = () => {
     return (
         <HowToPlay gameInstructions= "InstruccionesBombs"/>
@@ -17,18 +18,19 @@ const howtoplay = () => {
 //cuadro con cantidad de bombas:
 function UserBomb(props){
     var style = {
+        display: "flex",
+        justifyContent: "center",
         color: "rgb(223, 164, 176)",
-        fontSize: "60",
-        textAlign: "center",
         backgroundColor: "white",
-        border:"1px solid grey",
-        lineHeight: "2",
+        border:"2px solid grey",
         fontWeight: "bold",
-        height: "2rem",
-        width: "2rem"
+        height: "25px",
+        width: "5px",
+       
+   
     }
     return (
-        <div size="sm" className = "mx-auto rounded mt-1"  style = {style}>{props.text}</div>
+        <div  className = " rounded mt-1 mx-auto"  style = {style}><div  style={{fontSize: "17px", lineHeight: "20px"}}>{props.text}</div></div>
     )
 }
 
@@ -73,9 +75,14 @@ handleLevel(event) {
     for(let i = 0; i < 10; i++ ){
     result.push(new Array(10).fill(""))
     }
-    if (this.state.playingState === false){
+   if (this.state.playingState === false){
     this.setState({level:level, cells:cells, result:result})
+    
+
     }
+    else if (this.state.playingState === true){
+        this.setState({level:level, cells:cells, result:result, playingState:false})
+        }
 }
 
 handleRClick(row, col, e) {
@@ -383,21 +390,30 @@ render(){
             <div className = "row" > 
             <SecondarySelector  menuTitle="Level" texts= {["NivelesBombs.1", "NivelesBombs.2", "NivelesBombs.3"]} ids={["4", "8", "10"]}handleLevel= {this.handleLevel}/>
         </div>
+
             <Container>
+
+
                 <div className = "align-items-center justify-content-center row" > 
                     <div className ="col-6">
-                        <Board boardclass = "align-items-center justify-content-center row m-5" cellStyle={this.cellsStyle} statusarray1 = {this.state.cells} statusarray2 = {this.state.userBombs} containerStyle = {this.containerStyle} cN = {this.cN} initCell = {0} lastCell= {this.state.level}  result = {this.state.result != "bomba" ? this.state.result : ""} cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>
+                        <div>
+                            <div style={{height: "30px"}}>
+                                <div className= "row " style={{display: this.state.playingState === false?  "none" : "block" }}id="userBombs" >
+                                    <UserBomb   text = {this.state.bombsleft}/>
+                                </div>
+                            </div>
+                            <Board boardclass = "align-items-center justify-content-center row m-2" cellStyle={this.cellsStyle} statusarray1 = {this.state.cells} statusarray2 = {this.state.userBombs} containerStyle = {this.containerStyle} cN = {this.cN} initCell = {0} lastCell= {this.state.level}  result = {this.state.result != "bomba" ? this.state.result : ""} cells = {this.state.cells} handleRClick = {this.handleRClick} handleClick = {this.handleClick}/>
+                        </div>
                     </div>   
                 </div>
 
                 <div className = "row mt-4 align-items-center justify-content-center" >
-                    <div className = "col-sm-12 col-md-6 col-lg-2 col-xl-2 d-md-block text-center" >
-                        <UserBomb  text = {this.state.bombsleft}/>
-                    </div>
 
-                <div className = "col-sm-12 col-md-6 col-lg-2 col-xl-2 d-md-block text-center" >
-                    <PlayStopButton text= {this.state.playingState === false?  "PLAY" : "QUIT"} onButtonClick = {this.playClick}/>
-                </div>
+
+
+                        <div className = "col-sm-12 col-md-6 col-lg-2 col-xl-2 d-md-block text-center" >
+                            <PlayStopButton text= {this.state.playingState === false?  "PLAY" : "QUIT"} onButtonClick = {this.playClick}/>
+                        </div>
                 
                 </div> 
             </Container>

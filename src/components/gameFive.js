@@ -33,6 +33,7 @@ function UserSub(props){
  
     if(props.size === "4"){
         color = "rgb(248, 183, 183)"
+        
     } else if(props.size === "3"){
         color = "rgb(223, 158, 111)"
     } else if(props.size === "2"){
@@ -46,14 +47,14 @@ function UserSub(props){
         height: "1.8rem",
         border:"1px solid rgb(212, 202, 200)",
         backgroundColor: color,
-        display: "flex",
-        margin: "2px"
+        margin: "2px",
+        
     }
 
     return (
-        <div id= "userSubsDiv" className= "text-center justify-content-center" >
-        <div   id = {props.id} size = {props.size} style = {style} onClick = {() => props.handleClick(props.size, props.id)}>   
-        </div>
+        <div tabindex="0"  className= {`sub${props.size}  text-center justify-content-center`} >
+            <div   id = {props.id} size = {props.size} style = {style} onClick = {() => props.handleClick(props.size, props.id)}>   
+            </div>
         </div>
     )
 }
@@ -69,7 +70,7 @@ class UserSubs extends React.Component{
         for(let i=9; i>-1; i--){
             userSubs.push(
 
-                <UserSub id = {i.toString()} key = {i} handleClick = {this.props.handleClick} size={this.props.shipsToPlace[i]}/>
+                <UserSub className = {`sub${this.props.shipsToPlace[i]}`} id = {i.toString()} key = {i} handleClick = {this.props.handleClick} size={this.props.shipsToPlace[i]}/>
             )
         }
 

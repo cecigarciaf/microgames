@@ -12,6 +12,7 @@ import FxButton from './FxButton'
 import MusicButton from './MusicButton'
 import {Howl, Howler} from 'howler';
 
+
 const howtoplay = () => {
     return (
         <HowToPlay gameInstructions= "InstruccionesTetris"/>
@@ -260,7 +261,8 @@ function GameSeven() {
           <div className = "row mt-4 justify-content-center">
             <div className = "col-sm-4 col-md-3 col-lg-2 text-center justify-content-center " >  
               <tx className = "font-face-zkgam" style={{fontSize: 13}} id = "scoreTitle"> {t('SCORE')}: </tx>  
-              <tx style={{fontSize: 15}} id = "score" className = "font-face-zkga"> {score} </tx> 
+              
+             <tx style={{fontSize: 15}} id = "score" className = "font-face-zkga"> {score} </tx> 
             </div>
 
             <div className = "col-4 text-center justify-content-center " >  

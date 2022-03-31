@@ -1,6 +1,8 @@
+
 *:active {
     color: inherit
 }
+
 
 
 .select:hover{
@@ -19,6 +21,8 @@ background-color: rgb(230, 212, 247)
   text-shadow: 0px 0px 3px rgb(222, 192, 230), 0px 0px 5px rgb(222, 192, 230);
 }
 
+
+
 @keyframes blur {
   from {
     text-shadow:0px 0px 5px rgb(222, 192, 230),
@@ -35,4 +39,32 @@ background-color: rgb(230, 212, 247)
       0px -2px 5px #7B96B8,
       0px -2px 5px #7B96B8;
   }
+}
+
+.sub4:focus {
+  display: flex;
+  border:1px solid rgb(223, 126, 126);
+  height: 100%;
+  width: 7.2rem;
+}
+
+.sub3:focus {
+  display: flex;
+  border:1px solid rgb(214, 131, 72);
+  height: 100%;
+  width: 5.4rem;
+}
+
+.sub2:focus {
+  display: flex;
+  border:1px solid rgb(199, 135, 112);
+  height: 100%;
+  width: 3.6rem;
+}
+
+.sub1:focus {
+  display: flex;
+  border:1px solid rgb(196, 166, 128);
+  height: 100%;
+  width: 1.8rem;
 }

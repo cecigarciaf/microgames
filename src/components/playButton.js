@@ -7,7 +7,7 @@ function PlayStopButton (props) {
 
     return (
       
-       <Button className = "font-face-zkgam mt-1 " style={{border:"2px solid rgb(233, 167, 167)" , color: "grey"}}id="playbutton" size="sm" variant="outline-dark"  onClick={(e) => props.onButtonClick(e)}>{t(props.text)}</Button>
+       <Button className = "shadow-none font-face-zkgam mt-1 " id="playbutton" size="sm"   onClick={(e) => props.onButtonClick(e)}>{t(props.text)}</Button>
      
     )
     }
