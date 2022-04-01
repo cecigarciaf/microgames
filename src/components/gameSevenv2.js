@@ -66,8 +66,8 @@ function Cell(props){
     
 
    var style = {
-       width: "1.2rem",
-       height: "1.2rem",
+       width: "1rem",
+       height: "1rem",
        
        backgroundColor: color
    }
@@ -105,7 +105,7 @@ function Cell(props){
   
   function Board(props) {
       var board = []
-          for (let i=2; i<28; i++) {
+          for (let i=2; i<38; i++) {
               board.push(<Row   key = {i} row = {i} cells = {props.cells[i]}  handleClick = {props.handleClick}/>)
           }
           return (
@@ -127,16 +127,17 @@ function Cell(props){
   
 function GameSeven() {
     var cells2 = []
-    for(let i = 0; i < 28; i++ ){
+    for(let i = 0; i < 38; i++ ){
     cells2.push(new Array(19).fill(0))
     }
-    for(let i = 28; i < 30; i++ ){
+    for(let i = 38; i < 40; i++ ){
     cells2.push(new Array(19).fill("x"))
     }
 
     const [cells, addBlock] = useState(cells2);
     const [score, updateScore] = useState(0);
     const [result, updateResult] = useState("");
+    const [speed, updateSpeed] = useState(100)
     const [show, updateShow] = useState(false)
     const { t, i18n } = useTranslation();
     const [music, updateMusic] = useState(false)
@@ -225,7 +226,7 @@ function GameSeven() {
           addBlock((cells) => updateBoard(cells));
           updateResult(result2)
           updateScore(score2)
-        }, 300);
+        }, speed);
         return () => {
           clearInterval(game);
         };
@@ -413,7 +414,7 @@ function updateBoard(cells){
   var movingBlock = []
   var y = 0
   for(let c = 2; c<16; c++){    
-    for(let r = 28; r>1; r--){
+    for(let r = 38; r>1; r--){
       if((cells[r][c] > 0 ) && (cells[r][c] < 9 )){
         movingBlock[y]=[r, c]
         y++
@@ -642,7 +643,7 @@ if((key === 0) && (keyUp === 0)){
     key = 0
     keyUp = 0
     var updateTemp2 = JSON.parse(JSON.stringify(update))
-    for(let r = 0; r<28; r++){     
+    for(let r = 0; r<38; r++){     
       var count2 = 0
       for(let c = 2; c<16; c++){
           
