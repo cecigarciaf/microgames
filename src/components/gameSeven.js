@@ -225,7 +225,7 @@ function GameSeven() {
           addBlock((cells) => updateBoard(cells));
           updateResult(result2)
           updateScore(score2)
-        }, 300);
+        }, 600);
         return () => {
           clearInterval(game);
         };

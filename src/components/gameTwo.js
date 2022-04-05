@@ -230,7 +230,7 @@ class GameTwo extends React.Component{
             tempSelectedCell = "no"
             if(this.state.fx){
                 fxSound.remove.play()
-            }
+            } 
         }     
 
 
@@ -265,7 +265,11 @@ class GameTwo extends React.Component{
                 fxSound.remove.play()
             }    
         }
-    
+        else {
+            if(this.state.fx){
+                fxSound.error.play()
+            }
+        }
 
         }
 
