@@ -105,7 +105,7 @@ function Cell(props){
   
   function Board(props) {
       var board = []
-          for (let i=2; i<28; i++) {
+          for (let i=2; i<22; i++) {
               board.push(<Row   key = {i} row = {i} cells = {props.cells[i]}  handleClick = {props.handleClick}/>)
           }
           return (
@@ -127,10 +127,10 @@ function Cell(props){
   
 function GameSeven() {
     var cells2 = []
-    for(let i = 0; i < 28; i++ ){
+    for(let i = 0; i < 22; i++ ){
     cells2.push(new Array(19).fill(0))
     }
-    for(let i = 28; i < 30; i++ ){
+    for(let i = 22; i < 24; i++ ){
     cells2.push(new Array(19).fill("x"))
     }
 
@@ -410,10 +410,11 @@ function updateBoard(cells){
   //busca ubicacion de una pieza que se mueva y no toque nada abajo:
   var update = JSON.parse(JSON.stringify(cells))
   if (playingState === true) {
+
   var movingBlock = []
   var y = 0
   for(let c = 2; c<16; c++){    
-    for(let r = 28; r>1; r--){
+    for(let r = 22; r>1; r--){
       if((cells[r][c] > 0 ) && (cells[r][c] < 9 )){
         movingBlock[y]=[r, c]
         y++
@@ -459,7 +460,7 @@ function updateBoard(cells){
     update = updateTemp
   }
 
-  if(keyUp === "ArrowUp"){
+  if(keyUp === "ArrowUp"){ //GIRO DE PIEZAS:
     var updateTemp = JSON.parse(JSON.stringify(update))
     
     // si es zeta en posición original:
@@ -620,6 +621,10 @@ if((key === 0) && (keyUp === 0)){
         }
       }
 
+
+
+
+
         if(count === 4) {
           for(let i = 0; i < 4; i++){
            
@@ -636,13 +641,14 @@ if((key === 0) && (keyUp === 0)){
           update = blocks(update)
           shootFX("drop")
         }  
+
     }
   }
 
     key = 0
     keyUp = 0
     var updateTemp2 = JSON.parse(JSON.stringify(update))
-    for(let r = 0; r<28; r++){     
+    for(let r = 0; r<22; r++){     
       var count2 = 0
       for(let c = 2; c<16; c++){
           

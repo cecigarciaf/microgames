@@ -38,7 +38,7 @@ function App () {
 
     return(
       
-    <div className = "page-container">
+    <div className = "page-container" translate="no">
       <div className= "content-wrap" >
           <div class="row">
           <Navbar bg="light" variant="light">
