@@ -42,29 +42,49 @@ background-color: rgb(230, 212, 247)
 }
 
 .sub4:focus {
-  display: flex;
-  border:1px solid rgb(223, 126, 126);
-  height: 100%;
-  width: 7.2rem;
+  background-color: rgb(243, 96, 96); 
 }
 
 .sub3:focus {
-  display: flex;
-  border:1px solid rgb(214, 131, 72);
-  height: 100%;
-  width: 5.4rem;
+  background-color:rgb(219, 127, 61);
 }
 
 .sub2:focus {
-  display: flex;
-  border:1px solid rgb(199, 135, 112);
-  height: 100%;
-  width: 3.6rem;
+  background-color: rgb(192, 124, 99);
 }
 
 .sub1:focus {
-  display: flex;
-  border:1px solid rgb(196, 166, 128);
-  height: 100%;
+  background-color: rgb(202, 160, 106);
+}
+
+.sub4 {
+  background-color: rgb(248, 183, 183); 
+  margin: 2px;
+  height: 1.8rem;
+  border: 1px solid rgb(212, 202, 200);
+  width: 7.2rem;
+}
+
+.sub3 {
+  background-color:rgb(223, 158, 111);
+  margin: 2px;
+  height: 1.8rem;
+  border: 1px solid rgb(212, 202, 200);
+  width: 5.4rem;
+}
+
+.sub2 {
+  background-color: rgb(255, 184, 158);
+  margin: 2px;
+  height: 1.8rem;
+  border: 1px solid rgb(212, 202, 200);
+  width: 3.6rem;
+}
+
+.sub1 {
+  background-color: rgb(206, 186, 160);
+  margin: 2px;
+  height: 1.8rem;
+  border: 1px solid rgb(212, 202, 200);
   width: 1.8rem;
 }

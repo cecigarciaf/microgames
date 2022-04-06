@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
     const { t, i18n } = useTranslation();
     
     return(
-    <div className = "col-sm-8 col-md-8 col-lg-4 col-xl-4 text-center justify-content-center" > <h1 className = "font-face-zkga" style={{fontSize: 18, height: "20px"}} id = "result">{t(props.resultText)}</h1> </div>
+    <div className = "col-12 text-center justify-content-center" > <h1 className = "font-face-zkga" style={{fontSize: 18, height: "20px"}} id = "result">{t(props.resultText)}</h1> </div>
     )
   }
 

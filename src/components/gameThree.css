@@ -20,8 +20,7 @@
 }
 
 .borderBox {
-    border-style: ridge;
-    border: 1px solid grey;
+
     padding: 0px;
     max-width: 450px;
   
@@ -31,7 +30,7 @@
 
 width: 80px; /* width of container */
 height: 80px; /* height of container */
-border:"1px solid grey",
+border:"1px solid rgb(222, 192, 230)",
 
 }
 

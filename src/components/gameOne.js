@@ -5,6 +5,7 @@ import Nav  from 'react-bootstrap/Nav';
 import GameOneMelodies from './gameOneMelodies';
 import GameOneRandom from './gameOneRandom';
 import { useTranslation } from 'react-i18next';
+import './gameOne.css';
 
 function GameOne(props) {
   const [game, setGame] = useState("")  

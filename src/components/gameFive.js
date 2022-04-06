@@ -29,31 +29,11 @@ const howtoplay = () => {
 }
 
 function UserSub(props){
-    var color
- 
-    if(props.size === "4"){
-        color = "rgb(248, 183, 183)"
-        
-    } else if(props.size === "3"){
-        color = "rgb(223, 158, 111)"
-    } else if(props.size === "2"){
-        color = "rgb(255, 184, 158)"
-    } else if(props.size ==="1"){
-        color = "rgb(206, 186, 160)"
-    }
 
-    var style = {
-        width: `${props.size * 1.8}rem`,
-        height: "1.8rem",
-        border:"1px solid rgb(212, 202, 200)",
-        backgroundColor: color,
-        margin: "2px",
-        
-    }
 
     return (
-        <div tabindex="0"  className= {`sub${props.size}  text-center justify-content-center`} >
-            <div   id = {props.id} size = {props.size} style = {style} onClick = {() => props.handleClick(props.size, props.id)}>   
+        <div  className= {` text-center justify-content-center`} >
+            <div className= {`sub${props.size} `}  tabindex="0" id = {props.id} size = {props.size} onClick = {() => props.handleClick(props.size, props.id)}>   
             </div>
         </div>
     )

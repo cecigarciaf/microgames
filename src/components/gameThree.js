@@ -207,7 +207,7 @@ class GameThree extends React.Component {
 }
   render() {
     var color = "white"
-    var border = "0.5px solid grey"
+    var border = "0.5px solid rgb(222, 192, 230)"
     if (this.state.result === "Completed") {
       border = "1px solid white"
     }
