@@ -2,7 +2,6 @@ import React from 'react';
 import Nav  from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
 import './gameTwo.css';
 import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
@@ -308,7 +307,7 @@ class GameTwo extends React.Component{
 
         return (
        
-            <div className ="col-9">
+            <div className ="col-xs-12 col-lg-9">
                 <div className = "row mt-4 " >
                     <div className = "col-5" >
                         <FxButton manageFx={this.manageFx} fxStatus={this.state.fx} />

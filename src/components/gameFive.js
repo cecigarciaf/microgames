@@ -12,15 +12,9 @@ import GameText from './gameText'
 import Board from './Board'
 import {Howl, Howler} from 'howler';
 import BoardTitle from './BoardTitle';
-
+import FxButton from './FxButton'
 
 // BATALLA NAVAL //
-
-var ambiente =  new Howl({
-                src: ["/audios_battle/ambientebattle.mp3"],
-                loop: true
-                })   
-
 
 const howtoplay = () => {
     return (
@@ -864,12 +858,7 @@ var statusTemp = this.state.status
 var leftShipLocationsTemp = this.state.leftShipLocations
 // leftShipLocations : init row, init col, v/h, size (index = id). Valor en tempcells= id + 1
 if(statusTemp === "completed") {
-    if(this.state.audio) {
-        ambiente.play()
-    } else{
-        ambiente.play()
-        ambiente.mute(true)
-    }
+
     var tempCells = this.state.cells.slice()
 
     //orient 0=horizontal   1=vertical
@@ -998,7 +987,6 @@ if(statusTemp === "completed") {
 
 } else if((statusTemp = "playing")) {
 
-        ambiente.stop()
    
         var tempcells = []
         for(let i = 0; i < 14; i++ ){
@@ -1129,7 +1117,7 @@ manageAudio() {
     } else if(!(audioTemp)){
         audioTemp = true
         Howler.mute(false)
-        ambiente.mute(false)
+
     }
     this.setState({audio:audioTemp})
 
@@ -1139,16 +1127,13 @@ manageAudio() {
 
 
         return (
-            <div className ="col-9">
+            <div className ="col-xs-12 col-lg-9">
 
                     <div className = "row mt-4 " >
                     <div className = "col-5 " >
-                         <span  style = {{fontSize: "15px", color: "grey"}}>
-                             <span className = "font-face-zkgam" > FX: </span>
-                             <Button size="sm"  style={{backgroundColor: "rgb(211, 177, 250)", border: "1px solid rgb(212, 191, 236)", padding: "2px", fontSize: "10px"}} onClick={this.manageAudio}>{this.state.audio? "ON" : "OFF"} </Button>
+                         <span>
+                            <FxButton manageFx={this.manageAudio} fxStatus={this.state.audio} />
                          </span>
-                    
-                        
                     </div>
                     <div className = "col-5 text-end" >
                         <InstructionsButton instructions = {this.instructions}/>

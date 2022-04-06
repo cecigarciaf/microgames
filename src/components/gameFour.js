@@ -380,7 +380,7 @@ containerStyle(){
 
 render(){  
     return (
-        <div className ="col-9">
+        <div className ="col-xs-12 col-lg-9">
             <div className = "row mt-4 " >
                 <div className = "col-10 text-end " >
                     <InstructionsButton instructions = {this.instructions}/>     

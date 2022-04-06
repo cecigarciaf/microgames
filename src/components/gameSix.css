@@ -1,0 +1,41 @@
+.intentosBox {
+    display: flex;
+
+}
+
+#intentosCount{
+    margin-left: 10px;
+}
+
+#intentosText{
+    font-size: 16px;
+    color: grey;
+    line-height: 30px;
+    
+}
+
+#intentosCountSquare {
+    color: rgb(223, 164, 176);
+    background-color: white;
+    border: 2px solid grey;
+    font-weight: bold;
+    height: 25px;
+    width: 25px;
+}
+
+#intentosCountText {
+    font-size: 17px; 
+    line-height: 20px;
+}
+
+#results {
+    color: rgb(243, 96, 96);
+}
+
+#errors {
+    color: grey;
+    height: 25px;
+}
+
+
+

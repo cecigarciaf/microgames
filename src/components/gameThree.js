@@ -222,7 +222,7 @@ class GameThree extends React.Component {
     
 
     return (
-      <div className ="col-9">
+      <div className ="col-xs-12 col-lg-9">
         <div className = "row mt-4 " >
           <div className = "col-10 text-end " >
             <InstructionsButton instructions = {this.instructions}/>
@@ -233,7 +233,17 @@ class GameThree extends React.Component {
           <SecondarySelector menuTitle="Themes" handleLevel={this.handleSubject} ids={["argentina", "birds"]} texts={["argentina", "birds"]}/>
         </div>
 
+        <div className = "row mt-4 align-items-center justify-content-center " >
 
+          <div className = "col-sm-12 col-md-6 text-center" > 
+            <PlayStopButton   text = {this.state.playingState === "false"?  "PLAY" : "QUIT"}  onButtonClick= {this.handlePlay}/> 
+          </div>  
+          <div className = "col-sm-12 col-md-6 text-center" >
+            <SecondaryButton text= "Select a Pic" handleClick = {this.handlePicChange}/>
+          </div>
+
+          
+        </div>
         
         <div className = "align-items-center  row" > 
           <div className ="col-6">
@@ -281,15 +291,7 @@ class GameThree extends React.Component {
 
       </div>
       
-      <div className = "row mt-4 align-items-center justify-content-center " >
-          <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" >
-            <SecondaryButton text= "Select a Pic" handleClick = {this.handlePicChange}/>
-          </div>
 
-          <div className = "col-sm-12 col-md-4 col-lg-2 col-xl-2 d-md-block text-center" > 
-            <PlayStopButton   text = {this.state.playingState === "false"?  "PLAY" : "QUIT"}  onButtonClick= {this.handlePlay}/> 
-          </div>            
-      </div>
 
 
       <div className = "row mt-4 align-items-center text-center" >

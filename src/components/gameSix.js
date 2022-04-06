@@ -4,7 +4,7 @@ import Instructions from './Instructions'
 import InstructionsButton from './InstructionsButton';
 import HowToPlay from './HowToPlay'
 import { useTranslation } from 'react-i18next';
-
+import './gameSix.css'
 
 const howtoplay = () => {
     return (
@@ -13,21 +13,8 @@ const howtoplay = () => {
 }
 
 function Intentos(props){
-  var style = {
-      display: "flex",
-      justifyContent: "center",
-      color: "rgb(223, 164, 176)",
-      backgroundColor: "white",
-      border:"2px solid grey",
-      fontWeight: "bold",
-      height: "25px",
-      width: "25px",
-     
- 
-  }
   return (
-
-      <div  className = " rounded mt-1 mx-auto"  style = {style}><div  style={{fontSize: "17px", lineHeight: "20px"}}>{props.text}</div></div>
+      <div  id="intentosCountSquare" className = " rounded mt-2 mx-auto" > <div  id="intentosCountText">{props.text}</div></div>
 
   )
 }
@@ -123,7 +110,7 @@ function Results(props)  {
     allResults.push(<Result key= {i} result= {props.allresults[i]}/>)
   }
   return (
-  <div style={{color: "rgb(243, 96, 96)"}} className = "row text-center">
+  <div id="results" className = "row text-center">
     {allResults}
   </div>
   )
@@ -206,7 +193,7 @@ function GameSix(){
 
 
   return (
-  <div className ="col-9">
+  <div className ="col-xs-12 col-lg-9">
       <div className = "row mt-4 " >
         <div className = "col-10 text-end " >
             <InstructionsButton instructions = {instructions}/>
@@ -216,35 +203,42 @@ function GameSix(){
     <div className = "row" >
     <div className = "mt-1 font-face-zkgam col-sm-12 col-md-12 col-lg-6 text-center"><b>{t(final)}</b></div>
     </div>
-    <div className = "row  mt-5" >
-        <div className = "text-center col-sm-6 col-md-6 col-lg-6"> 
-            <PlayStopButton onButtonClick= {play}  text= {playingState? "QUIT" : "PLAY"}/>
-        </div>
 
-
-    </div>
     <div className = "row  mt-5" >
       <div className = "col-6 text-center"> 
-        <div className = "row " >
-              <div className = "col-2 font-face-zkgam justify-content-center" style={{fontSize: 22, color: "grey", lineHeight: "25px"}}> {t('intentos')} </div> 
-              <div className = "col-1 "> 
-                 <Intentos text={guessesLeft}/>
+        <div  className = "row " >
+       
+              <div className = "col-sm-12 col-md-6 font-face-zkgam intentosBox" > 
+                 <div  className= "mt-1" id= "intentosText">
+                   {t('intentos')} 
+                 </div>
+                 <div id ="intentosCount"> 
+                  <Intentos text={guessesLeft}/>
+                </div>
+              </div> 
+              
+              <div className= "col-6 text-end  mr-5"  id="playButtonBox">
+                <PlayStopButton onButtonClick= {play}  text= {playingState? "QUIT" : "PLAY"}/>
               </div>
+        
         </div>
-      </div>
-    </div>
-    <div className = "row  mt-4" >
-      <div className = "col-sm-12 col-md-12 col-lg-6"> 
-        <form onSubmit={checkNumber}>
-            <input id = "guessField" onChange={(e) => updateGuess(e.target.value)} className = "font-face-zkgam form-control" type="number" name="guess"></input>
-            <input  id= "sendGuess" style= {{margin: "1px", color: "white", backgroundColor: "rgb(235, 229, 241)"}} className = " mt-4 row font-face-zkgam form-control"  type="submit" value={t("check")}></input>
-        </form>
+
       </div>
     </div>
 
     <div className = "row" >
-      <div style={{color: "rgb(243, 96, 96)"}} className = "font-face-zkgam col-sm-12 col-md-12 col-lg-6 text-center">
+
+      <div id="errors" className = "font-face-zkgam col-sm-12 col-md-12 col-lg-6 text-center">
          <b> {t(errors)} </b> 
+      </div>
+
+      <div className = "row  mt-4" >
+        <div className = "col-sm-12 col-md-12 col-lg-6"> 
+          <form onSubmit={checkNumber}>
+              <input id = "guessField" onChange={(e) => updateGuess(e.target.value)} className = "font-face-zkgam form-control" type="number" name="guess"></input>
+              <input  id= "sendGuess" style= {{margin: "1px", color: "white", backgroundColor: "rgb(235, 229, 241)"}} className = " mt-4 row font-face-zkgam form-control"  type="submit" value={t("check")}></input>
+          </form>
+        </div>
       </div>
 
       <div className= "row"> 

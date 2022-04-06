@@ -9,8 +9,7 @@ import InstructionsButton from './InstructionsButton';
 import HowToPlay from './HowToPlay'
 import { useTranslation } from 'react-i18next';
 import FxButton from './FxButton'
-import MusicButton from './MusicButton'
-import {Howl, Howler} from 'howler';
+import {Howl} from 'howler';
 
 
 const howtoplay = () => {
@@ -23,8 +22,6 @@ var result2
 var score2 = 0
 var playingState = false
 var fx = true
-
-
 
 function Cell(props){
 
@@ -139,51 +136,12 @@ function GameSeven() {
     const [result, updateResult] = useState("");
     const [show, updateShow] = useState(false)
     const { t, i18n } = useTranslation();
-    const [music, updateMusic] = useState(false)
-    const [isMusicOn, setIsMusicOn] = useState (false)
-    const [musicId, saveMusicId] = useState(0)
 
     var square = JSON.parse(JSON.stringify(cells2))
     square[2][8] = 1
     square[2][9] = 1
     square[3][8] = 1
     square[3][9] = 1
-   
-    /*
-  var musica = { 
-        tetris:new Howl({
-        id: "music",
-        src: ["/audios_tetris/tetris_musica_LF_02.mp3"],
-        loop: true,
-        volume: 0.6,
-        }) 
-  } 
-
-  function manageMusic(){
-    var musicTemp = music
-    var isMusicOnTemp = isMusicOn
-    var musicIdTemp = musicId
-    
-    if (!(isMusicOn)){
-      isMusicOnTemp = true
-      musicTemp = true
-      musicIdTemp = musica.tetris.play()
-    }
-    else if(music){
-  
-        musicTemp = false
-        Howler.stop()
-
-    } else if(!(music)){
-        musicTemp = true
-        musicIdTemp = musica.tetris.play()
-    }
- 
-
-    updateMusic(musicTemp)
-    setIsMusicOn(isMusicOnTemp )
-    saveMusicId(musicIdTemp)
-  }*/
 
 
   function manageFx(){
@@ -235,15 +193,12 @@ function GameSeven() {
 
     return (
 
-    <div onKeyDown={(e) => handleKeyDown(e)} className ="col-9 justify-content-center">
+    <div onKeyDown={(e) => handleKeyDown(e)} className ="col-xs-12 col-lg-9 justify-content-center">
 
         <div className = "row mt-4 " >
           <div className = "col-5" >
             <div className= "row">
-             <div className = "col-sm-12 col-md-5" >
-                  <MusicButton music={music}  /> 
-             </div>
-                <div className = "col-sm-12 col-md-5" >
+                <div className = "col-12" >
                   <span>
                     <FxButton manageFx={manageFx} fxStatus={fx} />
                   </span>
