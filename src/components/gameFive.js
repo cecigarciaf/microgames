@@ -26,7 +26,7 @@ function UserSub(props){
 
 
     return (
-        <div  className= {` text-center justify-content-center`} >
+        <div  className= {` text-center justify-content-center mt-2`} >
             <div className= {`sub${props.size} `}  tabindex="0" id = {props.id} size = {props.size} onClick = {() => props.handleClick(props.size, props.id)}>   
             </div>
         </div>
@@ -44,12 +44,12 @@ class UserSubs extends React.Component{
         for(let i=9; i>-1; i--){
             userSubs.push(
 
-                <UserSub className = {`sub${this.props.shipsToPlace[i]}`} id = {i.toString()} key = {i} handleClick = {this.props.handleClick} size={this.props.shipsToPlace[i]}/>
+                <UserSub className = {`sub${this.props.shipsToPlace[i]} `} id = {i.toString()} key = {i} handleClick = {this.props.handleClick} size={this.props.shipsToPlace[i]}/>
             )
         }
 
         return (
-            <div className ="col-sm-12 col-md-4 d-md-block text-center mt-4">
+            <div className ="col-sm-12 col-md-4 d-md-block text-center mt-5">
                 {userSubs}
             </div>
         )
@@ -1044,8 +1044,8 @@ leftstyle(statusarray1, shoots){
     }
 
     var style = {
-        width: "1.8rem",
-        height: "1.8rem",
+        width: "2.2rem",
+        height: "2.2rem",
         border:"0.5px solid rgb(247, 220, 207)",
         backgroundColor: color
     }
@@ -1076,8 +1076,8 @@ rightstyle(statusarray1, statusarray2){
     } 
 
     var style = {
-        width: "1.8rem",
-        height: "1.8rem",
+        width: "2.2rem",
+        height: "2.2rem",
         border:"0.5px solid rgb(247, 220, 207)",
         backgroundColor: color
     }
