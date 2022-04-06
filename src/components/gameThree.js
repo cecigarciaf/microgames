@@ -413,7 +413,4 @@ allowDrop5(event) {
 }
 
 
-
-  
-
 export default GameThree;

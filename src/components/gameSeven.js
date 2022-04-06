@@ -149,7 +149,7 @@ function GameSeven() {
     square[3][8] = 1
     square[3][9] = 1
    
-    
+    /*
   var musica = { 
         tetris:new Howl({
         id: "music",
@@ -157,7 +157,7 @@ function GameSeven() {
         loop: true,
         volume: 0.6,
         }) 
-  }
+  } 
 
   function manageMusic(){
     var musicTemp = music
@@ -183,7 +183,7 @@ function GameSeven() {
     updateMusic(musicTemp)
     setIsMusicOn(isMusicOnTemp )
     saveMusicId(musicIdTemp)
-  }
+  }*/
 
 
   function manageFx(){
@@ -241,7 +241,7 @@ function GameSeven() {
           <div className = "col-5" >
             <div className= "row">
              <div className = "col-sm-12 col-md-5" >
-                  <MusicButton music={music} manageMusic={manageMusic} />
+                  <MusicButton music={music}  /> 
              </div>
                 <div className = "col-sm-12 col-md-5" >
                   <span>
