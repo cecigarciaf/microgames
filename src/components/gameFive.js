@@ -26,7 +26,7 @@ function UserSub(props){
 
 
     return (
-        <div  className= {` text-center justify-content-center mt-2`} >
+        <div  className= {`  mt-2`} >
             <div className= {`sub${props.size} `}  tabindex="0" id = {props.id} size = {props.size} onClick = {() => props.handleClick(props.size, props.id)}>   
             </div>
         </div>
@@ -44,13 +44,18 @@ class UserSubs extends React.Component{
         for(let i=9; i>-1; i--){
             userSubs.push(
 
-                <UserSub className = {`sub${this.props.shipsToPlace[i]} `} id = {i.toString()} key = {i} handleClick = {this.props.handleClick} size={this.props.shipsToPlace[i]}/>
+                <UserSub className = {` row sub${this.props.shipsToPlace[i]} `} id = {i.toString()} key = {i} handleClick = {this.props.handleClick} size={this.props.shipsToPlace[i]}/>
+               
             )
         }
 
         return (
-            <div className ="col-sm-12 col-md-4 d-md-block text-center mt-5">
+            <div clasName = "row " style={{display: "flex", flexDirection: "column", alignItems: "center"}}> 
+            <div  style={{display: "flex", flexDirection: "column",  alignItems: "center"}} className =" col-sm-4 col-md-4 d-md-block   mt-5">
+                
                 {userSubs}
+                
+            </div>
             </div>
         )
     }
@@ -1170,7 +1175,7 @@ manageAudio() {
                         </div>
                     </div>
 
-                    <div className ="col-sm-12 col-md-2  d-md-block text-center">   
+                    <div className ="col-sm-12  col-md-2  d-md-block ">   
                         <UserSubs handleClick = {this.handleSubSelectClick} shipsToPlace = {this.state.shipsToPlace} />
                     </div>
                 </div>

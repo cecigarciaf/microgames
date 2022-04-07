@@ -39,8 +39,8 @@ function App () {
     return(
       
     <div className = "page-container" >
-      <div className= "content-wrap" >
-          <div class="row">
+      <div className= "content-wrap d-flex flex-column min-vh-100" >
+          <div  id= "headerContainerRow"  className="row">
           <Navbar bg="light" variant="light">
 
         <Container>
@@ -70,10 +70,10 @@ function App () {
         </Navbar>
           </div>
           
-          <div className = "row" style={{minHeight: "80vh"}}>    
+          <div id= "sidebarContainerRow" className = "row" >    
             <Sidebar/>
           </div>
-          <div className = "row" > 
+          <div id= "footerContainerRow" className = "mt-auto row" > 
         
             <Footer/>
             </div>

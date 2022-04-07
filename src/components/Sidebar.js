@@ -44,29 +44,40 @@ render(){
     return (
         <BrowserRouter >  
             
-                <div className ="d-xs-block d-lg-none">
-                <Navbar onToggle={this.setNavExpanded}
-                expanded={this.state.navExpanded} expand="lg" className="flex-column">
+                <div id= "offcanvasContainerTest" className ="d-xs-block d-lg-none">
+                <Navbar   onToggle={this.setNavExpanded}
+                expanded={this.state.navExpanded} expand="lg" className=" navTest flex-column">
                     <Container>
                 
-                        <Navbar.Toggle aria-controls="offcanvasNavbar " />
+                        <Navbar.Toggle id= "burguerIcon" aria-controls="offcanvasNavbar " />
                        
                         <Navbar.Offcanvas
                             id="offcanvasNavbar "
                             aria-labelledby="offcanvasNavbarLabel"
                             placement="start"
-                            className = "offcanvas-start-lg"
+                            className = "offcanvas-start-lg offcanvasstyle"
+                            
                         >
-            
-                            <Nav  onSelect={this.closeNav} defaultActiveKey="/home" className="flex-column">
+                            <Offcanvas.Header id= "offcanvasheader" bg="light" variant="light" closeButton>
+                                <Navbar.Brand >
+                                    <img
+                                        src="./logo.png"
+                                        width="36"
+                                        height="30"
+                                        className="d-inline-block align-top"
+                                        alt="CG logo"/>
+                                </Navbar.Brand> 
+                            </Offcanvas.Header>
+
+                            <Nav  onSelect={this.closeNav} defaultActiveKey="/home" className="flex-column ">
         
-                                <Nav.Link onClick= {this.manageAudio} className= "mt-4 text-secondary sideButton" as={Link} to="/senku" eventKey="link-2"><tx className = "sideText font-face-zkgam">SENKU</tx></Nav.Link>   
-                                <Nav.Link onClick= {this.manageAudio} className= "text-secondary sideButton" as={Link} to="/bombs"  eventKey="link-4" ><tx className = "sideText font-face-zkgam">BOMBS</tx></Nav.Link>
-                                <Nav.Link onClick= {this.manageAudio} className= "text-secondary sideButton" as={Link} to="/battle"  eventKey="link-5"><tx className = "sideText font-face-zkgam">BATTLE</tx></Nav.Link>
-                                <Nav.Link onClick= {this.manageAudio} className= "text-secondary sideButton" as={Link} to="/guess4"  eventKey="link-6"><tx className = "sideText font-face-zkgam">GUESS4</tx></Nav.Link>
-                                <Nav.Link onClick= {this.manageAudio} className= "text-secondary sideButton" as={Link} to="/tetris"  eventKey="link-7"><tx className = "sideText font-face-zkgam">TETRIS</tx></Nav.Link>
-                                <Nav.Link onClick= {this.manageAudio} className= "text-secondary sideButton" as={Link} to="./tones"  eventKey="link-1"><tx className = "sideText font-face-zkgam">TONES</tx></Nav.Link>
-                                <Nav.Link onClick= {this.manageAudio} className= "hideOnPhone text-secondary sideButton" as={Link} to="/piczle"  eventKey="link-3"><tx className = "sideText font-face-zkgam">PICZLE</tx></Nav.Link>
+                                <Nav.Link onClick= {this.manageAudio} className= " text-secondary sideButton " as={Link} to="/senku" eventKey="link-2"><tx className = "sideTextOffCanvas font-face-zkgam">SENKU</tx></Nav.Link>   
+                                <Nav.Link onClick= {this.manageAudio} className= "text-secondary sideButton" as={Link} to="/bombs"  eventKey="link-4" ><tx className = "sideTextOffCanvas font-face-zkgam">BOMBS</tx></Nav.Link>
+                                <Nav.Link onClick= {this.manageAudio} className= "text-secondary sideButton" as={Link} to="/battle"  eventKey="link-5"><tx className = "sideTextOffCanvas font-face-zkgam">BATTLE</tx></Nav.Link>
+                                <Nav.Link onClick= {this.manageAudio} className= "text-secondary sideButton" as={Link} to="/guess4"  eventKey="link-6"><tx className = "sideTextOffCanvas font-face-zkgam">GUESS4</tx></Nav.Link>
+                                <Nav.Link onClick= {this.manageAudio} className= "text-secondary sideButton" as={Link} to="/tetris"  eventKey="link-7"><tx className = "sideTextOffCanvas font-face-zkgam">TETRIS</tx></Nav.Link>
+                                <Nav.Link onClick= {this.manageAudio} className= "text-secondary" id= "lastSideButton" as={Link} to="./tones"  eventKey="link-1"><tx className = "sideTextOffCanvas font-face-zkgam">TONES</tx></Nav.Link>
+                      
                             
                             </Nav>
                   

@@ -1,6 +1,6 @@
 .intentosBox {
     display: flex;
-
+    margin-left: 20px;
 }
 
 #intentosCount{
@@ -38,4 +38,39 @@
 }
 
 
+#sendGuess {
+    margin: 10px;
+    color: white;
+    background-color: rgb(235, 229, 241);
+   
 
+}
+
+#guessField{
+    margin: 10px;
+    font-weight: bolder;
+    font-size: 30px;
+    border-width: 2px;
+}
+
+
+
+#guessField:focus{
+    border-color: rgba(211, 177, 250, 0.671);
+}
+
+#sendGuess:focus{
+    border-color: rgba(211, 177, 250, 0.671);
+}
+
+#sendGuess:hover{
+    border-color: rgba(211, 177, 250, 0.671);
+    color: white;
+    background-color: rgba(180, 143, 216, 0.863);
+    
+}
+#sendGuess:active{
+    border-color: rgba(211, 177, 250, 0.671);
+    color: white;
+    background-color: rgba(179, 143, 216, 0.658);
+}

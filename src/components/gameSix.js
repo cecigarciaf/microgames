@@ -205,10 +205,10 @@ function GameSix(){
     </div>
 
     <div className = "row  mt-5" >
-      <div className = "col-6 text-center"> 
-        <div  className = "row " >
+      <div className = "col-sm-12 col-lg-6 text-center"> 
+        <div   style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
        
-              <div className = "col-sm-12 col-md-6 font-face-zkgam intentosBox" > 
+              <div className = "col-6 font-face-zkgam intentosBox" > 
                  <div  className= "mt-1" id= "intentosText">
                    {t('intentos')} 
                  </div>
@@ -217,7 +217,7 @@ function GameSix(){
                 </div>
               </div> 
               
-              <div className= "col-6 text-end  mr-5"  id="playButtonBox">
+              <div className= "col-6  mr-5"  id="playButtonBox">
                 <PlayStopButton onButtonClick= {play}  text= {playingState? "QUIT" : "PLAY"}/>
               </div>
         
@@ -235,8 +235,8 @@ function GameSix(){
       <div className = "row  mt-4" >
         <div className = "col-sm-12 col-md-12 col-lg-6"> 
           <form onSubmit={checkNumber}>
-              <input id = "guessField" onChange={(e) => updateGuess(e.target.value)} className = "font-face-zkgam form-control" type="number" name="guess"></input>
-              <input  id= "sendGuess" style= {{margin: "1px", color: "white", backgroundColor: "rgb(235, 229, 241)"}} className = " mt-4 row font-face-zkgam form-control"  type="submit" value={t("check")}></input>
+              <input id = "guessField" onChange={(e) => updateGuess(e.target.value)} className = "shadow-none font-face-zkgam form-control" type="number" name="guess"></input>
+              <input  id= "sendGuess" className = "shadow-none mt-4 row font-face-zkgam form-control"  type="submit" value={t("check")}></input>
           </form>
         </div>
       </div>

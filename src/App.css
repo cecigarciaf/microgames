@@ -1,11 +1,21 @@
-
-
+body{
+  overflow: scroll;
+}
 
 .sideButton{
   border-bottom-style: solid;
-  border-bottom-width: 0.1em;
-  border-bottom-color: rgb(194, 194, 194);
+  border-bottom-width: 0.05em;
+  border-bottom-color: rgba(233, 167, 167, 0.603);
+  background-color: white;
 }
+
+#lastSideButton{
+  background-color: white;
+}
+
+.active#lastSideButton{
+  background-color: rgb(235, 229, 241);
+ }
 
 .font-face-zkga {
   font-family: "ZenKakuGothicAntiqueLight";
@@ -107,6 +117,8 @@
   transition-duration: 0.4s;
 }
 
+
+
 #selectbutton:hover{
   background-color: rgb(238, 208, 208);
   border: 1px solid rgb(238, 208, 208);
@@ -118,3 +130,80 @@
   border: 1px solid rgb(238, 208, 208);
   color: rgb(255, 254, 254);
 }
+
+
+#offcanvasheader{
+  background-color: #f8f9fa;
+}
+
+.offcanvasstyle {
+  width: 300px;
+  background-color: #f8f9fa;
+}
+
+
+.sideTextOffCanvas{
+  margin-left: 5px;
+}
+
+.sideTextOffCanvas:hover{
+  color: rgb(211, 177, 250);
+}
+
+.navTest {
+  width: 100px;
+}
+
+#offcanvasContainerTest{
+  height: 100px;
+}
+
+
+#sidebarContainerRow{
+  min-height: 80%;
+}
+
+
+#footerContainerRow{
+  min-height: 10%;
+}
+
+.page-container {
+  min-height: 100%;
+}
+
+#headerContainerRow{
+  min-height: 10%;
+}
+
+.navbar-toggler-icon{
+  width: 1.5em;
+  height: 1em;
+  border: none;
+  box-shadow: none;
+  transition-duration: 0.5s;
+}
+
+#burguerIcon {
+border: none;
+transition: none;
+
+}
+
+#burguerIcon:active {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  }
+
+  #burguerIcon:focus {
+    border: none;
+    box-shadow: none;
+    outline: none;
+    }
+
+    .navbar-toggler-icon:hover{
+
+      width: 2em;
+      height: 1.5em;
+    }

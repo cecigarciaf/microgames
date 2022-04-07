@@ -22,7 +22,7 @@ function GameOne(props) {
 
       return (
       
-       <div className ="col-xs-12 col-lg-9">
+       <div  className ="col-xs-12 col-lg-9">
          <div className = "row" > 
            <Navbar bg="white" variant="light">
            
