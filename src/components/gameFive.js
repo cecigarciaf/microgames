@@ -1,6 +1,5 @@
 import React from 'react';
 import PlayStopButton from './playButton';
-import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Nav  from 'react-bootstrap/Nav';
@@ -240,7 +239,7 @@ handleClick(row, col) {
 playSound(status){
 Howler.volume(0.9)
 
-if(this.state.audio){
+
 
     var fx = new Howl({
       src: ["/audios_battle/"+status],
@@ -248,7 +247,7 @@ if(this.state.audio){
       volume: 0.6
     })
     fx.play()
-  }
+  
 }
 
 systemTurn(){
@@ -1166,7 +1165,7 @@ manageAudio() {
                         </div>
                      </div>
                      
-                    <div className ="col-sm-12 col-md-5  d-md-block text-center mr-4">
+                    <div className ="col-xs-12 col-md-5  d-md-block text-center mr-4">
                         <div className="row" style={{marginTop: "20px"}}>
                             <BoardTitle text={"Your ships"} />
                         </div>
@@ -1175,7 +1174,7 @@ manageAudio() {
                         </div>
                     </div>
 
-                    <div className ="col-sm-12  col-md-2  d-md-block ">   
+                    <div className ="col-xs-12  col-md-2  d-md-block ">   
                         <UserSubs handleClick = {this.handleSubSelectClick} shipsToPlace = {this.state.shipsToPlace} />
                     </div>
                 </div>
@@ -1185,11 +1184,11 @@ manageAudio() {
                     </div> 
                 </div> 
 
-                <div className = "row mt-4  "> 
+                <div className = "row mt-4  justify-content-center"> 
       
        
                         <div className= "row "> 
-                            <div className = "col-10 text-center d-md-block " >
+                            <div className = "col-xs-12 col-lg-10 text-center d-md-block " >
                                 <PlayStopButton text= {this.buttonText()} onButtonClick = {this.state.status === "pending"? this.confirmClick : this.playClick}/>
                             </div> 
                         </div>
